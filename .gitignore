@@ -13,7 +13,7 @@
 ######################
 # bower components
 ######################
-/src/main/webapp/bower_components/components-font-awesome/fonts/**
+/src/main/webapp/bower_components/components-font-awesome/fonts/*
 ######################
 # SASS
 ######################
