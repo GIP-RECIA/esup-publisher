@@ -32,7 +32,7 @@
     "grunt-svgmin": "2.0.1",
     "grunt-text-replace": "0.4.0",
     "grunt-usemin": "3.0.0",
-    "grunt-wiredep": "2.0.0",
+    "grunt-wiredep": "3.0.1",
     "jasmine": "^3.5.0",
     "jshint-stylish": "1.0.1",
     "karma": "0.12.32",
