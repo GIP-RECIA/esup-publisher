@@ -12,7 +12,7 @@
     "grunt-angular-templates": "0.5.7",
     "grunt-autoprefixer": "2.2.0",
     "grunt-browser-sync": "2.2.0",
-    "grunt-build-control": "0.3.0",
+    "grunt-build-control": "0.7.1",
     "grunt-concurrent": "1.0.0",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-concat": "0.5.1",
