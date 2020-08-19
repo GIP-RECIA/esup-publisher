@@ -6,7 +6,7 @@
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "2.10.0",
-    "event-stream": "3.2.2",
+    "event-stream": "4.0.1",
     "generator-jhipster": "2.6.0",
     "grunt": "^0.4.5",
     "grunt-angular-templates": "0.5.7",
