@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "browser-sync": "2.10.0",
+    "browser-sync": "2.26.12",
     "event-stream": "3.2.2",
     "generator-jhipster": "2.6.0",
     "grunt": "^0.4.5",
