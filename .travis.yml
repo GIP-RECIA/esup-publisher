@@ -44,6 +44,7 @@ before_install:
   - cd .. && git clone https://github.com/GIP-RECIA/docker-mariadb.git && cd docker-mariadb
   - docker-compose pull && docker-compose build
   - MYSQL_ROOT_PASSWORD=root MYSQL_DATABASE=publisher_test MYSQL_HOST=db MYSQL_USER=myuser MYSQL_PASSWORD=secret MYSQL_USER_HOST=% docker-compose up --build -d
+  - docker logs --tail=50 mariadb-strict
   # install for openldap
   - cd .. && git clone https://github.com/GIP-RECIA/docker-openldap-test.git && cd docker-openldap-test
   - docker-compose pull && docker-compose build
@@ -52,6 +53,7 @@ before_install:
   - sleep 10
   - docker ps -a
   - docker inspect -f '{{.State.Health.Status}}' mariadb-strict
+  - sudo journalctl -fu docker.service
   - mysql --port 3306 -h 127.0.0.1 -u root -proot -e "show databases;"
   - mysql --port 3306 -h 127.0.0.1 -u root -proot -e "drop database if exists publisher_test; create database publisher_test DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;"
   - mkdir $HOME/tmp
