@@ -20,7 +20,7 @@
     "@ckeditor/ckeditor5-heading": "32.0.0",
     "@ckeditor/ckeditor5-html-support": "32.0.0",
     "@ckeditor/ckeditor5-image": "32.0.0",
-    "@ckeditor/ckeditor5-link": "32.0.0",
+    "@ckeditor/ckeditor5-link": "33.0.0",
     "@ckeditor/ckeditor5-list": "32.0.0",
     "@ckeditor/ckeditor5-media-embed": "32.0.0",
     "@ckeditor/ckeditor5-paragraph": "32.0.0",
