@@ -36,18 +36,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.access.vote.RoleHierarchyVoter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.util.Assert;
 
 @Configuration
 @AutoConfigureBefore(SecurityConfiguration.class)
-@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
-public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+@EnableMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
+public class MethodSecurityConfig{
 
 	private ApplicationContext applicationContext;
 
@@ -59,12 +56,7 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 	}
 
 	@Bean
-	public RoleHierarchyVoter roleVoter() {
-		return new RoleHierarchyVoter(roleHierarchy());
-	}
-
-	@Bean
-	public RoleHierarchy roleHierarchy() {
+	public RoleHierarchyImpl roleHierarchy() {
 		RoleHierarchyImpl rhi = new RoleHierarchyImpl();
 		rhi.setHierarchy(AuthoritiesConstants.ADMIN + " > " + AuthoritiesConstants.USER
 				+ " > " + AuthoritiesConstants.AUTHENTICATED
@@ -73,12 +65,19 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 	}
 
 	@Bean
+	public DefaultWebSecurityExpressionHandler expressionHandler() {
+		DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
+		expressionHandler.setRoleHierarchy(roleHierarchy());
+		return expressionHandler;
+	}
+
+	@Bean
 	public PermissionEvaluator permissionEvaluator() {
 		return new CustomPermissionEvaluator();
 	}
 
-	@Override
-	protected MethodSecurityExpressionHandler createExpressionHandler() {
+	@Bean
+	public DefaultMethodSecurityExpressionHandler methodSecurityExpressionHandler() {
 		DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
 		expressionHandler.setPermissionEvaluator(permissionEvaluator());
 		expressionHandler.setRoleHierarchy(roleHierarchy());

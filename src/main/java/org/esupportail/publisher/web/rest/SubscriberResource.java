@@ -26,7 +26,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
 import org.esupportail.publisher.domain.AbstractClassification;

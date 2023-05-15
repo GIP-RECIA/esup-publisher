@@ -18,9 +18,9 @@ package org.esupportail.publisher.web.rest;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.User;

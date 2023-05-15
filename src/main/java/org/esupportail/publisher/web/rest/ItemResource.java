@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.domain.AbstractItem;
 import org.esupportail.publisher.domain.enums.ContextType;

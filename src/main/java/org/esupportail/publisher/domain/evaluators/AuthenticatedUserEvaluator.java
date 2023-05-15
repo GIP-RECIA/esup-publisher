@@ -24,8 +24,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.esupportail.publisher.service.evaluators.IEvaluationVisitor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 /**
  * @author GIP RECIA - Julien Gribonvald 17 nov. 2014

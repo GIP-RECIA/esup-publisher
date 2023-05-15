@@ -18,7 +18,7 @@ package org.esupportail.publisher.service.evaluators;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;

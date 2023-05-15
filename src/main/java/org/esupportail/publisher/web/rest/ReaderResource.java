@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.domain.Reader;
 import org.esupportail.publisher.repository.ReaderRepository;

@@ -22,7 +22,7 @@ import org.esupportail.publisher.domain.enums.PermissionType;
 import org.esupportail.publisher.web.rest.dto.evaluators.EvaluatorDTO;
 import java.time.Instant;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;

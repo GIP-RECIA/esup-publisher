@@ -18,8 +18,8 @@ package org.esupportail.publisher.domain.enums;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import java.util.Set;
 
 /**

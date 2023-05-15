@@ -16,7 +16,9 @@ specific language governing permissions and limitations
 under the License.
 
 This project includes:
-  AntLR Parser Generator under BSD License
+  Angus Activation Registries under EDL 1.0
+  Angus Mail default provider under EPL 2.0 or GPL2 w/ CPE or EDL 1.0
+  ANTLR 4 Runtime under The BSD License
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Collections under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
@@ -24,6 +26,7 @@ This project includes:
   Apache Commons Text under Apache License, Version 2.0
   Apache Log4j API under Apache License, Version 2.0
   Apache Log4j to SLF4J Adapter under Apache License, Version 2.0
+  Apereo CAS Client for Java - Core under Apereo License
   asm under BSD-3-Clause
   ASM based accessors helper used by json-smart under The Apache Software License, Version 2.0
   asm-analysis under BSD-3-Clause
@@ -31,7 +34,7 @@ This project includes:
   asm-tree under BSD-3-Clause
   asm-util under BSD-3-Clause
   AspectJ Weaver under Eclipse Public License - v 2.0
-  AssertJ fluent assertions under Apache License, Version 2.0
+  AssertJ Core under Apache License, Version 2.0
   attoparser under The Apache Software License, Version 2.0
   Bean Validation API under Apache License 2.0
   Bouncy Castle ASN.1 Extension and Utility APIs under Bouncy Castle Licence
@@ -39,6 +42,7 @@ This project includes:
   Bouncy Castle Provider under Bouncy Castle Licence
   Byte Buddy (without dependencies) under Apache License, Version 2.0
   Byte Buddy agent under Apache License, Version 2.0
+  Caffeine cache under Apache License, Version 2.0
   Checker Qual under The MIT License
   ClassGraph under The MIT License (MIT)
   ClassMate under Apache License, Version 2.0
@@ -78,28 +82,30 @@ This project includes:
   Jackson-datatype-Hibernate5 under The Apache Software License, Version 2.0
   jackson-datatype-problem under MIT License
   Jackson-module-parameter-names under The Apache Software License, Version 2.0
-  Jakarta Activation under EDL 1.0
-  Jakarta Activation API jar under EDL 1.0
+  Jakarta Activation API under EDL 1.0
   Jakarta Annotations API under EPL 2.0 or GPL2 w/ CPE
   Jakarta Bean Validation API under Apache License 2.0
-  Jakarta Mail API under EPL 2.0 or GPL2 w/ CPE or EDL 1.0
+  Jakarta Dependency Injection under The Apache Software License, Version 2.0
   Jakarta Persistence API under Eclipse Public License v. 2.0 or Eclipse Distribution License v. 1.0
   Jakarta XML Binding API under Eclipse Distribution License - v 1.0
-  Jasig CAS Client for Java - Core under Apache License Version 2.0
-  Java Annotation Indexer under Apache License, Version 2.0
-  Java Persistence API, Version 2.1 under Eclipse Public License (EPL), Version 1.0 or Eclipse Distribution License (EDL), Version 1.0
-  Java Transaction API under Common Development and Distribution License or GNU General Public License, Version 2 with the Classpath Exception
+  jakarta.transaction API under EPL 2.0 or GPL2 w/ CPE
+  Jandex: Core under Apache License, Version 2.0
+  Java Native Access under LGPL-2.1-or-later or Apache-2.0
+  Java Native Access Platform under LGPL-2.1-or-later or Apache-2.0
   JavaBeans Activation Framework API jar under CDDL/GPLv2+CE
   javax.inject under The Apache Software License, Version 2.0
-  javax.persistence-api under Eclipse Public License v1.0 or Eclipse Distribution License v. 1.0
   javax.transaction API under CDDL + GPLv2 with classpath exception
+  JAXB Core under Eclipse Distribution License - v 1.0
   JAXB Runtime under Eclipse Distribution License - v 1.0
   jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JBoss Logging 3 under Apache License, version 2.0
+  JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
   JDOM under Similar to Apache License but with the acknowledgment clause removed
-  JSON in Java under The JSON License
+  JetBrains Java Annotations under The Apache Software License, Version 2.0
+  JSON in Java under Public Domain
   JSON library from Android SDK under Apache License 2.0
   JSON Small and Fast Parser under The Apache Software License, Version 2.0
+  json-path under The Apache Software License, Version 2.0
   JSONassert under The Apache Software License, Version 2.0
   JsonNullable Jackson module under Apache License 2.0
   JSR107 API and SPI under Apache License, Version 2.0
@@ -118,10 +124,11 @@ This project includes:
   Logstash Logback Encoder under Apache License, Version 2.0 or MIT License
   mariadb-java-client under LGPL-2.1
   Metrics Core under Apache License 2.0
+  micrometer-commons under The Apache Software License, Version 2.0
   micrometer-core under The Apache Software License, Version 2.0
+  micrometer-observation under The Apache Software License, Version 2.0
   micrometer-registry-prometheus under The Apache Software License, Version 2.0
   mockito-core under The MIT License
-  mockito-inline under The MIT License
   mockito-junit-jupiter under The MIT License
   Objenesis under Apache License, Version 2.0
   opencsv under Apache 2
@@ -133,7 +140,6 @@ This project includes:
   problem-spring-common under MIT License
   problem-spring-web under MIT License
   problem-violations under MIT License
-  project ':json-path' under The Apache Software License, Version 2.0
   Project Lombok under The MIT License
   Prometheus Java Simpleclient under The Apache Software License, Version 2.0
   Prometheus Java Simpleclient Common under The Apache Software License, Version 2.0
@@ -214,13 +220,13 @@ This project includes:
   swagger-core under Apache License 2.0
   swagger-models under Apache License 2.0
   thymeleaf under The Apache Software License, Version 2.0
-  thymeleaf-extras-java8time under The Apache Software License, Version 2.0
-  thymeleaf-spring5 under The Apache Software License, Version 2.0
+  thymeleaf-spring6 under The Apache Software License, Version 2.0
   tomcat-embed-core under Apache License, Version 2.0
   tomcat-embed-el under Apache License, Version 2.0
   tomcat-embed-websocket under Apache License, Version 2.0
   TXW2 Runtime under Eclipse Distribution License - v 1.0
   unbescape under The Apache Software License, Version 2.0
+  waffle-jna under MIT
   webjars-locator-core under MIT
   Woodstox under The Apache Software License, Version 2.0
 

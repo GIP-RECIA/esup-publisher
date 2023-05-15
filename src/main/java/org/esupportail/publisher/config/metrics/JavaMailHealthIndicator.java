@@ -22,7 +22,7 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.util.Assert;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 /**
  * SpringBoot Actuator HealthIndicator check for JavaMail.

@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.config;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.esupportail.publisher.config.bean.ApiDocsProperties;
 import org.esupportail.publisher.config.bean.CASProperties;

@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.domain.externals;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Created by jgribonvald on 04/06/15.

@@ -20,9 +20,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRegistration;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRegistration;
 
 /**
  * Utility class to configure H2 in development.
@@ -75,7 +75,7 @@ public class H2ConfigurationHelper {
     }
 
     /**
-     * Init the H2 console via H2's webserver when no servletContext {@link javax.servlet.ServletContext}
+     * Init the H2 console via H2's webserver when no servletContext {@link jakarta.servlet.ServletContext}
      * is available.
      */
     public static void initH2Console() {
@@ -83,7 +83,7 @@ public class H2ConfigurationHelper {
     }
 
     /**
-     * Init the H2 console via H2's webserver when no servletContext {@link javax.servlet.ServletContext}
+     * Init the H2 console via H2's webserver when no servletContext {@link jakarta.servlet.ServletContext}
      * is available.
      *
      * @param propertiesLocation the location where to find .h2.server.properties
@@ -107,7 +107,7 @@ public class H2ConfigurationHelper {
     /**
      * <p>initH2Console.</p>
      *
-     * @param servletContext a {@link javax.servlet.ServletContext} object.
+     * @param servletContext a {@link jakarta.servlet.ServletContext} object.
      */
     public static void initH2Console(ServletContext servletContext) {
         try {

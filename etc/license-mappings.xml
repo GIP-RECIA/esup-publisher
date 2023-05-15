@@ -872,10 +872,10 @@
         <license>Apache Software License, Version 1.1</license>
     </artifact>
     <artifact>
-        <groupId>cas</groupId>
-        <artifactId>cas</artifactId>
-        <version>2.0.12</version>
-        <license>Jasig License</license>
+        <groupId>org.apereo.cas.client</groupId>
+        <artifactId>cas-client-core</artifactId>
+        <version>4.0.1</version>
+        <license>Apereo License</license>
     </artifact>
     <artifact>
         <groupId>cglib</groupId>
@@ -894,18 +894,6 @@
         <artifactId>commons-attributes-api</artifactId>
         <version>2.2</version>
         <license>Apache License, Version 2.0</license>
-    </artifact>
-    <artifact>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4.1</version>
-        <license>Sun Binary Code License</license>
-    </artifact>
-    <artifact>
-        <groupId>javax.persistence</groupId>
-        <artifactId>persistence-api</artifactId>
-        <version>1.0</version>
-        <license>Sun Binary Code License</license>
     </artifact>
     <artifact>
         <groupId>javax.xml.stream</groupId>

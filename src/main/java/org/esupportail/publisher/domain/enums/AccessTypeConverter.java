@@ -15,8 +15,8 @@
  */
 package org.esupportail.publisher.domain.enums;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * @author GIP RECIA - Julien Gribonvald 1 juil. 2014

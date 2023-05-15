@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.web.rest.exception;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.esupportail.publisher.service.exceptions.UnsupportedMimeTypeException;
 import org.esupportail.publisher.web.rest.dto.ErrorMessage;
@@ -72,7 +72,7 @@ public class RestGlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+        Integer statusCode = (Integer) request.getAttribute("jakarta.servlet.error.status_code");
         if (statusCode == null) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }

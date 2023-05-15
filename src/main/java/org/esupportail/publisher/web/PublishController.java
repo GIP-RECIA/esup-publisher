@@ -23,9 +23,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.esupportail.publisher.domain.AbstractClassification;
 import org.esupportail.publisher.domain.AbstractFeed;
 import org.esupportail.publisher.domain.AbstractItem;
@@ -66,7 +67,6 @@ import org.esupportail.publisher.web.rest.vo.CategoryProfilesUrl;
 import org.esupportail.publisher.web.rest.vo.FlashInfoVO;
 import org.esupportail.publisher.web.rest.vo.ItemVO;
 import org.esupportail.publisher.web.rest.vo.RubriqueVO;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -330,7 +330,7 @@ public class PublishController {
                 } else {
                     // we don't manager more than redactor.getNbLevelsOfClassification() > 2
                     // systeme classic esup-lecture/esup-news
-                    if (WritingMode.TARGETS_ON_ITEM.equals(redactor.getWritingMode())) throw new NotYetImplementedException();
+                    if (WritingMode.TARGETS_ON_ITEM.equals(redactor.getWritingMode())) throw new NotImplementedException();
                     List<? extends AbstractClassification> cts = Lists.newArrayList(categoryRepository.findAll(ClassificationPredicates.CategoryOfPublisher(pub.getId()),
                         ClassificationPredicates.categoryOrderByDisplayOrderType(pub.getDefaultDisplayOrder())));
                     log.debug("list of categories associated to publisher : {}", cts);

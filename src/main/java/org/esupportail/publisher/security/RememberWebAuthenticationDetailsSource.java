@@ -15,8 +15,8 @@
  */
 package org.esupportail.publisher.security;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;
 import org.springframework.security.authentication.AuthenticationDetailsSource;

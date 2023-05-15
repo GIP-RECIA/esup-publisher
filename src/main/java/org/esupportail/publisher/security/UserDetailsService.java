@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.esupportail.publisher.domain.User;
 import org.esupportail.publisher.domain.externals.IExternalUser;

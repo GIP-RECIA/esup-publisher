@@ -15,8 +15,8 @@
  */
 package org.esupportail.publisher.security;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

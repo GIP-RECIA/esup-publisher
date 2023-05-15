@@ -19,7 +19,7 @@ import org.esupportail.publisher.domain.IContext;
 import org.esupportail.publisher.domain.enums.PermissionType;
 import org.esupportail.publisher.web.rest.dto.NodeDTO;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**

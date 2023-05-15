@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.web.rest;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.esupportail.publisher.security.CustomUserDetails;
 import org.esupportail.publisher.security.SecurityUtils;

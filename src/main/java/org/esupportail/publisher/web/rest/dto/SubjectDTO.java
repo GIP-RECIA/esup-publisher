@@ -18,7 +18,7 @@ package org.esupportail.publisher.web.rest.dto;
 import lombok.*;
 import org.esupportail.publisher.domain.enums.SubjectType;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

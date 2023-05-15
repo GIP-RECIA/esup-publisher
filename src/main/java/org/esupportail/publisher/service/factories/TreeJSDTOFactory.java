@@ -20,7 +20,7 @@ import org.esupportail.publisher.domain.enums.PermissionType;
 import org.esupportail.publisher.domain.externals.IExternalGroup;
 import org.esupportail.publisher.web.rest.dto.TreeJS;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**

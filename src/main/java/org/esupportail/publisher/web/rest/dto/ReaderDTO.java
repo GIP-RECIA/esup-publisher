@@ -23,8 +23,8 @@ import org.esupportail.publisher.domain.enums.ClassificationDecorType;
 import org.esupportail.publisher.domain.enums.ItemType;
 import org.esupportail.publisher.domain.util.CstPropertiesLength;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 

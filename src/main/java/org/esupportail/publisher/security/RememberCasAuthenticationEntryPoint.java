@@ -19,14 +19,14 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.config.SecurityConfiguration;
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;
-import org.jasig.cas.client.Protocol;
-import org.jasig.cas.client.util.CommonUtils;
+import org.apereo.cas.client.Protocol;
+import org.apereo.cas.client.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -70,7 +70,7 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
     @Deprecated
     private boolean encodeServiceUrlWithSessionId = true;
 
-    /** From CAS org.jasig.cas.client.util.CommonUtils to replace deprecated use of constructServiceUrl(...) .*/
+    /** From CAS org.apereo.cas.client.util.CommonUtils to replace deprecated use of constructServiceUrl(...) .*/
     private static final String SERVICE_PARAMETER_NAMES;
 
     static {

@@ -17,7 +17,7 @@ package org.esupportail.publisher.web.rest;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 
 import org.esupportail.publisher.security.AuthoritiesConstants;

@@ -20,7 +20,7 @@ import lombok.*;
 import org.esupportail.publisher.domain.enums.SubjectType;
 import org.esupportail.publisher.domain.util.CustomEnumSerializer;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

@@ -37,7 +37,7 @@ import org.esupportail.publisher.web.filter.CsrfCookieGeneratorFilter;
 
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
+import org.apereo.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -51,6 +51,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
@@ -244,7 +245,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.cors().and().addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class).exceptionHandling()
+        http.addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class).exceptionHandling()
             .authenticationEntryPoint(casAuthenticationEntryPoint()).and()
             .addFilterBefore(casAuthenticationFilter(), BasicAuthenticationFilter.class)
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
@@ -268,48 +269,49 @@ public class SecurityConfiguration {
             .frameOptions()
             .disable()
             .and()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .antMatchers("/app/**/*.{js,html}").permitAll()
-            .antMatchers("/i18n/**").permitAll()
-            .antMatchers("/content/**").permitAll()
-            .antMatchers("/h2-console/**").permitAll()
-            .antMatchers("/swagger-ui/**").permitAll()
-            .antMatchers("/test/**").permitAll()
-            .antMatchers("/app/**").authenticated()
-            .antMatchers("/api/register").denyAll()
-            .antMatchers("/api/activate").denyAll()
-            .antMatchers("/api/authenticate").denyAll()
-            .antMatchers("/api/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api/enums/**").permitAll()
-            .antMatchers("/api/conf/**").permitAll()
-            .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api/**").hasAuthority(AuthoritiesConstants.USER)
-            .antMatchers("/management/health").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/health/**").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/info").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/prometheus").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/published/**").access("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers(FeedController.PRIVATE_RSS_FEED_URL_PATH + "**").access("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers(FeedController.FEED_CONTROLLER_PATH + "/**").permitAll()
-            .antMatchers(PROTECTED_PATH + "**").authenticated()
-            .antMatchers("/view/**").permitAll()
-            .antMatchers("/css/**").permitAll()
-            .antMatchers("/images/**").permitAll()
-            .antMatchers("/files/**").permitAll()
-            .antMatchers("/fonts/**").permitAll()
-            .antMatchers("/public/**").permitAll()
-            .antMatchers("/static/**").permitAll()
-            .antMatchers("/ui/**").permitAll()
-            .anyRequest().denyAll();
+            .authorizeHttpRequests(authCustomizer -> authCustomizer
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/app/**/*.{js,html}").permitAll()
+                .requestMatchers("/i18n/**").permitAll()
+                .requestMatchers("/content/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/test/**").permitAll()
+                .requestMatchers("/app/**").authenticated()
+                .requestMatchers("/api/register").denyAll()
+                .requestMatchers("/api/activate").denyAll()
+                .requestMatchers("/api/authenticate").denyAll()
+                .requestMatchers("/api/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/api/enums/**").permitAll()
+                .requestMatchers("/api/conf/**").permitAll()
+                .requestMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/api/**").hasAuthority(AuthoritiesConstants.USER)
+                .requestMatchers("/management/health").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/health/**").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/info").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/prometheus").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/published/**").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers(FeedController.PRIVATE_RSS_FEED_URL_PATH + "**").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers(FeedController.FEED_CONTROLLER_PATH + "/**").permitAll()
+                .requestMatchers(PROTECTED_PATH + "**").authenticated()
+                .requestMatchers("/view/**").permitAll()
+                .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/files/**").permitAll()
+                .requestMatchers("/fonts/**").permitAll()
+                .requestMatchers("/public/**").permitAll()
+                .requestMatchers("/static/**").permitAll()
+                .requestMatchers("/ui/**").permitAll()
+                .anyRequest().denyAll())
+            .build();
         http
             .logout()
             .logoutUrl("/api/logout")

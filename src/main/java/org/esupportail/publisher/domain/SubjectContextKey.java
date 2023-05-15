@@ -20,9 +20,9 @@ package org.esupportail.publisher.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
-import javax.persistence.Embeddable;
-import javax.validation.Valid;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.Valid;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

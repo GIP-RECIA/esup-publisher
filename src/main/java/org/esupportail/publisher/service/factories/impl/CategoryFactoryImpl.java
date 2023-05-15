@@ -18,7 +18,7 @@ package org.esupportail.publisher.service.factories.impl;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.esupportail.publisher.config.ESUPPublisherProperties;
 import org.esupportail.publisher.domain.AbstractClassification;

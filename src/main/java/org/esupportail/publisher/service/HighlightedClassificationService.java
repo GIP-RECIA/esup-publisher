@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.service;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.esupportail.publisher.config.ESUPPublisherProperties;
 import org.esupportail.publisher.service.bean.HighlightedClassification;

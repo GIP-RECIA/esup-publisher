@@ -21,6 +21,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.Filter;
 import org.esupportail.publisher.domain.Subscriber;
@@ -41,7 +42,6 @@ import org.esupportail.publisher.web.rest.dto.PermOnCtxDTO;
 import org.esupportail.publisher.web.rest.dto.PermissionDTO;
 import org.esupportail.publisher.web.rest.dto.SubjectKeyDTO;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -281,7 +281,7 @@ public class UserService {
 
 					return userDTOFactory.asDTOList(filteredSearch, false);
 				} else
-					throw new NotYetImplementedException(String.format("Management of %s type is not yet implemented",
+					throw new NotImplementedException(String.format("Management of %s type is not yet implemented",
 							perm.getClass()));
 			}
 		}
