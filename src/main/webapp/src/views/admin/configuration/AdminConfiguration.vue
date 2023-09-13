@@ -75,7 +75,7 @@ export default {
       this.reverse = !this.reverse;
     },
     getConfigPropertiesObjects(res) {
-      return res[0].application.beans;
+      return res[0]['ESUP-Publisher'].beans;
     },
   },
   created() {
@@ -83,7 +83,7 @@ export default {
       let properties = [];
       let propertiesObject = this.getConfigPropertiesObjects(configuration);
       Object.keys(propertiesObject).forEach((key) => {
-        if (Object.prototype.hasOwnProperty.call(propertiesObject, key)) {
+        if (Object.hasOwn(propertiesObject, key)) {
           properties.push(propertiesObject[key]);
         }
       });
