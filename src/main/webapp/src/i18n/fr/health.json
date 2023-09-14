@@ -14,7 +14,10 @@
       "diskSpace": "Espace disque",
       "mail": "Email",
       "db": "Base de données",
-      "ldap": "LDAP"
+      "ldap": "LDAP",
+      "livenessState": "État de disponibilité",
+      "ping": "Ping",
+      "readinessState": "État de préparation"
     },
     "table": {
       "service": "Nom du service",
