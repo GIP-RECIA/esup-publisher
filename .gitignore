@@ -6,7 +6,6 @@
 /src/main/resources/config/application-dev.yml
 /src/main/resources/config/application-prod.yml
 /src/main/webapp/META-INF/**
-
 # Local workspace configuration and notes
 /.env*.local
 /.factorypath
@@ -17,6 +16,7 @@
 /src/main/resources/config/application-dev-*.yml
 /src/main/resources/config/application-dev.*.yml
 /src/main/resources/config/application-test.save.yml
+.env.*.local
 ######################
 # Node
 ######################
