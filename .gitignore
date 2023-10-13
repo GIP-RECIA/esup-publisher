@@ -6,6 +6,8 @@
 /src/main/resources/config/application-dev.yml
 /src/main/resources/config/application-prod.yml
 /src/main/webapp/META-INF/**
+.env.*.local
+
 ######################
 # Node
 ######################
