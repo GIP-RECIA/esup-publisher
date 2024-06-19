@@ -213,8 +213,8 @@
 </template>
 
 <script>
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
-import PrincipalService from '@/services/auth/PrincipalService';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
+import PrincipalService from '@/services/auth/PrincipalService.js';
 import { Modal } from 'bootstrap';
 
 export default {

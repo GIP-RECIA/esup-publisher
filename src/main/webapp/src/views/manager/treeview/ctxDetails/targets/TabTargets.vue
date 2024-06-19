@@ -140,13 +140,13 @@
 
 <script>
 import { Modal } from 'bootstrap';
-import GroupService from '@/services/entities/group/GroupService';
-import SubjectService from '@/services/params/SubjectService';
-import SubscriberService from '@/services/entities/subscriber/SubscriberService';
-import Base64Utils from '@/services/util/Base64Utils';
-import UserService from '@/services/user/UserService';
-import SubjectDetail from '@/views/entities/subject/SubjectDetail';
-import CommonUtils from '@/services/util/CommonUtils';
+import GroupService from '@/services/entities/group/GroupService.js';
+import SubjectService from '@/services/params/SubjectService.js';
+import SubscriberService from '@/services/entities/subscriber/SubscriberService.js';
+import Base64Utils from '@/services/util/Base64Utils.js';
+import UserService from '@/services/user/UserService.js';
+import SubjectDetail from '@/views/entities/subject/SubjectDetail.vue';
+import CommonUtils from '@/services/util/CommonUtils.js';
 import i18n from '@/i18n';
 
 const { t } = i18n.global;
@@ -305,10 +305,10 @@ export default {
     },
     // Mise à jour du sujet séléctionné
     updateSelectedSubject(datas) {
-      var newVal = datas[0];
+      let newVal = datas[0];
       if (CommonUtils.isDefined(newVal) && !CommonUtils.equals({}, newVal) && !CommonUtils.equals(newVal, this.selectedSubject)) {
-        var found = false;
-        for (var i = 0; i < this.targets.length; i++) {
+        let found = false;
+        for (let i = 0; i < this.targets.length; i++) {
           if (this.targets[i].subjectDTO && CommonUtils.equals(newVal.modelId, this.targets[i].subjectDTO.modelId)) {
             found = true;
             break;
@@ -356,7 +356,7 @@ export default {
     },
     // Création d'un abonné suite à sa saisie via le webcomponent esup-subject-search-button
     createSubscriber() {
-      var subject =
+      let subject =
         this.selectedSubject.modelId && this.selectedSubject && !CommonUtils.equals(this.selectedSubject.modelId)
           ? {
               keyValue: this.selectedSubject.modelId.keyId,
@@ -364,7 +364,7 @@ export default {
               keyType: this.selectedSubject.modelId.keyType,
             }
           : this.selectedSubject;
-      var subscriber = {
+      let subscriber = {
         subscribeType: this.subscriber.subscribeType,
         subjectCtxId: {
           subject: subject,

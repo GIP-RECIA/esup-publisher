@@ -78,8 +78,8 @@
 </template>
 
 <script>
-import LogsService from '@/services/admin/LogsService';
-import TruncateUtils from '@/services/util/TruncateUtils';
+import LogsService from '@/services/admin/LogsService.js';
+import TruncateUtils from '@/services/util/TruncateUtils.js';
 
 export default {
   name: 'AdminLogs',
@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     filteredLoggers() {
-      var filterLoggers = this.loggers;
+      let filterLoggers = this.loggers;
 
       // Filtre des loggers
       if (this.filter !== null && this.filter !== '') {

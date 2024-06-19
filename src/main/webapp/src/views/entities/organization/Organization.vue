@@ -227,8 +227,8 @@
 </template>
 
 <script>
-import OrganizationService from '@/services/entities/organization/OrganizationService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import OrganizationService from '@/services/entities/organization/OrganizationService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import { Modal } from 'bootstrap';
 
 export default {
@@ -279,7 +279,7 @@ export default {
     createOrganization() {
       this.organization.displayName = this.organization.name;
       if (typeof this.organization.identifiers === 'string') {
-        var identifiersValues = this.organization.identifiers;
+        let identifiersValues = this.organization.identifiers;
         this.organization.identifiers = [];
         if (identifiersValues.includes(',')) {
           identifiersValues = identifiersValues.split(',');

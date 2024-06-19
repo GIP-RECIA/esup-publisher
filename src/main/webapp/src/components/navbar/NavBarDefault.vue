@@ -121,10 +121,10 @@ export default {
   props: ['pageName'],
   data() {
     return {
-      backVersion: process.env.BACK_VERSION,
-      environment: process.env.NODE_ENV,
-      languages: process.env.VUE_APP_I18N_SUPPORTED_LOCALE.split(','),
-      dbConsoleUrl: process.env.VUE_APP_DB_CONSOLE_URL,
+      backVersion: import.meta.env.VITE_BACK_VERSION,
+      environment: import.meta.env.MODE,
+      languages: import.meta.env.VITE_I18N_SUPPORTED_LOCALE.split(','),
+      dbConsoleUrl: import.meta.env.VITE_DB_CONSOLE_URL,
     };
   },
   computed: {},

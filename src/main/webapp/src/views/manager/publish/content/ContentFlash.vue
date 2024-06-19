@@ -271,18 +271,18 @@
 </template>
 
 <script>
-import ItemService from '@/services/entities/item/ItemService';
-import UploadUtils from '@/services/util/UploadUtils';
-import DateUtils from '@/services/util/DateUtils';
-import CommonUtils from '@/services/util/CommonUtils';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import ItemService from '@/services/entities/item/ItemService.js';
+import UploadUtils from '@/services/util/UploadUtils.js';
+import DateUtils from '@/services/util/DateUtils.js';
+import CommonUtils from '@/services/util/CommonUtils.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import store from '@/store/index.js';
 import i18n from '@/i18n';
 import { Modal } from 'bootstrap';
 import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
-import RichText from '@/components/richtext/RichText';
-import ConfigurationService from '@/services/params/ConfigurationService';
+import RichText from '@/components/richtext/RichText.vue';
+import ConfigurationService from '@/services/params/ConfigurationService.js';
 
 const { t } = i18n.global;
 
@@ -441,7 +441,7 @@ export default {
         .toDataURL(this.cropperConf.format);
 
       this.setProgressStatus('success');
-      var dataFile =
+      let dataFile =
         typeof dataUrl !== 'undefined'
           ? UploadUtils.dataUrltoBlob(dataUrl, this.content.file.name.substr(0, this.content.file.name.lastIndexOf('.')) + '.jpg')
           : this.content.file;
@@ -487,7 +487,7 @@ export default {
       this.setItemValidated(!this.formValidator.hasError());
     },
     fileUploadedInBodySuccess(file, url) {
-      var newLinks = Array.from(this.linkedFilesToContent || []);
+      let newLinks = Array.from(this.linkedFilesToContent || []);
       newLinks.push({
         uri: url,
         filename: file.name,

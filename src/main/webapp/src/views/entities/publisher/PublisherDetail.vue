@@ -154,9 +154,9 @@
 
 <script>
 import store from '@/store/index.js';
-import PublisherService from '@/services/entities/publisher/PublisherService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import DateUtils from '@/services/util/DateUtils';
+import PublisherService from '@/services/entities/publisher/PublisherService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import DateUtils from '@/services/util/DateUtils.js';
 
 export default {
   name: 'PublisherDetail',
@@ -215,7 +215,7 @@ export default {
       return this.getEnumlabel('displayOrderType', name);
     },
     getEnumlabel(type, name) {
-      var data;
+      let data;
       switch (type) {
         case 'permissionClass':
           data = this.permissionClasses.find((val) => {
