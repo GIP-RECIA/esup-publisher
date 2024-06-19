@@ -44,11 +44,11 @@
   </div>
 </template>
 <script>
-import GroupService from '@/services/entities/group/GroupService';
-import UserService from '@/services/user/UserService';
-import SubjectService from '@/services/params/SubjectService';
-import SubjectDetail from '@/views/entities/subject/SubjectDetail';
-import CommonUtils from '@/services/util/CommonUtils';
+import GroupService from '@/services/entities/group/GroupService.js';
+import UserService from '@/services/user/UserService.js';
+import SubjectService from '@/services/params/SubjectService.js';
+import SubjectDetail from '@/views/entities/subject/SubjectDetail.vue';
+import CommonUtils from '@/services/util/CommonUtils.js';
 
 export default {
   name: 'Targets',
@@ -143,7 +143,7 @@ export default {
       });
     },
     remove(subject) {
-      var updatedTargets = this.targets.filter((element) => {
+      let updatedTargets = this.targets.filter((element) => {
         return element.modelId !== subject.modelId;
       });
       this.setTargets(updatedTargets);

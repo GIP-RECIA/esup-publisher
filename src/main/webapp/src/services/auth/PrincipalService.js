@@ -1,10 +1,10 @@
 import store from '@/store/index.js';
-import AccountService from './AccountService';
+import AccountService from './AccountService.js';
 
 class PrincipalService {
   identify(force) {
     return new Promise((resolve, reject) => {
-      var identity = store.getters.getIdentity;
+      let identity = store.getters.getIdentity;
       if (force === true) {
         store.commit('setIdentity', undefined);
         identity = undefined;
