@@ -284,7 +284,7 @@
 }
 
 body {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: 14px;
@@ -338,7 +338,7 @@ h5,
 .h5,
 h6,
 .h6 {
-  font-family: "Roboto Slab", sans-serif;
+  font-family: 'Roboto Slab', sans-serif;
 }
 
 /*button,*/
@@ -372,9 +372,12 @@ a:link {
   border: none;
   background-color: #f3f3f3;
   padding: 0;
-  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),
+  -webkit-box-shadow:
+    0 8px 17px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 8px 17px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 body a {
@@ -412,7 +415,7 @@ Developement Ribbon
   left: 0;
   border: 0;
   z-index: 1000;
-  background-image: url("../images/development_ribbon.png");
+  background-image: url('../images/development_ribbon.png');
   background-position: center center;
   background-repeat: no-repeat;
   display: block;
@@ -570,11 +573,11 @@ ul#strength {
 
 /* start For enumarated values in entities views */
 .list-comma::before {
-  content: ", ";
+  content: ', ';
 }
 
 .list-comma:first-child::before {
-  content: "";
+  content: '';
 }
 
 /* end For enumarated values in entities views */
@@ -728,10 +731,12 @@ output {
 .form-control:focus,
 .ta-root.focussed > .ta-scroll-window.form-control {
   border-color: #000;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 0, 0, 0.6);
+  box-shadow:
+    inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 8px rgba(0, 0, 0, 0.6);
 }
 
-.modal :not(.form-check-inline) > input[type="checkbox"].form-check-input {
+.modal :not(.form-check-inline) > input[type='checkbox'].form-check-input {
   width: 2em;
   height: 2em;
 }
@@ -741,11 +746,11 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: "Roboto Slab", sans-serif;
+  font-family: 'Roboto Slab', sans-serif;
 }
 
 /** css for all input[type="checkbox"] inside a label - not bootstrap */
-label > span + input[type="checkbox"] {
+label > span + input[type='checkbox'] {
   margin-left: 15px;
 }
 
@@ -777,31 +782,13 @@ div > div.container-fluid > div.card > div > div > div > div.header {
 }
 
 /* start case on admin view when managing entities */
-div
-  > div.container-fluid
-  > div.card
-  > div
-  > div
-  > div
-  > div:not(.modal):not(.publish-header):not(.header),
+div > div.container-fluid > div.card > div > div > div > div:not(.modal):not(.publish-header):not(.header),
 div > div.container-fluid > div.card.entity > div > div > div:not(.modal) {
   background-color: #fff;
 }
 
-div
-  > div.container-fluid
-  > div.card
-  > div
-  > div:not(.modal)
-  > div
-  > div:not(.modal):not(.publish-header):not(.header),
-div
-  > div.container-fluid
-  > div.card.entity
-  > div
-  > div
-  > div:not(.modal)
-  > button {
+div > div.container-fluid > div.card > div > div:not(.modal) > div > div:not(.modal):not(.publish-header):not(.header),
+div > div.container-fluid > div.card.entity > div > div > div:not(.modal) > button {
   padding: 10px 2%;
 }
 
@@ -812,9 +799,12 @@ div
 
 div > div.container-navbar {
   background-color: #fff;
-  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),
+  -webkit-box-shadow:
+    0 8px 17px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 8px 17px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* Suppression nav-header project name*/
@@ -935,24 +925,8 @@ div > div.container-navbar > nav > div.container {
   margin-right: 0px;
 }
 
-div
-  > div.container-navbar
-  > nav
-  > div.container
-  > div.navbar-collapse
-  > ul
-  > li
-  > a
-  span.glyphicon,
-div
-  > div.container-navbar
-  > nav
-  > div.container-fluid
-  > div.navbar-collapse
-  > ul
-  > li
-  > a
-  span.fas {
+div > div.container-navbar > nav > div.container > div.navbar-collapse > ul > li > a span.glyphicon,
+div > div.container-navbar > nav > div.container-fluid > div.navbar-collapse > ul > li > a span.fas {
   display: none;
 }
 
@@ -1015,12 +989,9 @@ a.list-group-item div.bouton-action .div-text {
     box-shadow: none;
   }
 
-  div:not(.not-in-iframe)
-    > div.container-fluid
-    > div.card.site
-    > div
-    > div.content {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2),
+  div:not(.not-in-iframe) > div.container-fluid > div.card.site > div > div.content {
+    box-shadow:
+      0 8px 17px 0 rgba(0, 0, 0, 0.2),
       0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 }
@@ -1044,68 +1015,28 @@ a.list-group-item div.bouton-action .div-text {
 /* ====================================
 manager contents (table of published contents)
 ======================================*/
-.container-fluid
-  > .card
-  > .manager.contents
-  > .content
-  .table-responsive
-  .table
-  td {
+.container-fluid > .card > .manager.contents > .content .table-responsive .table td {
   font-size: 13px;
 }
 
-.container-fluid
-  > .card
-  > .manager.contents
-  > .content
-  .table-responsive
-  .table
-  td
-  > span {
+.container-fluid > .card > .manager.contents > .content .table-responsive .table td > span {
   display: block;
 }
 
-.container-fluid
-  > .card
-  > .manager.contents
-  > .content
-  .table-responsive
-  .table
-  td
-  > span:before {
-  content: attr(data-label) "";
+.container-fluid > .card > .manager.contents > .content .table-responsive .table td > span:before {
+  content: attr(data-label) '';
 }
 
-.container-fluid
-  > .card
-  > .manager.contents
-  > .content
-  .table-responsive
-  .table
-  td
-  .fa.subject-infos::before {
+.container-fluid > .card > .manager.contents > .content .table-responsive .table td .fa.subject-infos::before {
   display: none;
 }
 
-.container-fluid
-  > .card
-  > .manager.contents
-  > .content
-  .table-responsive
-  .table
-  td
-  .fa.subject-infos {
+.container-fluid > .card > .manager.contents > .content .table-responsive .table td .fa.subject-infos {
   font: inherit;
 }
 
 @media screen and (min-width: 992px) {
-  .container-fluid
-    > .card
-    > .manager.contents
-    > .content
-    .table-responsive
-    .table
-    .longtext {
+  .container-fluid > .card > .manager.contents > .content .table-responsive .table .longtext {
     overflow: hidden;
     max-width: 50ch;
     word-wrap: break-word;
@@ -1113,13 +1044,7 @@ manager contents (table of published contents)
     max-lines: 2;
   }
 
-  .container-fluid
-    > .card
-    > .manager.contents
-    > .content
-    .table-responsive
-    .table
-    .verylongtext {
+  .container-fluid > .card > .manager.contents > .content .table-responsive .table .verylongtext {
     overflow: hidden;
     max-width: 50ch;
     white-space: nowrap;
@@ -1132,10 +1057,10 @@ manager contents (table of published contents)
   }
 }
 
-.table td > input[type="radio"],
-.table td > input[type="checkbox"],
-dl > dd > input[type="radio"],
-dl > dd > input[type="checkbox"] {
+.table td > input[type='radio'],
+.table td > input[type='checkbox'],
+dl > dd > input[type='radio'],
+dl > dd > input[type='checkbox'] {
   margin: 0;
   height: auto;
 }
@@ -1155,8 +1080,8 @@ dl > dd > input[type="checkbox"] {
 }
 
 .manager.contents .legend > span:before {
-  font-family: "Font Awesome\ 5 Free";
-  content: "\f621";
+  font-family: 'Font Awesome\ 5 Free';
+  content: '\f621';
   font-weight: 900;
   margin-right: 5px;
 }
@@ -1206,7 +1131,8 @@ dl > dd > input[type="checkbox"] {
     margin: 1.5rem 1rem 1rem 1rem;
     padding: 1rem 0.5rem 0.5rem 1rem;
     background-color: rgba(255, 255, 255, 0.85);
-    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2),
+    box-shadow:
+      0px 5px 20px 0px rgba(0, 0, 0, 0.2),
       0px 8px 20px 0 rgba(0, 0, 0, 0.19);
     border: 1px solid rgba(136, 136, 136, 0.2);
   }
@@ -1223,19 +1149,12 @@ dl > dd > input[type="checkbox"] {
   }
 
   .manager.contents .table-responsive-to-cards td,
-  .container-fluid
-    > .card
-    > .manager.contents
-    > .content
-    .table-responsive.table-responsive-to-cards
-    .table
-    td
-    > span {
+  .container-fluid > .card > .manager.contents > .content .table-responsive.table-responsive-to-cards .table td > span {
     display: inline-block;
   }
 
   .table-responsive-to-cards td:not(.action):before {
-    content: attr(data-label) ":";
+    content: attr(data-label) ':';
     float: left;
     margin: 0 0.5rem 0 0;
     /* effet ne plaisant pas */
@@ -1300,14 +1219,7 @@ dl > dd > input[type="checkbox"] {
   margin: 0;
 }
 
-.manager.contents.details
-  .content
-  .tab-content
-  > #publishers
-  ul
-  > li
-  > figure
-  > img {
+.manager.contents.details .content .tab-content > #publishers ul > li > figure > img {
   max-width: 48px;
 }
 
@@ -1350,12 +1262,7 @@ manager Treeview
   }
 }
 
-.manager.treeview
-  > .content
-  > .treeview
-  .context-viewer
-  .form-group
-  input[type="checkbox"].form-control {
+.manager.treeview > .content > .treeview .context-viewer .form-group input[type='checkbox'].form-control {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -1406,7 +1313,7 @@ modals for cropper with input file
   white-space: initial;
 }
 
-.publish-content .btn-file input[type="file"] {
+.publish-content .btn-file input[type='file'] {
   position: absolute;
   top: 0;
   right: 0;
@@ -1488,21 +1395,12 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
   overflow: hidden;
 }
 
-.manager
-  .publish-form-container
-  > .publish-header
-  > div.status-buttons
-  > div.publish-form-views-steps {
+.manager .publish-form-container > .publish-header > div.status-buttons > div.publish-form-views-steps {
   height: 100%;
   vertical-align: middle;
 }
 
-.manager
-  .publish-form-container
-  > .publish-header
-  > div.status-buttons
-  > div.publish-form-views-steps
-  > a {
+.manager .publish-form-container > .publish-header > div.status-buttons > div.publish-form-views-steps > a {
   display: inline-block;
   margin: 0 10px;
   height: 100%;
@@ -1513,11 +1411,7 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
   text-decoration: none;
 }
 
-.manager
-  .publish-form-container
-  > .publish-header
-  > .status-buttons
-  span.step-number {
+.manager .publish-form-container > .publish-header > .status-buttons span.step-number {
   display: inline-block;
   font-size: 120%;
   font-weight: bold;
@@ -1531,11 +1425,7 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
   text-align: center;
 }
 
-.manager
-  .publish-form-container
-  > .publish-header
-  > .status-buttons
-  span.step-label {
+.manager .publish-form-container > .publish-header > .status-buttons span.step-label {
   color: #888;
   display: block;
   font-size: 12px;
@@ -1547,22 +1437,12 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 }
 
 /* active buttons */
-.manager
-  .publish-form-container
-  > .publish-header
-  > .status-buttons
-  a.router-link-active
-  span.step-number {
+.manager .publish-form-container > .publish-header > .status-buttons a.router-link-active span.step-number {
   color: var(--theme-publish-active-step-number-color);
   background-color: var(--theme-publish-active-step-number-background-color);
 }
 
-.manager
-  .publish-form-container
-  > .publish-header
-  > .status-buttons
-  a.router-link-active
-  span.step-label {
+.manager .publish-form-container > .publish-header > .status-buttons a.router-link-active span.step-label {
   color: #000;
 }
 
@@ -1580,30 +1460,19 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 }
 
 /** start specific publish.classification */
-.manager.publish
-  .publish-form-container
-  .publish-classification
-  .inline-form
-  .form-check-inline {
+.manager.publish .publish-form-container .publish-classification .inline-form .form-check-inline {
   margin-left: 1rem;
   margin-right: 0;
 }
 
-.manager.publish
-  .publish-form-container
-  .publish-classification
-  input[type="checkbox"]
-  + label {
+.manager.publish .publish-form-container .publish-classification input[type='checkbox'] + label {
   cursor: pointer;
   font-weight: normal;
   text-align: center;
 }
 
 /* Hide checkbox when iconurl is shown */
-.manager.publish
-  .publish-form-container
-  .publish-classification
-  input[type="checkbox"].iconurl {
+.manager.publish .publish-form-container .publish-classification input[type='checkbox'].iconurl {
   display: none;
 }
 
@@ -1611,11 +1480,7 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 - Style each label that is directly after the input
 - position: relative; will ensure that any position: absolute children will position themselves in relation to it
 */
-.manager.publish
-  .publish-form-container
-  .publish-classification
-  .form-check-inline
-  span.iconurl {
+.manager.publish .publish-form-container .publish-classification .form-check-inline span.iconurl {
   height: 10vh;
   width: 10vh;
   background-color: #f3f3f3;
@@ -1629,18 +1494,8 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 }
 
 /* Provide a border when hovered and when the checkbox before it is checked */
-.manager.publish
-  .publish-form-container
-  .publish-classification
-  input[type="checkbox"].iconurl
-  + label
-  > span.iconurl:hover,
-.manager.publish
-  .publish-form-container
-  .publish-classification
-  input[type="checkbox"].iconurl:checked
-  + label
-  > span.iconurl {
+.manager.publish .publish-form-container .publish-classification input[type='checkbox'].iconurl + label > span.iconurl:hover,
+.manager.publish .publish-form-container .publish-classification input[type='checkbox'].iconurl:checked + label > span.iconurl {
   border: solid 3px var(--theme-publish-classification-iconurl-color);
 }
 
@@ -1648,13 +1503,8 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 - Create a pseudo element :after when checked and provide a tick
 - Center the content
 */
-.manager.publish
-  .publish-form-container
-  .publish-classification
-  input[type="checkbox"].iconurl:checked
-  + label
-  > span.iconurl:after {
-  content: "\2714";
+.manager.publish .publish-form-container .publish-classification input[type='checkbox'].iconurl:checked + label > span.iconurl:after {
+  content: '\2714';
   /*content is required, though it can be empty - content: '';*/
   display: block;
   /*height: 1em;*/
@@ -1671,65 +1521,40 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 /** end specific publish.classification */
 
 /** start specific publish.content */
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-inline
-  img#enclosure.img-responsive {
+.manager.publish .publish-form-container .publish-content .form-inline img#enclosure.img-responsive {
   display: inline;
 }
 
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-group
-  > .form-inline.text-justify
-  > .form-group {
+.manager.publish .publish-form-container .publish-content .form-group > .form-inline.text-justify > .form-group {
   vertical-align: top;
 }
 
 /* tip to justify all .form-group divs into .form-inline*/
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-group
-  > .form-inline.text-justify::after {
-  content: " ";
+.manager.publish .publish-form-container .publish-content .form-group > .form-inline.text-justify::after {
+  content: ' ';
   width: 100%;
   display: inline-block;
 }
 
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-group
-  > .form-inline.text-justify {
+.manager.publish .publish-form-container .publish-content .form-group > .form-inline.text-justify {
   margin-bottom: -15px;
   /* previous tip add a new line and with the margin-bottom of 15px it's getting a useless line */
 }
 
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-group
-  > .form-inline.text-justify
-  > .form-group
-  > label {
+.manager.publish .publish-form-container .publish-content .form-group > .form-inline.text-justify > .form-group > label {
   display: block;
 }
 
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-group
-  input[type="checkbox"].form-check-input {
+.manager.publish .publish-form-container .publish-content .form-group input[type='checkbox'].form-check-input {
   width: 2em;
   height: 2em;
   border: 2px solid rgba(0, 0, 0, 0.5);
   &:focus,
   &:hover {
     border-color: rgba(0, 0, 0, 0.6);
-    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(0 0 0 / 60%);
+    box-shadow:
+      inset 0 1px 1px rgb(0 0 0 / 8%),
+      0 0 8px rgb(0 0 0 / 60%);
   }
   &:checked {
     background-color: var(--theme-publish-content-checkbox-color);
@@ -1737,32 +1562,17 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
   }
 }
 
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-group
-  > .form-inline
-  > .linkedFiles {
+.manager.publish .publish-form-container .publish-content .form-group > .form-inline > .linkedFiles {
   display: inline-block;
 }
 
-.manager.publish
-  .publish-form-container
-  .publish-content
-  .form-group
-  > .form-inline
-  > .linkedFiles
-  > span {
+.manager.publish .publish-form-container .publish-content .form-group > .form-inline > .linkedFiles > span {
   white-space: nowrap;
 }
 
 /** end specific publish.content */
 /** start specific publish.targets */
-.manager.publish
-  .publish-form-container
-  .publish-target
-  .list-group.list-unstyled
-  .list-group-item,
+.manager.publish .publish-form-container .publish-target .list-group.list-unstyled .list-group-item,
 .manager.treeview .list-group.list-unstyled .list-group-item {
   border: none;
   position: inherit;
@@ -1812,21 +1622,21 @@ esup-edit-evaluator {
   --hover-text-color: var(--theme-js-tree-hover-text-color);
   --selected-text-color: var(--theme-js-tree-selected-text-color);
   --selected-background-color: var(--theme-js-tree-selected-background-color);
-  --icon-0-font-family: "Font Awesome 5 Free";
+  --icon-0-font-family: 'Font Awesome 5 Free';
   --icon-0-font-weight: 900;
-  --icon-0-content: "\f015";
-  --icon-1-font-family: "Font Awesome 5 Free";
+  --icon-0-content: '\f015';
+  --icon-1-font-family: 'Font Awesome 5 Free';
   --icon-1-font-weight: 900;
-  --icon-1-content: "\f0b1";
-  --icon-2-font-family: "Font Awesome 5 Free";
+  --icon-1-content: '\f0b1';
+  --icon-2-font-family: 'Font Awesome 5 Free';
   --icon-2-font-weight: 900;
-  --icon-2-content: "\f07b";
-  --icon-3-font-family: "Font Awesome 5 Free";
+  --icon-2-content: '\f07b';
+  --icon-3-font-family: 'Font Awesome 5 Free';
   --icon-3-font-weight: 900;
-  --icon-3-content: "\f09e";
-  --icon-4-font-family: "Font Awesome 5 Free";
+  --icon-3-content: '\f09e';
+  --icon-4-font-family: 'Font Awesome 5 Free';
   --icon-4-font-weight: 900;
-  --icon-4-content: "\f1ea";
+  --icon-4-content: '\f1ea';
 }
 
 /* ========================================
@@ -1837,9 +1647,7 @@ esup-simple-evaluators,
 esup-evaluator,
 esup-edit-evaluator {
   --subject-infos-focus-text-color: var(--theme-subject-infos-focus-text-color);
-  --subject-infos-focus-background-color: var(
-    --theme-subject-infos-focus-text-background-color
-  );
+  --subject-infos-focus-background-color: var(--theme-subject-infos-focus-text-background-color);
 }
 
 /* ========================================
@@ -1847,24 +1655,12 @@ For esup-subject-search-button
 ===========================================*/
 esup-subject-search-button,
 esup-edit-evaluator {
-  --text-color-pagination: var(
-    --theme-subject-search-button-pagination-text-color
-  );
-  --selected-background-color-pagination: var(
-    --theme-subject-search-button-pagination-selected-background-color
-  );
-  --selected-text-color-pagination: var(
-    --theme-subject-search-button-pagination-selected-text-color
-  );
-  --validate-button-text-color: var(
-    --theme-subject-search-button-validate-button-text-color
-  );
-  --validate-button-background-color: var(
-    --theme-subject-search-button-validate-button-background-color
-  );
-  --validate-button-border-color: var(
-    --theme-subject-search-button-validate-button-border-color
-  );
+  --text-color-pagination: var(--theme-subject-search-button-pagination-text-color);
+  --selected-background-color-pagination: var(--theme-subject-search-button-pagination-selected-background-color);
+  --selected-text-color-pagination: var(--theme-subject-search-button-pagination-selected-text-color);
+  --validate-button-text-color: var(--theme-subject-search-button-validate-button-text-color);
+  --validate-button-background-color: var(--theme-subject-search-button-validate-button-background-color);
+  --validate-button-border-color: var(--theme-subject-search-button-validate-button-border-color);
 }
 
 /* ========================================
