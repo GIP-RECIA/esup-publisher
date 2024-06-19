@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import ConfigurationService from '@/services/admin/ConfigurationService';
+import ConfigurationService from '@/services/admin/ConfigurationService.js';
 
 export default {
   name: 'AdminConfiguration',
@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     filteredConfiguration() {
-      var filterConfiguration = this.configuration;
+      let filterConfiguration = this.configuration;
 
       // Filtre des loggers
       if (this.filter !== null && this.filter !== '') {
@@ -75,27 +75,27 @@ export default {
       this.reverse = !this.reverse;
     },
     getConfigPropertiesObjects(res) {
-      return res[0].application.beans;
+      return res[0]['ESUP-Publisher'].beans;
     },
   },
   created() {
     ConfigurationService.get().then((configuration) => {
-      var properties = [];
-      var propertiesObject = this.getConfigPropertiesObjects(configuration);
+      let properties = [];
+      let propertiesObject = this.getConfigPropertiesObjects(configuration);
       Object.keys(propertiesObject).forEach((key) => {
-        if (Object.prototype.hasOwnProperty.call(propertiesObject, key)) {
+        if (Object.hasOwn(propertiesObject, key)) {
           properties.push(propertiesObject[key]);
         }
       });
       this.configuration = this.configuration.concat(properties);
     });
     ConfigurationService.getEnv().then((response) => {
-      var properties = [];
-      var propertiesObject = response.data.propertySources;
+      let properties = [];
+      let propertiesObject = response.data.propertySources;
       propertiesObject.forEach((obj) => {
-        var name = obj.name;
-        var detailProperties = obj.properties;
-        var vals = {};
+        let name = obj.name;
+        let detailProperties = obj.properties;
+        let vals = {};
         Object.keys(detailProperties).forEach((key) => {
           vals[key] = detailProperties[key].value;
         });

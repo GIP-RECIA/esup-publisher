@@ -158,11 +158,11 @@
 </template>
 
 <script>
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
-import DateUtils from '@/services/util/DateUtils';
-import UploadUtils from '@/services/util/UploadUtils';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
+import DateUtils from '@/services/util/DateUtils.js';
+import UploadUtils from '@/services/util/UploadUtils.js';
 import store from '@/store/index.js';
-import ConfigurationService from '@/services/params/ConfigurationService';
+import ConfigurationService from '@/services/params/ConfigurationService.js';
 
 export default {
   name: 'ContentAttachment',
@@ -323,7 +323,7 @@ export default {
     doUpload(file) {
       this.uploadLinkedFile(file, file.name, false, false, (response, headers) => {
         const location = decodeURIComponent(headers.location);
-        var newLinks = Array.from(this.linkedFilesToContent || []);
+        let newLinks = Array.from(this.linkedFilesToContent || []);
         newLinks.push({
           uri: location,
           filename: file.name,

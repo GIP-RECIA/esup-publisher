@@ -1,41 +1,42 @@
-import { shallowMount, RouterLinkStub } from "@vue/test-utils";
-import App from "@/App.vue";
-import ConfigurationService from "@/services/params/ConfigurationService.js";
-import EnumDatasService from "@/services/entities/enum/EnumDatasService.js";
+import { shallowMount, RouterLinkStub, flushPromises } from '@vue/test-utils';
+import App from '@/App.vue';
+import ConfigurationService from '@/services/params/ConfigurationService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock("@/services/entities/enum/EnumDatasService.js");
+vi.mock('@/services/entities/enum/EnumDatasService.js');
 
 // Tests unitaires sur la page App
-describe("App.vue tests", () => {
+describe('App.vue tests', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
-  it("test 1 App footer - Affichage de la version de l'application", () => {
-    ConfigurationService.init = jest.fn().mockReturnValue(Promise.resolve([]));
-    EnumDatasService.init = jest.fn().mockReturnValue(Promise.resolve([]));
+  it("test 1 App footer - Affichage de la version de l'application", async () => {
+    ConfigurationService.init = vi.fn().mockReturnValue(Promise.resolve([]));
+    EnumDatasService.init = vi.fn().mockReturnValue(Promise.resolve([]));
     process.env = Object.assign(process.env, {
-      NODE_ENV: "production",
-      BACK_VERSION: "0.5.14",
+      NODE_ENV: 'production',
+      BACK_VERSION: '0.5.14',
     });
     const $t = (param) => param;
     const $router = {
       currentRoute: {
         value: {
           meta: {
-            cssClass: "site",
+            cssClass: 'site',
           },
         },
       },
     };
     const $store = {
-      commit: jest.fn(),
+      commit: vi.fn(),
       getters: {
-        getLanguage: "fr",
+        getLanguage: 'fr',
       },
     };
     const $i18n = {
-      locale: "en",
+      locale: 'en',
     };
     const wrapper = shallowMount(App, {
       global: {
@@ -51,12 +52,14 @@ describe("App.vue tests", () => {
         },
       },
     });
-    expect(wrapper.find("#footer-back-version").exists()).toBe(true);
-    expect(wrapper.find(".development").exists()).toBe(false);
+
+    await flushPromises();
+    expect(wrapper.find('#footer-back-version').exists()).toBe(true);
+    expect(wrapper.find('.development').exists()).toBe(false);
     expect(ConfigurationService.init).toHaveBeenCalledTimes(1);
     expect(EnumDatasService.init).toHaveBeenCalledTimes(1);
     expect($store.commit).toHaveBeenCalledTimes(1);
-    expect($store.commit).toHaveBeenCalledWith("initializeStore");
-    expect($i18n.locale).toBe("fr");
+    expect($store.commit).toHaveBeenCalledWith('initializeStore');
+    expect($i18n.locale).toBe('fr');
   });
 });

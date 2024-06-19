@@ -273,9 +273,9 @@
 </template>
 
 <script>
-import RedactorService from '@/services/entities/redactor/RedactorService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import RedactorService from '@/services/entities/redactor/RedactorService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import { Modal } from 'bootstrap';
 
 export default {

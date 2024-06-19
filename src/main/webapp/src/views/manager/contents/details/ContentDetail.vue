@@ -129,19 +129,19 @@
 </template>
 <script>
 import { computed, readonly } from 'vue';
-import ContentService from '@/services/entities/content/ContentService';
-import ClassificationService from '@/services/entities/classification/ClassificationService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import DateUtils from '@/services/util/DateUtils';
-import UploadUtils from '@/services/util/UploadUtils';
-import SubjectService from '@/services/params/SubjectService';
+import ContentService from '@/services/entities/content/ContentService.js';
+import ClassificationService from '@/services/entities/classification/ClassificationService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import DateUtils from '@/services/util/DateUtils.js';
+import UploadUtils from '@/services/util/UploadUtils.js';
+import SubjectService from '@/services/params/SubjectService.js';
 import store from '@/store/index.js';
-import ContentDetailAttachment from '@/views/manager/contents/details/templates/ContentDetailAttachment';
-import ContentDetailFlash from '@/views/manager/contents/details/templates/ContentDetailFlash';
-import ContentDetailNews from '@/views/manager/contents/details/templates/ContentDetailNews';
-import ContentDetailMedia from '@/views/manager/contents/details/templates/ContentDetailMedia';
-import ContentDetailRessource from '@/views/manager/contents/details/templates/ContentDetailRessource';
-import SubjectDetail from '@/views/entities/subject/SubjectDetail';
+import ContentDetailAttachment from '@/views/manager/contents/details/templates/ContentDetailAttachment.vue';
+import ContentDetailFlash from '@/views/manager/contents/details/templates/ContentDetailFlash.vue';
+import ContentDetailNews from '@/views/manager/contents/details/templates/ContentDetailNews.vue';
+import ContentDetailMedia from '@/views/manager/contents/details/templates/ContentDetailMedia.vue';
+import ContentDetailRessource from '@/views/manager/contents/details/templates/ContentDetailRessource.vue';
+import SubjectDetail from '@/views/entities/subject/SubjectDetail.vue';
 
 export default {
   name: 'ContentDetail',
@@ -211,7 +211,7 @@ export default {
         return new Promise((resolve) => {
           ContentService.get(this.$route.params.id)
             .then((result) => {
-              var classifs = [];
+              let classifs = [];
               if (result) {
                 result.data.classifications.forEach((element) => {
                   classifs.push(ClassificationService.get(element.keyId));
@@ -250,7 +250,7 @@ export default {
 
       if (this.classifications && this.classifications.length > 0) {
         this.classifications.forEach((classification) => {
-          var found = false;
+          let found = false;
           this.pubContexts.forEach((pubContext) => {
             if (pubContext.id === classification.data.publisher.id) {
               if (
@@ -265,7 +265,7 @@ export default {
             }
           });
           if (!found) {
-            var classifs = [];
+            let classifs = [];
             if (
               !(
                 classification.data.publisher.context.redactor.writingMode === 'STATIC' &&
@@ -302,7 +302,7 @@ export default {
     },
     // Filtre sur les fichiers
     filterLinkedFiles(linkedFiles) {
-      var result = [];
+      let result = [];
       linkedFiles.forEach((element) => {
         if (element.inBody === false) {
           result.push(element);

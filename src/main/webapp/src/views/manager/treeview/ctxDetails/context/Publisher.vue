@@ -323,8 +323,8 @@
 </template>
 
 <script>
-import PrincipalService from '@/services/auth/PrincipalService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import PrincipalService from '@/services/auth/PrincipalService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import { Modal } from 'bootstrap';
 import CategoryForm from './CategoryForm.vue';
 
