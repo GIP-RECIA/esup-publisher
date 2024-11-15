@@ -1,6 +1,6 @@
-import viteConfig from './vite.config';
-import { fileURLToPath } from 'node:url';
-import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
+import { fileURLToPath } from 'node:url'
+import { configDefaults, defineConfig, mergeConfig } from 'vitest/config'
+import viteConfig from './vite.config.mjs'
 
 export default mergeConfig(
   viteConfig({ mode: 'test' }),
@@ -11,4 +11,4 @@ export default mergeConfig(
       root: fileURLToPath(new URL('./src/test/javascript/spec', import.meta.url)),
     },
   }),
-);
+)
