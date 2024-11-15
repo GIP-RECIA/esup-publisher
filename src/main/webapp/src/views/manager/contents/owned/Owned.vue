@@ -77,8 +77,7 @@ export default {
           }
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     itemDetail(item) {
@@ -133,8 +132,7 @@ export default {
           this.deleteModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     confirmDelete(id) {
@@ -144,8 +142,7 @@ export default {
           this.loadAll()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Fonction de formatage de date avec heure
@@ -261,7 +258,7 @@ export default {
             <th class="d-md-none d-lg-none d-xl-table-cell">
               {{ $t('item.rssAllowed') }}
             </th>
-            <th v-if="organizations !== null && organizations.length > 1 && organization_filter == -1">
+            <th v-if="organizations !== null && organizations.length > 1 && organization_filter === -1">
               {{ $t('item.organization') }}
             </th>
             <th class="d-none">
@@ -327,7 +324,7 @@ export default {
               <input v-model="item.rssAllowed" type="checkbox" disabled>
             </td>
             <td
-              v-if="organizations !== null && organizations.length > 1 && organization_filter == -1"
+              v-if="organizations !== null && organizations.length > 1 && organization_filter === -1"
               :data-label="$t('item.organization')"
             >
               {{ item.organization.name }}

@@ -94,6 +94,7 @@ export default {
         // 2 ways to test if iframe depending on browser compatibility
         return window.self !== window.top || window.location !== window.parent.location
       }
+      // eslint-disable-next-line unused-imports/no-unused-vars
       catch (e) {
         // default use: the app is in iframe
         return true
