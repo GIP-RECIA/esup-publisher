@@ -1,12 +1,5 @@
-<template>
-  <div v-if="showSpinner" class="overlay d-flex align-items-center justify-content-center">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">{{ $t('wait.dialog') }}</span>
-    </div>
-  </div>
-</template>
 <script>
-import FetchWrapper from '@/services/util/FetchWrapper.js';
+import FetchWrapper from '@/services/util/FetchWrapper.js'
 
 export default {
   name: 'Spinner',
@@ -14,16 +7,25 @@ export default {
     return {
       showSpinner: false,
       countPendingRequests: FetchWrapper.countPendingRequests(),
-    };
+    }
   },
   watch: {
     countPendingRequests(newVal) {
       // Affichage du spinner si une requête est en cours
-      this.showSpinner = newVal > 0;
+      this.showSpinner = newVal > 0
     },
   },
-};
+}
 </script>
+
+<template>
+  <div v-if="showSpinner" class="overlay d-flex align-items-center justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">{{ $t('wait.dialog') }}</span>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .overlay {
   .spinner-border {

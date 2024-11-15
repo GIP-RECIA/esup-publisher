@@ -1,3 +1,21 @@
+<script>
+export default {
+  name: 'InternalFeed',
+  inject: ['context', 'getEnumlabel'],
+  methods: {
+    getAccessTypeLabel(name) {
+      return this.getEnumlabel('accessType', name) || ''
+    },
+    getDisplayOrderTypeLabel(name) {
+      return this.getEnumlabel('displayOrderType', name) || ''
+    },
+    getLangLabel(name) {
+      return this.getEnumlabel('lang', name) || ''
+    },
+  },
+}
+</script>
+
 <template>
   <h3 class="mt-3 mb-2">
     {{ $t('manager.treeview.details.context.properties') }}
@@ -11,19 +29,19 @@
     </dd>
   </dl>
   <dl
-    class="row entity-details"
     v-if="
-      context.iconUrl &&
-      context.iconUrl !== '' &&
-      context.iconUrl !== 'http://' &&
-      context.publisher.context.reader.classificationDecorations.includes('ENCLOSURE')
+      context.iconUrl
+        && context.iconUrl !== ''
+        && context.iconUrl !== 'http://'
+        && context.publisher.context.reader.classificationDecorations.includes('ENCLOSURE')
     "
+    class="row entity-details"
   >
     <dt class="col-sm-5">
       <span>{{ $t('category.iconUrl') }}</span>
     </dt>
     <dd class="col-sm-7">
-      <img class="media-object img-fluid" :src="context.iconUrl" alt="image" />
+      <img class="media-object img-fluid" :src="context.iconUrl" alt="image">
     </dd>
   </dl>
   <dl class="row entity-details">
@@ -67,21 +85,3 @@
     </dd>
   </dl>
 </template>
-
-<script>
-export default {
-  name: 'InternalFeed',
-  inject: ['context', 'getEnumlabel'],
-  methods: {
-    getAccessTypeLabel(name) {
-      return this.getEnumlabel('accessType', name) || '';
-    },
-    getDisplayOrderTypeLabel(name) {
-      return this.getEnumlabel('displayOrderType', name) || '';
-    },
-    getLangLabel(name) {
-      return this.getEnumlabel('lang', name) || '';
-    },
-  },
-};
-</script>
