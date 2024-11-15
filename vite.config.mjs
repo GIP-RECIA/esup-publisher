@@ -1,15 +1,17 @@
-import { fileURLToPath, URL } from 'node:url';
+/* eslint-disable node/prefer-global/process */
 import { readFileSync } from 'node:fs'
-import { defineConfig, loadEnv } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
-import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5';
+import { createRequire } from 'node:module'
+import { fileURLToPath, URL } from 'node:url'
+import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import vue from '@vitejs/plugin-vue'
+import { defineConfig, loadEnv } from 'vite'
 import { parseString } from 'xml2js'
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
+
+const require = createRequire(import.meta.url)
 
 export default ({ mode }) => {
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
 
   const backVersion = () => {
     let version
@@ -26,14 +28,14 @@ export default ({ mode }) => {
   process.env.VITE_BACK_VERSION = backVersion()
 
   return defineConfig({
-    base: process.env.VITE_BACK_BASE_URL + 'ui',
+    base: `${process.env.VITE_BACK_BASE_URL}ui`,
     root: './src/main/webapp',
     envDir: '../../../',
     plugins: [
       vue({
         template: {
           compilerOptions: {
-            isCustomElement: (tag) => tag.includes('esup-'),
+            isCustomElement: tag => tag.includes('esup-'),
           },
         },
       }),
@@ -51,5 +53,5 @@ export default ({ mode }) => {
         '^(?:/[^/]*)?/(?=api|management|api-docs|published|feed|app|files|view)': process.env.VITE_PROXY_URL,
       },
     },
-  });
-};
+  })
+}
