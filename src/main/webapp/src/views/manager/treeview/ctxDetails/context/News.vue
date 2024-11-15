@@ -1,10 +1,31 @@
+<script>
+import DateUtils from '@/services/util/DateUtils.js'
+import store from '@/store/index.js'
+
+export default {
+  name: 'News',
+  inject: ['context', 'getEnumlabel', 'detailSubject', 'getUrlEnclosure'],
+  methods: {
+    formatDate(date) {
+      return DateUtils.formatDateToLongIntString(date, store.getters.getLanguage)
+    },
+    formatDateAction(date) {
+      return DateUtils.formatDateTimeToLongIntString(date, store.getters.getLanguage)
+    },
+    getItemStatusLabel(name) {
+      return this.getEnumlabel('itemStatus', name) || ''
+    },
+  },
+}
+</script>
+
 <template>
   <h3 class="mt-3 mb-2">
     {{ $t('manager.treeview.details.context.properties') }}
   </h3>
   <div class="mb-3">
-    <button type="button" @click="detailSubject(context.id)" class="btn btn-info btn-sm">
-      <span class="far fa-eye"></span>&nbsp;<span>{{ $t('entity.action.view') }}</span>
+    <button type="button" class="btn btn-info btn-sm" @click="detailSubject(context.id)">
+      <span class="far fa-eye" />&nbsp;<span>{{ $t('entity.action.view') }}</span>
     </button>
   </div>
   <dl class="row entity-details">
@@ -15,12 +36,12 @@
       <span>{{ context.title }}</span>
     </dd>
   </dl>
-  <dl class="row entity-details" v-if="context.enclosure && context.enclosure !== '' && context.enclosure !== 'http://'">
+  <dl v-if="context.enclosure && context.enclosure !== '' && context.enclosure !== 'http://'" class="row entity-details">
     <dt class="col-sm-5">
       <span>{{ $t('news.enclosure') }}</span>
     </dt>
     <dd class="col-sm-7">
-      <img class="news-object img-fluid" :src="getUrlEnclosure(context.enclosure)" alt="image" />
+      <img class="news-object img-fluid" :src="getUrlEnclosure(context.enclosure)" alt="image">
     </dd>
   </dl>
   <dl class="row entity-details">
@@ -68,10 +89,10 @@
       <span>{{ $t('news.rssAllowed') }}</span>
     </dt>
     <dd class="col-sm-7">
-      <span><input type="checkbox" v-model="context.rssAllowed" disabled /></span>
+      <span><input v-model="context.rssAllowed" type="checkbox" disabled></span>
     </dd>
   </dl>
-  <dl class="row entity-details" v-if="context.validatedBy">
+  <dl v-if="context.validatedBy" class="row entity-details">
     <dt class="col-sm-5">
       <span>{{ $t('news.validatedBy') }}</span>
     </dt>
@@ -79,7 +100,7 @@
       <span>{{ context.validatedBy.displayName }}</span>
     </dd>
   </dl>
-  <dl class="row entity-details" v-if="context.validatedDate">
+  <dl v-if="context.validatedDate" class="row entity-details">
     <dt class="col-sm-5">
       <span>{{ $t('news.validatedDate') }}</span>
     </dt>
@@ -120,24 +141,3 @@
     </dd>
   </dl>
 </template>
-
-<script>
-import DateUtils from '@/services/util/DateUtils.js';
-import store from '@/store/index.js';
-
-export default {
-  name: 'News',
-  inject: ['context', 'getEnumlabel', 'detailSubject', 'getUrlEnclosure'],
-  methods: {
-    formatDate(date) {
-      return DateUtils.formatDateToLongIntString(date, store.getters.getLanguage);
-    },
-    formatDateAction(date) {
-      return DateUtils.formatDateTimeToLongIntString(date, store.getters.getLanguage);
-    },
-    getItemStatusLabel(name) {
-      return this.getEnumlabel('itemStatus', name) || '';
-    },
-  },
-};
-</script>

@@ -1,9 +1,9 @@
-import FetchWrapper from '../util/FetchWrapper.js';
+import FetchWrapper from '../util/FetchWrapper.js'
 
 class ConfFileSizeService {
   query() {
-    return FetchWrapper.getJson('api/conf/uploadfilesize');
+    return FetchWrapper.getJson('api/conf/uploadfilesize')
   }
 }
 
-export default new ConfFileSizeService();
+export default new ConfFileSizeService()

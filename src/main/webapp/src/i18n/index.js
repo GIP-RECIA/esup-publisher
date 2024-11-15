@@ -1,8 +1,8 @@
-import { createI18n } from 'vue-i18n';
-import store from '../store';
+import { createI18n } from 'vue-i18n'
+import store from '../store'
 
-import en from './en';
-import fr from './fr';
+import en from './en'
+import fr from './fr'
 
 export default createI18n({
   legacy: false,
@@ -14,4 +14,4 @@ export default createI18n({
     en,
     fr,
   },
-});
+})
