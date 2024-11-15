@@ -25,8 +25,7 @@ export default {
           this.filter = response.data
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode de redirection sur la page listant les filtres

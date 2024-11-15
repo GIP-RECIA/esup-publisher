@@ -1,7 +1,7 @@
 class TruncateUtils {
   // Truncate une chaîne de caractères selon un nombre de caractères
   characters(input, chars, breakOnWord) {
-    if (isNaN(chars)) {
+    if (Number.isNaN(chars)) {
       return input
     }
     if (chars <= 0) {
@@ -29,7 +29,7 @@ class TruncateUtils {
 
   // Truncate une chaîne de caractères selon un nombre de mots
   words(input, words) {
-    if (isNaN(words)) {
+    if (Number.isNaN(words)) {
       return input
     }
     if (words <= 0) {

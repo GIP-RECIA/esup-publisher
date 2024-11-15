@@ -70,7 +70,7 @@ export default {
       return this.formatNumber(val, 2)
     },
     filterNaN(input) {
-      if (isNaN(input)) {
+      if (Number.isNaN(input)) {
         return 0
       }
       return input

@@ -70,6 +70,7 @@ class CustomUploadAdapter {
 
   compressImage(file) {
     return new Promise((resolve, reject) => {
+      // eslint-disable-next-line no-new
       new Compressor(file, {
         quality: 0.8,
         maxWidth: 800,

@@ -432,7 +432,7 @@ export default {
 
     <div v-if="itemTypeList.length > 1" class="form-group row">
       <label class="col-md-4 control-label">{{ $t('manager.publish.content.type') }}</label>
-      <div v-if="(item !== null && item !== undefined && item.id) || itemTypeList.length == 1" class="col-md-8">
+      <div v-if="(item !== null && item !== undefined && item.id) || itemTypeList.length === 1" class="col-md-8">
         <div class="form-check form-check-inline">
           <label class="form-check-label"><span>{{ $t(`enum.itemType.${content.type}`) }}</span></label>
         </div>

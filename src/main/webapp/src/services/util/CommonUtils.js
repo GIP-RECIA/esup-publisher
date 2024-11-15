@@ -134,7 +134,7 @@ class CommonUtils {
   }
 
   convertByteToDisplayedString(bytes, decimal) {
-    if (this.isNumber(decimal) && isFinite(decimal) && decimal % 1 === 0 && decimal >= 0 && this.isNumber(bytes) && isFinite(bytes)) {
+    if (this.isNumber(decimal) && Number.isFinite(decimal) && decimal % 1 === 0 && decimal >= 0 && this.isNumber(bytes) && Number.isFinite(bytes)) {
       let i = 0
       while (i < byteSizeCompared.length - 1 && bytes >= byteSizeCompared[i].val) i++
       bytes /= i > 0 ? byteSizeCompared[i - 1].val : 1

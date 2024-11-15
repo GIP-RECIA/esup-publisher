@@ -226,8 +226,7 @@ export default {
       })
     },
     getEnumlabel(name) {
-      let data
-      data = this.permissionTypeList.find((val) => {
+      const data = this.permissionTypeList.find((val) => {
         return val.name === name
       })
       return data ? data.label : ''
