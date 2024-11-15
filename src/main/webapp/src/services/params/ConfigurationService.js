@@ -1,13 +1,13 @@
-import ConfImageSizeService from './ConfImageSizeService.js';
-import ConfFileSizeService from './ConfFileSizeService.js';
-import ConfMimeTypesService from './ConfMimeTypesService.js';
-import ConfCKEditorService from './ConfCKEditorService.js';
+import ConfCKEditorService from './ConfCKEditorService.js'
+import ConfFileSizeService from './ConfFileSizeService.js'
+import ConfImageSizeService from './ConfImageSizeService.js'
+import ConfMimeTypesService from './ConfMimeTypesService.js'
 
 class ConfigurationService {
-  confImageSize;
-  confFileSize;
-  confMimeTypes;
-  confCKEditor;
+  confImageSize
+  confFileSize
+  confMimeTypes
+  confCKEditor
 
   init() {
     return Promise.all([
@@ -18,45 +18,45 @@ class ConfigurationService {
     ])
       .then((results) => {
         if (results && results.length === 4) {
-          this.confImageSize = results[0].data.value;
-          this.confFileSize = results[1].data.value;
-          this.confMimeTypes = results[2].data.value;
-          this.confCKEditor = results[3].data.value;
+          this.confImageSize = results[0].data.value
+          this.confFileSize = results[1].data.value
+          this.confMimeTypes = results[2].data.value
+          this.confCKEditor = results[3].data.value
         }
       })
       .catch((error) => {
         // eslint-disable-next-line
         console.error(error);
-      });
+      })
   }
 
   getConfUploadImageSize() {
     if (!this.confImageSize) {
-      this.init();
+      this.init()
     }
-    return this.confImageSize;
+    return this.confImageSize
   }
 
   getConfUploadFileSize() {
     if (!this.confFileSize) {
-      this.init();
+      this.init()
     }
-    return this.confFileSize;
+    return this.confFileSize
   }
 
   getConfAuthorizedMimeTypes() {
     if (!this.confMimeTypes) {
-      this.init();
+      this.init()
     }
-    return this.confMimeTypes;
+    return this.confMimeTypes
   }
 
   getConfCKEditor() {
     if (!this.confCKEditor) {
-      this.init();
+      this.init()
     }
-    return this.confCKEditor;
+    return this.confCKEditor
   }
 }
 
-export default new ConfigurationService();
+export default new ConfigurationService()

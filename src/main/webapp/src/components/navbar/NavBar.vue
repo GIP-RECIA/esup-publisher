@@ -1,15 +1,8 @@
-<template>
-  <nav class="navbar navbar-light navbar-expand-md justify-content-center" role="navigation">
-    <NavBarManager v-if="isNavBarViewEquals('navBarManager')" :pageName="pageName"></NavBarManager>
-    <NavBarPublish v-else-if="isNavBarViewEquals('navBarPublish')"></NavBarPublish>
-    <NavBarDefault v-else-if="isNavBarViewEquals('navBarDefault')" :pageName="pageName"></NavBarDefault>
-  </nav>
-</template>
-
 <script>
-import NavBarDefault from '@/components/navbar/NavBarDefault.vue';
-import NavBarManager from '@/components/navbar/NavBarManager.vue';
-import NavBarPublish from '@/components/navbar/NavBarPublish.vue';
+import NavBarDefault from '@/components/navbar/NavBarDefault.vue'
+import NavBarManager from '@/components/navbar/NavBarManager.vue'
+import NavBarPublish from '@/components/navbar/NavBarPublish.vue'
+
 export default {
   name: 'NavBarComponent',
   components: {
@@ -21,21 +14,29 @@ export default {
     return {
       navBarView: '',
       pageName: '',
-    };
+    }
   },
   computed: {},
-  methods: {
-    isNavBarViewEquals(value) {
-      const navBarViewUC = this.navBarView.toUpperCase();
-      const valueUC = value.toUpperCase();
-      return navBarViewUC === valueUC;
-    },
-  },
   watch: {
     $route(to) {
-      this.navBarView = to.meta.navBarView || '';
-      this.pageName = to.name;
+      this.navBarView = to.meta.navBarView || ''
+      this.pageName = to.name
     },
   },
-};
+  methods: {
+    isNavBarViewEquals(value) {
+      const navBarViewUC = this.navBarView.toUpperCase()
+      const valueUC = value.toUpperCase()
+      return navBarViewUC === valueUC
+    },
+  },
+}
 </script>
+
+<template>
+  <nav class="navbar navbar-light navbar-expand-md justify-content-center" role="navigation">
+    <NavBarManager v-if="isNavBarViewEquals('navBarManager')" :pageName="pageName" />
+    <NavBarPublish v-else-if="isNavBarViewEquals('navBarPublish')" />
+    <NavBarDefault v-else-if="isNavBarViewEquals('navBarDefault')" :pageName="pageName" />
+  </nav>
+</template>

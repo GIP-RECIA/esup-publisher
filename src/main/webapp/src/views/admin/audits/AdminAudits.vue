@@ -1,3 +1,95 @@
+<script>
+import AuditsService from '@/services/admin/AuditsService.js'
+import DateUtils from '@/services/util/DateUtils.js'
+import store from '@/store/index.js'
+
+export default {
+  name: 'AdminAudits',
+  data() {
+    return {
+      // Liste des audits
+      audits: [],
+      // Date de début de recherche
+      fromDate: null,
+      // Date de fin de recherche
+      toDate: null,
+      // Sens du tri des audits
+      reverse: false,
+      // Propriété des audits sur laquelle le tri est effectué
+      predicate: null,
+    }
+  },
+  computed: {
+    _fromDate: {
+      get() {
+        return DateUtils.convertLocalDateToServer(this.fromDate)
+      },
+      set(newVal) {
+        this.fromDate = DateUtils.convertLocalDateFromServer(newVal)
+        this.onChangeDate()
+      },
+    },
+    _toDate: {
+      get() {
+        return DateUtils.convertLocalDateToServer(this.toDate)
+      },
+      set(newVal) {
+        this.toDate = DateUtils.convertLocalDateFromServer(newVal)
+        this.onChangeDate()
+      },
+    },
+    filteredAudits() {
+      let filterAudits = this.audits
+
+      // Filtre des audits
+      filterAudits = filterAudits.filter(conf => !conf.filtered)
+
+      // Tri des audits
+      if (this.predicate !== null) {
+        filterAudits.sort((conf1, conf2) => conf1[this.predicate].localeCompare(conf2[this.predicate]) * (this.reverse ? -1 : 1))
+      }
+
+      return filterAudits
+    },
+  },
+  created() {
+    this.today()
+    this.previousMonth()
+    this.onChangeDate()
+  },
+  methods: {
+    setSorting(predicate) {
+      this.predicate = predicate
+      this.reverse = !this.reverse
+    },
+    today() {
+      // Today + 1 day - needed if the current day must be included
+      const today = new Date()
+      this.toDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+    },
+    previousMonth() {
+      let fromDate = new Date()
+      if (fromDate.getMonth() === 0) {
+        fromDate = new Date(fromDate.getFullYear() - 1, 0, fromDate.getDate())
+      }
+      else {
+        fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth() - 1, fromDate.getDate())
+      }
+
+      this.fromDate = fromDate
+    },
+    onChangeDate() {
+      AuditsService.findByDates(this.fromDate, this.toDate).then((response) => {
+        this.audits = response.data
+      })
+    },
+    formatDate(date) {
+      return DateUtils.formatDateTimeToShortIntString(DateUtils.convertDateTimeFromServer(date), store.getters.getLanguage)
+    },
+  },
+}
+</script>
+
 <template>
   <div>
     <h2>{{ $t('audits.title') }}</h2>
@@ -7,9 +99,9 @@
         <h4>{{ $t('audits.filter.title') }}</h4>
         <p class="input-group">
           <span class="input-group-text">{{ $t('audits.filter.from') }}</span>
-          <input type="date" class="form-control form-control-sm" name="start" v-model="_fromDate" required />
+          <input v-model="_fromDate" type="date" class="form-control form-control-sm" name="start" required>
           <span class="input-group-text">{{ $t('audits.filter.to') }}</span>
-          <input type="date" class="form-control form-control-sm" name="end" v-model="_toDate" required />
+          <input v-model="_toDate" type="date" class="form-control form-control-sm" name="end" required>
         </p>
       </div>
     </div>
@@ -50,94 +142,3 @@
     </table>
   </div>
 </template>
-
-<script>
-import AuditsService from '@/services/admin/AuditsService.js';
-import DateUtils from '@/services/util/DateUtils.js';
-import store from '@/store/index.js';
-
-export default {
-  name: 'AdminAudits',
-  data() {
-    return {
-      // Liste des audits
-      audits: [],
-      // Date de début de recherche
-      fromDate: null,
-      // Date de fin de recherche
-      toDate: null,
-      // Sens du tri des audits
-      reverse: false,
-      // Propriété des audits sur laquelle le tri est effectué
-      predicate: null,
-    };
-  },
-  computed: {
-    _fromDate: {
-      get() {
-        return DateUtils.convertLocalDateToServer(this.fromDate);
-      },
-      set(newVal) {
-        this.fromDate = DateUtils.convertLocalDateFromServer(newVal);
-        this.onChangeDate();
-      },
-    },
-    _toDate: {
-      get() {
-        return DateUtils.convertLocalDateToServer(this.toDate);
-      },
-      set(newVal) {
-        this.toDate = DateUtils.convertLocalDateFromServer(newVal);
-        this.onChangeDate();
-      },
-    },
-    filteredAudits() {
-      let filterAudits = this.audits;
-
-      // Filtre des audits
-      filterAudits = filterAudits.filter((conf) => !conf.filtered);
-
-      // Tri des audits
-      if (this.predicate !== null) {
-        filterAudits.sort((conf1, conf2) => conf1[this.predicate].localeCompare(conf2[this.predicate]) * (this.reverse ? -1 : 1));
-      }
-
-      return filterAudits;
-    },
-  },
-  methods: {
-    setSorting(predicate) {
-      this.predicate = predicate;
-      this.reverse = !this.reverse;
-    },
-    today() {
-      // Today + 1 day - needed if the current day must be included
-      let today = new Date();
-      this.toDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-    },
-    previousMonth() {
-      let fromDate = new Date();
-      if (fromDate.getMonth() === 0) {
-        fromDate = new Date(fromDate.getFullYear() - 1, 0, fromDate.getDate());
-      } else {
-        fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth() - 1, fromDate.getDate());
-      }
-
-      this.fromDate = fromDate;
-    },
-    onChangeDate() {
-      AuditsService.findByDates(this.fromDate, this.toDate).then((response) => {
-        this.audits = response.data;
-      });
-    },
-    formatDate(date) {
-      return DateUtils.formatDateTimeToShortIntString(DateUtils.convertDateTimeFromServer(date), store.getters.getLanguage);
-    },
-  },
-  created() {
-    this.today();
-    this.previousMonth();
-    this.onChangeDate();
-  },
-};
-</script>

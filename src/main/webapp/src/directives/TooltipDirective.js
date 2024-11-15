@@ -1,4 +1,4 @@
-import { Tooltip } from 'bootstrap';
+import { Tooltip } from 'bootstrap'
 
 // Directive permettant d'afficher un tooltip
 // Utilisation :
@@ -13,13 +13,16 @@ import { Tooltip } from 'bootstrap';
 // <button v-tooltip:auto.html="clock" @click="clock = Date.now()">Updating</button>
 const TooltipDirective = {
   createToolTip(el, binding) {
-    let trigger;
+    let trigger
     if (binding.modifiers.focus || binding.modifiers.hover || binding.modifiers.click) {
-      const t = [];
-      if (binding.modifiers.focus) t.push('focus');
-      if (binding.modifiers.hover) t.push('hover');
-      if (binding.modifiers.click) t.push('click');
-      trigger = t.join(' ');
+      const t = []
+      if (binding.modifiers.focus)
+        t.push('focus')
+      if (binding.modifiers.hover)
+        t.push('hover')
+      if (binding.modifiers.click)
+        t.push('click')
+      trigger = t.join(' ')
     }
 
     /* eslint-disable-next-line no-new */
@@ -28,21 +31,21 @@ const TooltipDirective = {
       placement: binding.arg || 'top',
       trigger: trigger || 'hover',
       html: binding.modifiers.html || false,
-    });
+    })
   },
   disposeToolTip(el) {
-    Tooltip.getInstance(el).dispose();
+    Tooltip.getInstance(el).dispose()
   },
   unmounted(el, binding) {
-    binding.dir.disposeToolTip(el);
+    binding.dir.disposeToolTip(el)
   },
   updated(el, binding) {
-    binding.dir.disposeToolTip(el);
-    binding.dir.createToolTip(el, binding);
+    binding.dir.disposeToolTip(el)
+    binding.dir.createToolTip(el, binding)
   },
   mounted(el, binding) {
-    binding.dir.createToolTip(el, binding);
+    binding.dir.createToolTip(el, binding)
   },
-};
+}
 
-export default TooltipDirective;
+export default TooltipDirective

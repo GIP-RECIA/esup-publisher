@@ -1,85 +1,85 @@
-import FetchWrapper from '../util/FetchWrapper.js';
+import FetchWrapper from '../util/FetchWrapper.js'
 
 class UserService {
   details(login) {
-    return FetchWrapper.getJson('api/users/extended/' + login);
+    return FetchWrapper.getJson(`api/users/extended/${login}`)
   }
 
   attributes() {
-    return FetchWrapper.getJson('api/users/attributes');
+    return FetchWrapper.getJson('api/users/attributes')
   }
 
   funtionalAttributes() {
-    return FetchWrapper.getJson('api/users/fnattributes');
+    return FetchWrapper.getJson('api/users/fnattributes')
   }
 
   canCreateInCtx(keyId, keyType) {
     return FetchWrapper.getJson(
-      'api/users/perm/createin?' +
+      `api/users/perm/createin?${
         new URLSearchParams({
-          keyId: keyId,
-          keyType: keyType,
-        }),
-    );
+          keyId,
+          keyType,
+        })}`,
+    )
   }
 
   canEditCtx(keyId, keyType) {
     return FetchWrapper.getJson(
-      'api/users/perm/edit?' +
+      `api/users/perm/edit?${
         new URLSearchParams({
-          keyId: keyId,
-          keyType: keyType,
-        }),
-    );
+          keyId,
+          keyType,
+        })}`,
+    )
   }
 
   canDeleteCtx(keyId, keyType) {
     return FetchWrapper.getJson(
-      'api/users/perm/delete?' +
+      `api/users/perm/delete?${
         new URLSearchParams({
-          keyId: keyId,
-          keyType: keyType,
-        }),
-    );
+          keyId,
+          keyType,
+        })}`,
+    )
   }
 
   canEditCtxPerms(keyId, keyType) {
     return FetchWrapper.getJson(
-      'api/users/perm/editPerms?' +
+      `api/users/perm/editPerms?${
         new URLSearchParams({
-          keyId: keyId,
-          keyType: keyType,
-        }),
-    );
+          keyId,
+          keyType,
+        })}`,
+    )
   }
 
   canEditCtxTargets(keyId, keyType) {
     return FetchWrapper.getJson(
-      'api/users/perm/editTargets?' +
+      `api/users/perm/editTargets?${
         new URLSearchParams({
-          keyId: keyId,
-          keyType: keyType,
-        }),
-    );
+          keyId,
+          keyType,
+        })}`,
+    )
   }
 
   canModerateAnyThing() {
-    return FetchWrapper.getJson('api/users/perm/moderate');
+    return FetchWrapper.getJson('api/users/perm/moderate')
   }
 
   canHighlight(keyId, keyType) {
     return FetchWrapper.getJson(
-      'api/users/perm/highlight?' +
+      `api/users/perm/highlight?${
         new URLSearchParams({
-          keyId: keyId,
-          keyType: keyType,
-        }),
-    );
+          keyId,
+          keyType,
+        })}`,
+    )
   }
 
   search(data) {
-    return FetchWrapper.postJson('api/users/search', data);
+    return FetchWrapper.postJson('api/users/search', data)
   }
 }
 
-export default new UserService();
+export default new UserService()

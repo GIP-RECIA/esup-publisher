@@ -1494,8 +1494,18 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 }
 
 /* Provide a border when hovered and when the checkbox before it is checked */
-.manager.publish .publish-form-container .publish-classification input[type='checkbox'].iconurl + label > span.iconurl:hover,
-.manager.publish .publish-form-container .publish-classification input[type='checkbox'].iconurl:checked + label > span.iconurl {
+.manager.publish
+  .publish-form-container
+  .publish-classification
+  input[type='checkbox'].iconurl
+  + label
+  > span.iconurl:hover,
+.manager.publish
+  .publish-form-container
+  .publish-classification
+  input[type='checkbox'].iconurl:checked
+  + label
+  > span.iconurl {
   border: solid 3px var(--theme-publish-classification-iconurl-color);
 }
 
@@ -1503,7 +1513,12 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
 - Create a pseudo element :after when checked and provide a tick
 - Center the content
 */
-.manager.publish .publish-form-container .publish-classification input[type='checkbox'].iconurl:checked + label > span.iconurl:after {
+.manager.publish
+  .publish-form-container
+  .publish-classification
+  input[type='checkbox'].iconurl:checked
+  + label
+  > span.iconurl:after {
   content: '\2714';
   /*content is required, though it can be empty - content: '';*/
   display: block;
@@ -1541,7 +1556,13 @@ div > div.container-fluid > div.card > div > div > div > div.publish-header {
   /* previous tip add a new line and with the margin-bottom of 15px it's getting a useless line */
 }
 
-.manager.publish .publish-form-container .publish-content .form-group > .form-inline.text-justify > .form-group > label {
+.manager.publish
+  .publish-form-container
+  .publish-content
+  .form-group
+  > .form-inline.text-justify
+  > .form-group
+  > label {
   display: block;
 }
 
