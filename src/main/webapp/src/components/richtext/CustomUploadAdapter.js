@@ -71,8 +71,8 @@ class CustomUploadAdapter {
     return new Promise((resolve, reject) => {
       new Compressor(file, {
         quality: 0.8,
-        maxWidth: 800,
-        maxHeight: 600,
+        maxWidth: 1600,
+        maxHeight: 900,
         convertTypes: 'image/jpeg',
         async success(blob) {
           resolve(new File([blob], blob.name, { type: blob.type }));
