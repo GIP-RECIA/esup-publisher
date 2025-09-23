@@ -92,7 +92,7 @@ export default {
       },
     },
     filteredAudits() {
-      var filterAudits = this.audits;
+      let filterAudits = this.audits;
 
       // Filtre des audits
       filterAudits = filterAudits.filter((conf) => !conf.filtered);
@@ -112,11 +112,11 @@ export default {
     },
     today() {
       // Today + 1 day - needed if the current day must be included
-      var today = new Date();
+      let today = new Date();
       this.toDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     },
     previousMonth() {
-      var fromDate = new Date();
+      let fromDate = new Date();
       if (fromDate.getMonth() === 0) {
         fromDate = new Date(fromDate.getFullYear() - 1, 0, fromDate.getDate());
       } else {

@@ -4,7 +4,7 @@ import store from '@/store/index.js';
 // la barre de navigation des pages d'administration
 const NavbarDirective = {
   updateClass(el, value) {
-    var language = value;
+    let language = value;
     if (language === store.getters.getLanguage) {
       el.classList.add('active');
     } else {

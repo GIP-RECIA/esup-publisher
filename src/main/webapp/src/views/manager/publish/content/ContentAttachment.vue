@@ -323,7 +323,7 @@ export default {
     doUpload(file) {
       this.uploadLinkedFile(file, file.name, false, false, (response, headers) => {
         const location = decodeURIComponent(headers.location);
-        var newLinks = Array.from(this.linkedFilesToContent || []);
+        let newLinks = Array.from(this.linkedFilesToContent || []);
         newLinks.push({
           uri: location,
           filename: file.name,

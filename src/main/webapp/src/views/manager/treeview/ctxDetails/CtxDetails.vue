@@ -390,7 +390,7 @@ export default {
           text = this.editedContext.name;
           this.editedContext.displayName = this.editedContext.name;
           if (typeof this.editedContext.identifiers === 'string') {
-            var identifiersValues = this.editedContext.identifiers;
+            let identifiersValues = this.editedContext.identifiers;
             this.editedContext.identifiers = [];
             if (identifiersValues.includes(',')) {
               identifiersValues = identifiersValues.split(',');
@@ -499,7 +499,7 @@ export default {
       }
     },
     loadAvailableTypes(isEditCurrentCtx) {
-      var ctx = isEditCurrentCtx ? this.editedContext : this.context;
+      let ctx = isEditCurrentCtx ? this.editedContext : this.context;
       this.autorizedDisplayOrderTypeList = this.displayOrderTypeList;
       this.autorizedPermissionClassList = this.permissionClassList;
       switch (ctx.contextKey.keyType) {
@@ -623,7 +623,7 @@ export default {
     },
     inArray(item, array) {
       if (array === null || array === undefined || !CommonUtils.isArray(array) || array.length < 1) return false;
-      for (var i = 0, size = array.length; i < size; i++) {
+      for (let i = 0, size = array.length; i < size; i++) {
         if (CommonUtils.equals(array[i], item)) {
           return true;
         }
@@ -659,12 +659,12 @@ export default {
     },
     loadAvailableRoles(withRole) {
       this.availableRoles = [];
-      for (var i = 0; i < this.permissionTypeList.length; i++) {
+      for (let i = 0; i < this.permissionTypeList.length; i++) {
         switch (this.ctxPermissionType) {
           case 'CONTEXT_WITH_SUBJECTS':
           case 'CONTEXT':
-            var found = false;
-            for (var l = 0; l < this.permissions.length; l++) {
+            let found = false;
+            for (let l = 0; l < this.permissions.length; l++) {
               if (CommonUtils.equals(this.permissions[l].role, this.permissionTypeList[i].name)) {
                 found = true;
               }

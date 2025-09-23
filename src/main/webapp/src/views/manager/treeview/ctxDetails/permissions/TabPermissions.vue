@@ -229,7 +229,7 @@ export default {
     createPermission() {
       if (!this.permissionAdvanced) {
         this.permission.evaluator.evaluators = [];
-        for (var i = 0; i < this.selectedSubjects.length; i++) {
+        for (let i = 0; i < this.selectedSubjects.length; i++) {
           if (this.selectedSubjects[i].keyType === 'PERSON') {
             this.permission.evaluator.evaluators.push({
               class: 'USERATTRIBUTES',
@@ -261,7 +261,7 @@ export default {
       });
     },
     getEnumlabel(name) {
-      var data;
+      let data;
       data = this.permissionTypeList.find((val) => {
         return val.name === name;
       });
@@ -284,8 +284,8 @@ export default {
               CommonUtils.equals('OR', evaluator.type) &&
               CommonUtils.isDefined(evaluator.evaluators)
             ) {
-              var boolEval = false;
-              for (var i = 0; i < evaluator.evaluators.length; i++) {
+              let boolEval = false;
+              for (let i = 0; i < evaluator.evaluators.length; i++) {
                 boolEval = boolEval && this.isAdvancedEvaluator(evaluator.evaluators[i], depth + 1);
                 if (boolEval) return true;
               }
@@ -320,8 +320,8 @@ export default {
     setSelectedSubjectsFromEvaluator(evaluator) {
       this.selectedSubjects = [];
       if (!this.isAdvancedEvaluator(evaluator)) {
-        for (var i = 0; i < evaluator.evaluators.length; i++) {
-          var subjectEval = evaluator.evaluators[i];
+        for (let i = 0; i < evaluator.evaluators.length; i++) {
+          let subjectEval = evaluator.evaluators[i];
           switch (subjectEval.class) {
             case 'USERATTRIBUTES':
             case 'USERMULTIVALUEDATTRIBUTES':
@@ -345,9 +345,9 @@ export default {
       }
     },
     updateAuthorizedSubjects(datas) {
-      var newVal = datas[0];
+      let newVal = datas[0];
       if (CommonUtils.isDefined(newVal) && !CommonUtils.equals({}, newVal)) {
-        var found = false;
+        let found = false;
         this.permission.authorizedSubjects.forEach((value) => {
           if (CommonUtils.equals(newVal.modelId, value)) {
             found = true;
@@ -371,9 +371,9 @@ export default {
     },
     // Mise à jour du sujet séléctionné
     updateSelectedSubject(datas) {
-      var newVal = datas[0];
+      let newVal = datas[0];
       if (CommonUtils.isDefined(newVal) && !CommonUtils.equals({}, newVal)) {
-        var found = false;
+        let found = false;
         this.selectedSubjects.forEach((subject) => {
           if (CommonUtils.equals(newVal.modelId, subject)) {
             found = true;

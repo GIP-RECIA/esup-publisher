@@ -6,24 +6,24 @@ class UploadUtils {
   // Convertis une url Base64 en Blob
   dataUrltoBlob(dataurl, name) {
     // Convert base64 to raw binary data held in a string
-    var byteString = window.atob(dataurl.split(',')[1]);
+    let byteString = window.atob(dataurl.split(',')[1]);
 
     // Separate out the mime component
-    var mimeString = dataurl.split(',')[0].split(':')[1].split(';')[0];
+    let mimeString = dataurl.split(',')[0].split(':')[1].split(';')[0];
 
     // Write the bytes of the string to an ArrayBuffer
-    var ab = new ArrayBuffer(byteString.length);
+    let ab = new ArrayBuffer(byteString.length);
 
     // Create a view into the buffer
-    var ia = new Uint8Array(ab);
+    let ia = new Uint8Array(ab);
 
     // Set the bytes of the buffer to the correct values
-    for (var i = 0; i < byteString.length; i++) {
+    for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
 
     // Write the ArrayBuffer to a blob, and you're done
-    var blob = new Blob([ab], { type: mimeString });
+    let blob = new Blob([ab], { type: mimeString });
     blob.name = name;
     return blob;
   }
@@ -31,11 +31,11 @@ class UploadUtils {
   // Convertis une image au format Jpeg
   convertImageToJpeg(file) {
     return new Promise((resolve) => {
-      var img = new Image();
+      let img = new Image();
       img.onload = () => {
         URL.revokeObjectURL(img.src);
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
+        let canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
@@ -54,7 +54,7 @@ class UploadUtils {
   // Retourne les dimensions d'une image
   getImageDimension(file) {
     return new Promise((resolve) => {
-      var img = new Image();
+      let img = new Image();
       img.onload = () => {
         URL.revokeObjectURL(img.src);
         resolve({
@@ -146,12 +146,12 @@ class UploadUtils {
 
   // Retourne les classes CSS pour l'icône d'un fichier à partir de son nom
   getCssFileFromName(fileName) {
-    var cssClassType = 'fas fa-file fa-lg';
+    let cssClassType = 'fas fa-file fa-lg';
     if (fileName) {
-      var fext = fileName.substr(fileName.lastIndexOf('.') + 1).trim();
+      let fext = fileName.substr(fileName.lastIndexOf('.') + 1).trim();
 
-      var imageExt = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'svg', 'gif'];
-      var audioExt = [
+      let imageExt = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'svg', 'gif'];
+      let audioExt = [
         'wav',
         'mp3',
         'fla',
@@ -181,7 +181,7 @@ class UploadUtils {
         'wma',
         'xwma',
       ];
-      var videoExt = [
+      let videoExt = [
         'avi',
         'mpg',
         'mp4',
@@ -230,9 +230,9 @@ class UploadUtils {
 
   // Retourne les classes CSS pour l'icône d'un fichier à partir de son type ou sinon de son nom
   getCssFileFromType(fileType, fileName) {
-    var cssClassType;
+    let cssClassType;
     if (fileType) {
-      var subFiletype = fileType.substring(0, 5);
+      let subFiletype = fileType.substring(0, 5);
       if (subFiletype === 'image' || subFiletype === 'video') {
         cssClassType = 'fas fa-file-' + subFiletype + ' fa-lg';
       } else if (subFiletype === 'audio') {
@@ -259,18 +259,18 @@ class UploadUtils {
 // Retourne une map des headers d'une XMLHttpRequest
 function getResponseHeaders(response) {
   // Get the raw header string
-  var headers = response.getAllResponseHeaders();
+  let headers = response.getAllResponseHeaders();
 
   // Convert the header string into an array
   // of individual headers
-  var arr = headers.trim().split(/[\r\n]+/);
+  let arr = headers.trim().split(/[\r\n]+/);
 
   // Create a map of header names to values
-  var headerMap = {};
+  let headerMap = {};
   arr.forEach((line) => {
-    var parts = line.split(': ');
-    var header = parts.shift();
-    var value = parts.join(': ');
+    let parts = line.split(': ');
+    let header = parts.shift();
+    let value = parts.join(': ');
     headerMap[header] = value;
   });
   return headerMap;

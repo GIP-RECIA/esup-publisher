@@ -211,7 +211,7 @@ export default {
         return new Promise((resolve) => {
           ContentService.get(this.$route.params.id)
             .then((result) => {
-              var classifs = [];
+              let classifs = [];
               if (result) {
                 result.data.classifications.forEach((element) => {
                   classifs.push(ClassificationService.get(element.keyId));
@@ -250,7 +250,7 @@ export default {
 
       if (this.classifications && this.classifications.length > 0) {
         this.classifications.forEach((classification) => {
-          var found = false;
+          let found = false;
           this.pubContexts.forEach((pubContext) => {
             if (pubContext.id === classification.data.publisher.id) {
               if (
@@ -265,7 +265,7 @@ export default {
             }
           });
           if (!found) {
-            var classifs = [];
+            let classifs = [];
             if (
               !(
                 classification.data.publisher.context.redactor.writingMode === 'STATIC' &&
@@ -302,7 +302,7 @@ export default {
     },
     // Filtre sur les fichiers
     filterLinkedFiles(linkedFiles) {
-      var result = [];
+      let result = [];
       linkedFiles.forEach((element) => {
         if (element.inBody === false) {
           result.push(element);

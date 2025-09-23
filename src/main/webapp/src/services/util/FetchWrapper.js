@@ -49,7 +49,7 @@ class FetchWrapper {
 }
 
 // Compteur des requêtes en cours
-var countPendingRequests = ref(0);
+let countPendingRequests = ref(0);
 
 // Fonction permettant de faire une requête JSON et de la réessayer après login si erreur 401
 function fetchWithRetry(resolve, reject, url, params) {
