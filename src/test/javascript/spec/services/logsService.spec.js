@@ -1,43 +1,42 @@
-import LogsService from "@/services/admin/LogsService.js";
-import FetchWrapper from "@/services/util/FetchWrapper.js";
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import LogsService from '@/services/admin/LogsService.js'
+import FetchWrapper from '@/services/util/FetchWrapper.js'
 
-jest.mock("@/services/util/FetchWrapper.js");
+vi.mock('@/services/util/FetchWrapper.js')
 
-describe("LogsService.js tests", () => {
+describe('logsService.js tests', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    vi.clearAllMocks()
+  })
 
-  it("test 1 LogsService - findAll", (done) => {
+  it('test 1 LogsService - findAll', () => {
     const response = {
       data: [],
       headers: [],
-    };
-    FetchWrapper.getJson = jest.fn().mockReturnValue(Promise.resolve(response));
+    }
+    FetchWrapper.getJson = vi.fn().mockReturnValue(Promise.resolve(response))
 
     LogsService.findAll().then((value) => {
-      expect(FetchWrapper.getJson).toHaveBeenCalledTimes(1);
-      expect(FetchWrapper.getJson).toHaveBeenCalledWith("api/logs");
-      expect(value).toStrictEqual(response);
-      done();
-    });
-  });
+      expect(FetchWrapper.getJson).toHaveBeenCalledTimes(1)
+      expect(FetchWrapper.getJson).toHaveBeenCalledWith('api/logs')
+      expect(value).toStrictEqual(response)
+    })
+  })
 
-  it("test 2 LogsService - changeLevel", (done) => {
+  it('test 2 LogsService - changeLevel', () => {
     const response = {
       data: {},
       headers: [],
-    };
-    FetchWrapper.putJson = jest.fn().mockReturnValue(Promise.resolve(response));
+    }
+    FetchWrapper.putJson = vi.fn().mockReturnValue(Promise.resolve(response))
 
-    LogsService.changeLevel("myName", "myLevel").then((value) => {
-      expect(FetchWrapper.putJson).toHaveBeenCalledTimes(1);
-      expect(FetchWrapper.putJson).toHaveBeenCalledWith("api/logs", {
-        name: "myName",
-        level: "myLevel",
-      });
-      expect(value).toStrictEqual(response);
-      done();
-    });
-  });
-});
+    LogsService.changeLevel('myName', 'myLevel').then((value) => {
+      expect(FetchWrapper.putJson).toHaveBeenCalledTimes(1)
+      expect(FetchWrapper.putJson).toHaveBeenCalledWith('api/logs', {
+        name: 'myName',
+        level: 'myLevel',
+      })
+      expect(value).toStrictEqual(response)
+    })
+  })
+})

@@ -222,7 +222,7 @@
   border-left: solid 5px hsl(0, 0%, 80%);
 }
 /* ckeditor5-block-quote/theme/blockquote.css */
-.ck-content[dir="rtl"] blockquote {
+.ck-content[dir='rtl'] blockquote {
   border-left: 0;
   border-right: solid 5px hsl(0, 0%, 80%);
 }
@@ -270,11 +270,11 @@
   background: hsla(0, 0%, 0%, 5%);
 }
 /* ckeditor5-table/theme/table.css */
-.ck-content[dir="rtl"] .table th {
+.ck-content[dir='rtl'] .table th {
   text-align: right;
 }
 /* ckeditor5-table/theme/table.css */
-.ck-content[dir="ltr"] .table th {
+.ck-content[dir='ltr'] .table th {
   text-align: left;
 }
 /* ckeditor5-page-break/theme/pagebreak.css */
@@ -288,7 +288,7 @@
 }
 /* ckeditor5-page-break/theme/pagebreak.css */
 .ck-content .page-break::after {
-  content: "";
+  content: '';
   position: absolute;
   border-bottom: 2px dashed hsl(0, 0%, 77%);
   width: 100%;
@@ -351,12 +351,14 @@
   display: block;
   position: absolute;
   box-sizing: border-box;
-  content: "";
+  content: '';
   width: 100%;
   height: 100%;
   border: 1px solid hsl(0, 0%, 20%);
   border-radius: 2px;
-  transition: 250ms ease-in-out box-shadow, 250ms ease-in-out background,
+  transition:
+    250ms ease-in-out box-shadow,
+    250ms ease-in-out background,
     250ms ease-in-out border;
 }
 /* ckeditor5-list/theme/todolist.css */
@@ -365,15 +367,14 @@
   position: absolute;
   box-sizing: content-box;
   pointer-events: none;
-  content: "";
+  content: '';
   left: calc(var(--ck-todo-list-checkmark-size) / 3);
   top: calc(var(--ck-todo-list-checkmark-size) / 5.3);
   width: calc(var(--ck-todo-list-checkmark-size) / 5.3);
   height: calc(var(--ck-todo-list-checkmark-size) / 2.6);
   border-style: solid;
   border-color: transparent;
-  border-width: 0 calc(var(--ck-todo-list-checkmark-size) / 8)
-    calc(var(--ck-todo-list-checkmark-size) / 8) 0;
+  border-width: 0 calc(var(--ck-todo-list-checkmark-size) / 8) calc(var(--ck-todo-list-checkmark-size) / 8) 0;
   transform: rotate(45deg);
 }
 /* ckeditor5-list/theme/todolist.css */

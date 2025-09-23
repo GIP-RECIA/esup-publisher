@@ -1,14 +1,14 @@
-import FetchWrapper from '../../util/FetchWrapper';
+import FetchWrapper from '../../util/FetchWrapper.js'
 
 class ContextService {
   query(search) {
     return FetchWrapper.getJson(
-      'api/contexts?' +
+      `api/contexts?${
         new URLSearchParams({
-          search: search,
-        }),
-    );
+          search,
+        })}`,
+    )
   }
 }
 
-export default new ContextService();
+export default new ContextService()
