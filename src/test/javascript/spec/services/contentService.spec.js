@@ -1,27 +1,27 @@
-import ContentService from '@/services/entities/content/ContentService.js';
-import FetchWrapper from '@/services/util/FetchWrapper.js';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import ContentService from '@/services/entities/content/ContentService.js'
+import FetchWrapper from '@/services/util/FetchWrapper.js'
 
-vi.mock('@/services/util/FetchWrapper.js');
+vi.mock('@/services/util/FetchWrapper.js')
 
-describe('ContentService.js tests', () => {
+describe('contentService.js tests', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-  });
+    vi.clearAllMocks()
+  })
 
   it('test 1 ContentService - query', () => {
     const response = {
       data: [],
       headers: [],
-    };
-    FetchWrapper.getJson = vi.fn().mockReturnValue(Promise.resolve(response));
+    }
+    FetchWrapper.getJson = vi.fn().mockReturnValue(Promise.resolve(response))
 
     ContentService.query().then((value) => {
-      expect(FetchWrapper.getJson).toHaveBeenCalledTimes(1);
-      expect(FetchWrapper.getJson).toHaveBeenCalledWith('api/contents');
-      expect(value).toStrictEqual(response);
-    });
-  });
+      expect(FetchWrapper.getJson).toHaveBeenCalledTimes(1)
+      expect(FetchWrapper.getJson).toHaveBeenCalledWith('api/contents')
+      expect(value).toStrictEqual(response)
+    })
+  })
 
   it('test 2 ContentService - get', () => {
     const response = {
@@ -44,24 +44,24 @@ describe('ContentService.js tests', () => {
         ],
       },
       headers: [],
-    };
-    FetchWrapper.getJson = vi.fn().mockReturnValue(Promise.resolve(response));
+    }
+    FetchWrapper.getJson = vi.fn().mockReturnValue(Promise.resolve(response))
 
-    const id = 1;
+    const id = 1
     ContentService.get(id).then((value) => {
-      expect(FetchWrapper.getJson).toHaveBeenCalledTimes(1);
-      expect(FetchWrapper.getJson).toHaveBeenCalledWith('api/contents/' + id);
-      expect(toString.call(value.data.item.endDate)).toStrictEqual('[object Date]');
-      expect(toString.call(value.data.item.startDate)).toStrictEqual('[object Date]');
-      expect(toString.call(value.data.item.validatedDate)).toStrictEqual('[object Date]');
-      expect(toString.call(value.data.item.createdDate)).toStrictEqual('[object Date]');
-      expect(toString.call(value.data.item.lastModifiedDate)).toStrictEqual('[object Date]');
-      expect(value.data.item.body).toStrictEqual(`<a href="${process.env.VITE_BACK_BASE_URL}link/to/file">test</a>`);
-    });
-  });
+      expect(FetchWrapper.getJson).toHaveBeenCalledTimes(1)
+      expect(FetchWrapper.getJson).toHaveBeenCalledWith(`api/contents/${id}`)
+      expect(toString.call(value.data.item.endDate)).toStrictEqual('[object Date]')
+      expect(toString.call(value.data.item.startDate)).toStrictEqual('[object Date]')
+      expect(toString.call(value.data.item.validatedDate)).toStrictEqual('[object Date]')
+      expect(toString.call(value.data.item.createdDate)).toStrictEqual('[object Date]')
+      expect(toString.call(value.data.item.lastModifiedDate)).toStrictEqual('[object Date]')
+      expect(value.data.item.body).toStrictEqual(`<a href="${process.env.VITE_BACK_BASE_URL}link/to/file">test</a>`)
+    })
+  })
 
   it('test 3 ContentService - update', () => {
-    FetchWrapper.putJson = vi.fn().mockReturnValue(Promise.resolve({}));
+    FetchWrapper.putJson = vi.fn().mockReturnValue(Promise.resolve({}))
 
     const data = {
       item: {
@@ -77,9 +77,9 @@ describe('ContentService.js tests', () => {
           uri: 'link/to/file2',
         },
       ],
-    };
+    }
     ContentService.update(data).then(() => {
-      expect(FetchWrapper.putJson).toHaveBeenCalledTimes(1);
+      expect(FetchWrapper.putJson).toHaveBeenCalledTimes(1)
       expect(FetchWrapper.putJson).toHaveBeenCalledWith(
         'api/contents',
         expect.objectContaining({
@@ -89,12 +89,12 @@ describe('ContentService.js tests', () => {
             body: '<a href="link/to/file">test</a>',
           }),
         }),
-      );
-    });
-  });
+      )
+    })
+  })
 
   it('test 4 ContentService - save', () => {
-    FetchWrapper.postJson = vi.fn().mockReturnValue(Promise.resolve({}));
+    FetchWrapper.postJson = vi.fn().mockReturnValue(Promise.resolve({}))
 
     const data = {
       item: {
@@ -110,9 +110,9 @@ describe('ContentService.js tests', () => {
           uri: 'link/to/file2',
         },
       ],
-    };
+    }
     ContentService.save(data).then(() => {
-      expect(FetchWrapper.postJson).toHaveBeenCalledTimes(1);
+      expect(FetchWrapper.postJson).toHaveBeenCalledTimes(1)
       expect(FetchWrapper.postJson).toHaveBeenCalledWith(
         'api/contents',
         expect.objectContaining({
@@ -122,7 +122,7 @@ describe('ContentService.js tests', () => {
             body: '<a href="link/to/file">test</a>',
           }),
         }),
-      );
-    });
-  });
-});
+      )
+    })
+  })
+})
