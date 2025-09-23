@@ -2,7 +2,7 @@
 // (https://github.com/angular/angular.js/blob/master/src/Angular.js)
 
 const byteSizeCompared = [{ str: 'B', val: 1024 }];
-var sizeFormat = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+let sizeFormat = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 sizeFormat.forEach((el, i) => {
   byteSizeCompared.push({ str: el, val: byteSizeCompared[i].val * 1024 });
 });
@@ -67,9 +67,9 @@ class CommonUtils {
     if (o1 === null || o2 === null) return false;
     // eslint-disable-next-line no-self-compare
     if (o1 !== o1 && o2 !== o2) return true; // NaN === NaN
-    var t1 = typeof o1;
-    var t2 = typeof o2;
-    var length, key, keySet;
+    let t1 = typeof o1;
+    let t2 = typeof o2;
+    let length, key, keySet;
     if (t1 === t2 && t1 === 'object') {
       if (this.isArray(o1)) {
         if (!this.isArray(o2)) return false;
@@ -121,7 +121,7 @@ class CommonUtils {
 
   convertByteToDisplayedString(bytes, decimal) {
     if (this.isNumber(decimal) && isFinite(decimal) && decimal % 1 === 0 && decimal >= 0 && this.isNumber(bytes) && isFinite(bytes)) {
-      var i = 0;
+      let i = 0;
       while (i < byteSizeCompared.length - 1 && bytes >= byteSizeCompared[i].val) i++;
       bytes /= i > 0 ? byteSizeCompared[i - 1].val : 1;
       return this.convertToDecimal(bytes, decimal) + ' ' + byteSizeCompared[i].str;

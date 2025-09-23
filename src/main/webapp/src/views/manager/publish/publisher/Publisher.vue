@@ -114,7 +114,7 @@ export default {
       );
     },
     sortedOrganizations() {
-      var sortedOrganizations = this.organizations;
+      let sortedOrganizations = this.organizations;
       sortedOrganizations.sort((org1, org2) => org1.name.localeCompare(org2.name));
       return sortedOrganizations;
     },
@@ -156,8 +156,8 @@ export default {
     },
     initReaders() {
       this.readers = [];
-      var uniqreaders = {};
-      for (var i = 0, size = this.publishers.length; i < size; i++) {
+      let uniqreaders = {};
+      for (let i = 0, size = this.publishers.length; i < size; i++) {
         if (!uniqreaders[this.publishers[i].context.reader.id]) {
           this.readers.push(this.publishers[i].context.reader);
           uniqreaders[this.publishers[i].context.reader.id] = this.publishers[i].context.reader;
@@ -176,8 +176,8 @@ export default {
       } else {
         this.filteredFromReader = Array.from(publishers);
       }
-      var uniqredactors = {};
-      for (var i = 0, size = this.filteredFromReader.length; i < size; i++) {
+      let uniqredactors = {};
+      for (let i = 0, size = this.filteredFromReader.length; i < size; i++) {
         if (!uniqredactors[this.filteredFromReader[i].context.redactor.id]) {
           this.redactors.push(this.filteredFromReader[i].context.redactor);
           uniqredactors[this.filteredFromReader[i].context.redactor.id] = this.filteredFromReader[i].context.redactor;
@@ -196,8 +196,8 @@ export default {
       } else {
         this.filteredFromRedactor = Array.from(publishers);
       }
-      var uniqorganizations = {};
-      for (var i = 0, size = this.filteredFromRedactor.length; i < size; i++) {
+      let uniqorganizations = {};
+      for (let i = 0, size = this.filteredFromRedactor.length; i < size; i++) {
         if (!uniqorganizations[this.filteredFromRedactor[i].context.organization.id]) {
           this.organizations.push(this.filteredFromRedactor[i].context.organization);
           uniqorganizations[this.filteredFromRedactor[i].context.organization.id] = this.filteredFromRedactor[i].context.organization;
@@ -212,8 +212,8 @@ export default {
       if (!CommonUtils.isArray(collection) || typeof search === 'undefined') {
         return [];
       }
-      var filtered = [];
-      for (var i = 0, size = collection.length; i < size; i++) {
+      let filtered = [];
+      for (let i = 0, size = collection.length; i < size; i++) {
         if (collection[i].context.reader.id === parseInt(search)) {
           filtered.push(Object.assign({}, collection[i]));
         }
@@ -228,8 +228,8 @@ export default {
       if (!CommonUtils.isArray(collection) || typeof search === 'undefined') {
         return [];
       }
-      var filtered = [];
-      for (var i = 0, size = collection.length; i < size; i++) {
+      let filtered = [];
+      for (let i = 0, size = collection.length; i < size; i++) {
         if (collection[i].context.redactor.id === parseInt(search)) {
           filtered.push(Object.assign({}, collection[i]));
         }
@@ -268,7 +268,7 @@ export default {
     },
     validatePublisher() {
       if (this.isPublisherSelected) {
-        for (var i = 0, size = this.publishers.length; i < size; i++) {
+        for (let i = 0, size = this.publishers.length; i < size; i++) {
           if (
             this.publishers[i].context.reader.id === this.selectedPublisher.context.reader.id &&
             this.publishers[i].context.redactor.id === this.selectedPublisher.context.redactor.id &&

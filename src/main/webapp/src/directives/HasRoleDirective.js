@@ -5,7 +5,7 @@ import Principal from '@/services/auth/PrincipalService.js';
 const HasRoleDirective = {
   hasRole(el, role) {
     role = role.replace(/\s+/g, '');
-    var isInRole = Principal.isInRole(role);
+    let isInRole = Principal.isInRole(role);
     if (!isInRole) {
       el.classList.add('d-none');
     } else {

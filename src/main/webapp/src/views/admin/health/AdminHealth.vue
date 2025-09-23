@@ -141,7 +141,7 @@ export default {
     },
     // Formattage des diagnostics
     transformHealthData(data) {
-      var response = [];
+      let response = [];
       if (data !== null && data !== undefined) {
         this.flattenHealthData(response, null, data);
       }
@@ -163,7 +163,7 @@ export default {
       return result;
     },
     getModuleName(path, name) {
-      var result;
+      let result;
       if (path && name) {
         result = path + '.' + name;
       } else if (path) {
@@ -176,11 +176,11 @@ export default {
       return result;
     },
     addHealthObject(result, isLeaf, healthObject, name) {
-      var healthData = {
+      let healthData = {
         name: name,
       };
-      var details = {};
-      var hasDetails = false;
+      let details = {};
+      let hasDetails = false;
 
       Object.keys(healthObject).forEach((key) => {
         const value = healthObject[key];
@@ -206,7 +206,7 @@ export default {
       return healthData;
     },
     hasSubSystem(healthObject) {
-      var result = false;
+      let result = false;
       Object.values(healthObject).forEach((value) => {
         if (value && value.status) {
           result = true;
@@ -215,7 +215,7 @@ export default {
       return result;
     },
     isHealthObject(healthObject) {
-      var result = false;
+      let result = false;
       Object.keys(healthObject).forEach((key) => {
         if (key === 'status') {
           result = true;
@@ -225,15 +225,15 @@ export default {
     },
     baseName(healthName) {
       if (healthName) {
-        var split = healthName.split('.');
+        let split = healthName.split('.');
         return split[0];
       }
     },
     subSystemName(healthName) {
       if (healthName) {
-        var split = healthName.split('.');
+        let split = healthName.split('.');
         split.splice(0, 1);
-        var remainder = split.join('.');
+        let remainder = split.join('.');
         return remainder ? ' - ' + remainder : '';
       }
     },

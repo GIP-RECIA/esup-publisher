@@ -10,7 +10,7 @@ class Event {
 
   $off(name, callback) {
     if (this.queue[name]) {
-      for (var i = 0; i < this.queue[name].length; i++) {
+      for (let i = 0; i < this.queue[name].length; i++) {
         if (this.queue[name][i] === callback) {
           this.queue[name].splice(i, 1);
           break;

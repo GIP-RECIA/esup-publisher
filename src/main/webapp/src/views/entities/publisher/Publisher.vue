@@ -489,7 +489,7 @@ export default {
       return this.getEnumlabel('displayOrderType', name);
     },
     getEnumlabel(type, name) {
-      var data;
+      let data;
       switch (type) {
         case 'permissionClass':
           data = this.permissionClasses.find((val) => {

@@ -317,7 +317,7 @@ export default {
       return EnumDatasService.getItemStatusList();
     },
     sortedOrganizations() {
-      var sortedOrganizations = Object.assign([], this.organizations);
+      let sortedOrganizations = Object.assign([], this.organizations);
       sortedOrganizations.sort((org1, org2) => {
         return CommonUtils.compareString(org1.name, org2.name);
       });
@@ -369,14 +369,14 @@ export default {
       this.loadAll();
     },
     getEnumKey(name) {
-      var result = this.itemStateList.find((val) => val.name === name);
+      let result = this.itemStateList.find((val) => val.name === name);
       if (result) {
         return result.id;
       }
       return this.getEnumKey('PENDING');
     },
     getEnumName(key) {
-      var result = this.itemStateList.find((val) => val.id === key);
+      let result = this.itemStateList.find((val) => val.id === key);
       if (result) {
         return result.name;
       }

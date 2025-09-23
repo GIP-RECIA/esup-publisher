@@ -441,7 +441,7 @@ export default {
         .toDataURL(this.cropperConf.format);
 
       this.setProgressStatus('success');
-      var dataFile =
+      let dataFile =
         typeof dataUrl !== 'undefined'
           ? UploadUtils.dataUrltoBlob(dataUrl, this.content.file.name.substr(0, this.content.file.name.lastIndexOf('.')) + '.jpg')
           : this.content.file;
@@ -487,7 +487,7 @@ export default {
       this.setItemValidated(!this.formValidator.hasError());
     },
     fileUploadedInBodySuccess(file, url) {
-      var newLinks = Array.from(this.linkedFilesToContent || []);
+      let newLinks = Array.from(this.linkedFilesToContent || []);
       newLinks.push({
         uri: url,
         filename: file.name,

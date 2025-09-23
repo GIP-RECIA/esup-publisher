@@ -143,7 +143,7 @@ export default {
       });
     },
     remove(subject) {
-      var updatedTargets = this.targets.filter((element) => {
+      let updatedTargets = this.targets.filter((element) => {
         return element.modelId !== subject.modelId;
       });
       this.setTargets(updatedTargets);

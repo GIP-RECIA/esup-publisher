@@ -3,7 +3,7 @@ import FetchWrapper from '../util/FetchWrapper.js';
 class ConfigurationService {
   get() {
     return FetchWrapper.getJson('management/configprops').then((response) => {
-      var properties = [];
+      let properties = [];
       Object.values(response.data).forEach((data) => {
         properties.push(data);
       });

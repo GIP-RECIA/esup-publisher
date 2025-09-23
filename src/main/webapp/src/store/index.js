@@ -31,7 +31,7 @@ const store = createStore({
         const json = JSON.parse(data);
 
         // Récupération de la langue depuis les cookies
-        var lang = CookieUtils.getCookie('NG_TRANSLATE_LANG_KEY');
+        let lang = CookieUtils.getCookie('NG_TRANSLATE_LANG_KEY');
         if (lang !== null && lang !== undefined) {
           lang = lang.replaceAll('"', '');
         }
@@ -65,7 +65,7 @@ const store = createStore({
 
 store.subscribe((mutation, state) => {
   // Mise à jour de la langue dans les cookies
-  var lang = null;
+  let lang = null;
   if (state.language !== null && state.language !== undefined) {
     lang = state.language.lang;
   }

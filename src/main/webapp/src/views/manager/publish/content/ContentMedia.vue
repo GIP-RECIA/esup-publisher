@@ -460,7 +460,7 @@ export default {
     },
     uploadFile() {
       this.setProgressStatus('success');
-      var dataFile = this.content.file;
+      let dataFile = this.content.file;
       // we upload cropped file with extension jpg, it's lighter than png
       return this.uploadLinkedFile(dataFile, dataFile.name, true, true, (response, headers) => {
         const location = decodeURIComponent(headers.location);
