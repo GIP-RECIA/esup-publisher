@@ -121,7 +121,7 @@ export default {
         // we clean already saved classification where user loose rights
         if (this.contentData && this.contentData.classifications) {
           this.contentData.classifications.forEach((obj) => {
-            var found = false;
+            let found = false;
             this.classificationsList.forEach((objList) => {
               if (CommonUtils.equals(objList.contextKey, obj)) {
                 found = true;
@@ -164,10 +164,10 @@ export default {
       return this.inArray(contextKey, this.classifications);
     },
     toggleSelection(contextKey) {
-      var i = 0;
-      var idx = -1;
+      let i = 0;
+      let idx = -1;
       if (this.classifications !== null && this.classifications !== undefined) {
-        for (var size = this.classifications.length; i < size; i++) {
+        for (let size = this.classifications.length; i < size; i++) {
           if (CommonUtils.equals(this.classifications[i], contextKey)) {
             idx = i;
             break;
@@ -193,7 +193,7 @@ export default {
     },
     inArray(item, array) {
       if (array === null || array === undefined || !CommonUtils.isArray(array) || array.length < 1) return false;
-      for (var i = 0, size = array.length; i < size; i++) {
+      for (let i = 0, size = array.length; i < size; i++) {
         if (CommonUtils.equals(array[i], item)) {
           return true;
         }

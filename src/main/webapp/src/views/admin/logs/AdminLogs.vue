@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     filteredLoggers() {
-      var filterLoggers = this.loggers;
+      let filterLoggers = this.loggers;
 
       // Filtre des loggers
       if (this.filter !== null && this.filter !== '') {

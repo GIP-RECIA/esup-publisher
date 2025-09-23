@@ -672,7 +672,7 @@ export default {
   },
   computed: {
     filteredThreadDumps() {
-      var filteredThreadDumps = this.threadData;
+      let filteredThreadDumps = this.threadData;
 
       // Filtre des loggers
       if (this.threadStateFilter !== null && this.threadStateFilter !== '') {
@@ -792,8 +792,8 @@ export default {
         }
       });
       Object.keys(this.metrics.cache).forEach((key) => {
-        var index = key.lastIndexOf('.');
-        var newKey = key.substring(0, index);
+        let index = key.lastIndexOf('.');
+        let newKey = key.substring(0, index);
         this.cachesStats[newKey] = {
           name: key,
           value: this.metrics.cache[key],

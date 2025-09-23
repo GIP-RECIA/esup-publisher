@@ -279,7 +279,7 @@ export default {
     createOrganization() {
       this.organization.displayName = this.organization.name;
       if (typeof this.organization.identifiers === 'string') {
-        var identifiersValues = this.organization.identifiers;
+        let identifiersValues = this.organization.identifiers;
         this.organization.identifiers = [];
         if (identifiersValues.includes(',')) {
           identifiersValues = identifiersValues.split(',');

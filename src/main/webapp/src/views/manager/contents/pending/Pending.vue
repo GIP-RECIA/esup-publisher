@@ -267,7 +267,7 @@ export default {
       return EnumDatasService.getItemStatusList();
     },
     sortedOrganizations() {
-      var sortedOrganizations = Object.assign([], this.organizations);
+      let sortedOrganizations = Object.assign([], this.organizations);
       sortedOrganizations.sort((org1, org2) => {
         return CommonUtils.compareString(org1.name, org2.name);
       });

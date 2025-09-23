@@ -373,7 +373,7 @@ export default {
       if (this.reader !== null && this.reader !== undefined) {
         const list = this.reader.authorizedTypes || [];
         if (list.length > 0) {
-          for (var i = 0, size = list.length; i < size; i++) {
+          for (let i = 0, size = list.length; i < size; i++) {
             if (list[i] === type) {
               return true;
             }
@@ -386,7 +386,7 @@ export default {
       if (this.reader !== null && this.reader !== undefined) {
         const list = this.reader.classificationDecorations || [];
         if (list.length > 0) {
-          for (var i = 0, size = list.length; i < size; i++) {
+          for (let i = 0, size = list.length; i < size; i++) {
             if (list[i] === type) {
               return true;
             }
@@ -396,9 +396,9 @@ export default {
       return false;
     },
     toggleSelectionType(type) {
-      var i = 0;
-      var idx = -1;
-      for (var size = this.reader.authorizedTypes.length; i < size; i++) {
+      let i = 0;
+      let idx = -1;
+      for (let size = this.reader.authorizedTypes.length; i < size; i++) {
         if (this.reader.authorizedTypes[i] === type) {
           idx = i;
           break;
@@ -414,9 +414,9 @@ export default {
       this.formValidator.checkArrayFieldValidity('authorizedTypes', this.reader.authorizedTypes, null, null, true);
     },
     toggleSelectionDecorType(type) {
-      var i = 0;
-      var idx = -1;
-      for (var size = this.reader.classificationDecorations.length; i < size; i++) {
+      let i = 0;
+      let idx = -1;
+      for (let size = this.reader.classificationDecorations.length; i < size; i++) {
         if (this.reader.classificationDecorations[i] === type) {
           idx = i;
           break;

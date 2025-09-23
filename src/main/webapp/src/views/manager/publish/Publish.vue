@@ -193,7 +193,7 @@ export default {
           this.item.status = 'DRAFT';
           break;
       }
-      var tmpTargets = [];
+      let tmpTargets = [];
 
       if (this.targets) {
         this.targets.forEach((target) => {
@@ -208,7 +208,7 @@ export default {
         });
       }
 
-      var content = {
+      let content = {
         classifications: this.classifications,
         item: this.item,
         targets: tmpTargets,

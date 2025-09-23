@@ -260,13 +260,13 @@ export default {
   },
   methods: {
     initItem() {
-      var entityID = this.publisher.context.organization.id;
-      var redactorID = this.publisher.context.redactor.id;
+      let entityID = this.publisher.context.organization.id;
+      let redactorID = this.publisher.context.redactor.id;
 
       // tomorrow isn't more tomorrow as param should be 1 instead of 0
-      var tomorrow = DateUtils.addDaysToLocalDate(this.today, 0);
+      let tomorrow = DateUtils.addDaysToLocalDate(this.today, 0);
       // warning should be < $scope.defaultMaxDuration
-      var next4weeks = DateUtils.addDaysToLocalDate(this.today, 28);
+      let next4weeks = DateUtils.addDaysToLocalDate(this.today, 28);
 
       this.setItem({});
 
@@ -422,7 +422,7 @@ export default {
       return this.publisher !== null && this.publisher !== undefined && this.publisher.context.redactor.writingMode === 'TARGETS_ON_ITEM';
     },
     uploadLinkedFile(file, filename, isImage, isPublic, successCallBack) {
-      var maxSize = isImage ? this.imageSizeMax : this.fileSizeMax;
+      let maxSize = isImage ? this.imageSizeMax : this.fileSizeMax;
       if (file.size <= maxSize) {
         this.progressStatus = 'success';
         UploadUtils.upload(
@@ -458,7 +458,7 @@ export default {
       if (response.status > 0) {
         this.progressStatus = 'warning';
         if (response.message) {
-          var params = {};
+          let params = {};
           if (response.params) {
             params = Object.assign({}, response.params);
             if (response.params.size) {
@@ -541,7 +541,7 @@ export default {
       }
 
       if (this.itemTypeList.length === 1) {
-        var oldVal = this.content.type;
+        let oldVal = this.content.type;
         this.content.type = this.itemTypeList[0];
         this.changeContentType(oldVal);
       }
