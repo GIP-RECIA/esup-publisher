@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/auth/AuthenticationService';
-import PrincipalService from '@/services/auth/PrincipalService';
+import AuthenticationService from '@/services/auth/AuthenticationService.js';
+import PrincipalService from '@/services/auth/PrincipalService.js';
 import LoginModal from './LoginModal.vue';
 
 // Objet en charge de la redirection vers le serveur CAS
@@ -78,9 +78,7 @@ export default {
       window.addEventListener('message', this.onmessage);
 
       relogState.window = window.open(
-        process.env.NODE_ENV === 'production'
-          ? process.env.VUE_APP_BACK_BASE_URL + process.env.VUE_APP_CAS_LOGIN_URL
-          : process.env.VUE_APP_CAS_LOGIN_URL,
+        import.meta.env.PROD ? import.meta.env.VITE_BACK_BASE_URL + import.meta.env.VITE_CAS_LOGIN_URL : import.meta.env.VITE_CAS_LOGIN_URL,
       );
     },
 

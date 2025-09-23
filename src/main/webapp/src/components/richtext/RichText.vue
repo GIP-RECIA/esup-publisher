@@ -2,9 +2,9 @@
   <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @ready="onReady"></ckeditor>
 </template>
 <script>
-import CustomUploadAdapter from './CustomUploadAdapter';
-import IconEditingPlugin from './IconEditingPlugin';
-import InsertFilePlugin from './InsertFilePlugin';
+import CustomUploadAdapter from './CustomUploadAdapter.js';
+import IconEditingPlugin from './IconEditingPlugin.js';
+import InsertFilePlugin from './InsertFilePlugin.js';
 import store from '@/store/index.js';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
@@ -32,9 +32,9 @@ import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
 import LinkImage from '@ckeditor/ckeditor5-link/src/linkimage';
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
 import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
-import FileManagerService from '@/services/entities/file/FileManagerService';
-import Base64Utils from '@/services/util/Base64Utils';
-import ConfigurationService from '@/services/params/ConfigurationService';
+import FileManagerService from '@/services/entities/file/FileManagerService.js';
+import Base64Utils from '@/services/util/Base64Utils.js';
+import ConfigurationService from '@/services/params/ConfigurationService.js';
 
 export default {
   name: 'RichText',

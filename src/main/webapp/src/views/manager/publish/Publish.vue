@@ -87,7 +87,7 @@
 <script>
 import { computed, readonly } from 'vue';
 import { Modal } from 'bootstrap';
-import ContentService from '@/services/entities/content/ContentService';
+import ContentService from '@/services/entities/content/ContentService.js';
 
 export default {
   name: 'Publish',

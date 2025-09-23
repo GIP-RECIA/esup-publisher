@@ -83,8 +83,8 @@
   </div>
 </template>
 <script>
-import ClassificationService from '@/services/entities/classification/ClassificationService';
-import CommonUtils from '@/services/util/CommonUtils';
+import ClassificationService from '@/services/entities/classification/ClassificationService.js';
+import CommonUtils from '@/services/util/CommonUtils.js';
 
 export default {
   name: 'Classification',

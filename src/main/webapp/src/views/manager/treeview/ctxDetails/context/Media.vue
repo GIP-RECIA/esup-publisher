@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import DateUtils from '@/services/util/DateUtils';
+import DateUtils from '@/services/util/DateUtils.js';
 import store from '@/store/index.js';
 
 export default {

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import ExternalFeed from './ExternalFeed';
-import InternalFeed from './InternalFeed';
+import ExternalFeed from './ExternalFeed.vue';
+import InternalFeed from './InternalFeed.vue';
 export default {
   name: 'Feed',
   components: {

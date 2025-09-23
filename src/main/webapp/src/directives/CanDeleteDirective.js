@@ -1,4 +1,4 @@
-import UserService from '@/services/user/UserService';
+import UserService from '@/services/user/UserService.js';
 
 // Directive en charge de déterminer si l'utilisateur a les
 // droits de suppression pour un contexte

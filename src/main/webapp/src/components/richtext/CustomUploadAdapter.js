@@ -1,4 +1,4 @@
-import UploadUtils from '@/services/util/UploadUtils';
+import UploadUtils from '@/services/util/UploadUtils.js';
 import Compressor from 'compressorjs';
 
 // Upload adpter utilisé pour l'upload de fichier
@@ -36,7 +36,7 @@ class CustomUploadAdapter {
                     this.callBackSuccess(file, location);
                   }
                   resolve({
-                    default: process.env.VUE_APP_BACK_BASE_URL + location,
+                    default: import.meta.env.VITE_BACK_BASE_URL + location,
                   });
                 },
                 (response) => {

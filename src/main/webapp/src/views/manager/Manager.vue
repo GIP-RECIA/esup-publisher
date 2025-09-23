@@ -8,9 +8,9 @@
 
 <script>
 import { computed, readonly } from 'vue';
-import OrganizationService from '@/services/entities/organization/OrganizationService';
-import RedactorService from '@/services/entities/redactor/RedactorService';
-import SubjectService from '@/services/params/SubjectService';
+import OrganizationService from '@/services/entities/organization/OrganizationService.js';
+import RedactorService from '@/services/entities/redactor/RedactorService.js';
+import SubjectService from '@/services/params/SubjectService.js';
 
 export default {
   name: 'Manager',
