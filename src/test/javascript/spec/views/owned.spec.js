@@ -14,6 +14,12 @@ vi.mock('@/services/entities/enum/EnumDatasService.js')
 describe('owned.vue tests', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.mock('bootstrap', () => ({
+      Modal: class {
+        show() {}
+        hide() {}
+      },
+    }))
   })
 
   it('test 1 Owned - Affichage d\'un élément dans la liste des publications', async () => {
@@ -443,7 +449,7 @@ describe('owned.vue tests', () => {
     await wrapper.vm.confirmDelete(item1.id)
     expect(ContentService.delete).toHaveBeenCalledTimes(1)
     expect(EnumDatasService.getItemStatusList).toHaveBeenCalledTimes(1)
-    expect(ItemService.query).toHaveBeenCalledTimes(1)
+    expect(ItemService.query).toHaveBeenCalledTimes(2)
     expect(ClassificationService.highlighted).toHaveBeenCalledTimes(1)
   })
 })
