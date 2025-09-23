@@ -1,7 +1,7 @@
-import PrincipalService from './PrincipalService';
+import PrincipalService from './PrincipalService.js';
 import store from '@/store/index.js';
 import router from '@/router/index.js';
-import FetchWrapper from '../util/FetchWrapper';
+import FetchWrapper from '../util/FetchWrapper.js';
 
 class AuthenticationService {
   login() {

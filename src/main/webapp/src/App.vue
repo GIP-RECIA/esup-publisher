@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import NavBar from './components/navbar/NavBar';
-import Spinner from './components/spinner/Spinner';
-import ConfigurationService from '@/services/params/ConfigurationService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
+import NavBar from './components/navbar/NavBar.vue';
+import Spinner from './components/spinner/Spinner.vue';
+import ConfigurationService from '@/services/params/ConfigurationService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
 
 export default {
   name: 'App',
@@ -40,9 +40,9 @@ export default {
   data() {
     return {
       // Variable indiquant le mode sur lequel l'application est lancée
-      environment: process.env.NODE_ENV,
+      environment: import.meta.env.MODE,
       // Variable indiquant la version de l'application indiquée dans le pom.xml
-      backVersion: process.env.BACK_VERSION,
+      backVersion: import.meta.env.VITE_BACK_VERSION,
       // Variable indiquant si les données d'initalisation ont été chargées
       initData: false,
     };

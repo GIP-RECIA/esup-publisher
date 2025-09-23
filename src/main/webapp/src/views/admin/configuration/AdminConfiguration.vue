@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import ConfigurationService from '@/services/admin/ConfigurationService';
+import ConfigurationService from '@/services/admin/ConfigurationService.js';
 
 export default {
   name: 'AdminConfiguration',

@@ -315,12 +315,12 @@
 </template>
 
 <script>
-import PublisherService from '@/services/entities/publisher/PublisherService';
-import RedactorService from '@/services/entities/redactor/RedactorService';
-import OrganizationService from '@/services/entities/organization/OrganizationService';
-import ReaderService from '@/services/entities/reader/ReaderService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import PublisherService from '@/services/entities/publisher/PublisherService.js';
+import RedactorService from '@/services/entities/redactor/RedactorService.js';
+import OrganizationService from '@/services/entities/organization/OrganizationService.js';
+import ReaderService from '@/services/entities/reader/ReaderService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import { Modal } from 'bootstrap';
 
 export default {

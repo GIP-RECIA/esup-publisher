@@ -1,4 +1,4 @@
-import Principal from '@/services/auth/PrincipalService';
+import Principal from '@/services/auth/PrincipalService.js';
 
 // Directive en charge de déterminer si l'utilisateur connecté
 // a le role requis pour accéder aux éléments sur l'interface

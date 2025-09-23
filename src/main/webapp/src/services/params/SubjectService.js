@@ -1,5 +1,5 @@
-import UserService from '@/services/user/UserService';
-import GroupService from '@/services/entities/group/GroupService';
+import UserService from '@/services/user/UserService.js';
+import GroupService from '@/services/entities/group/GroupService.js';
 
 class SubjectService {
   userDisplayedAttrs = null;

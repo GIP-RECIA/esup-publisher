@@ -1,4 +1,4 @@
-import FetchWrapper from '../util/FetchWrapper';
+import FetchWrapper from '../util/FetchWrapper.js';
 
 class LogsService {
   findAll() {

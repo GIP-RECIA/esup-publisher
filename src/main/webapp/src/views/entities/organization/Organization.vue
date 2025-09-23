@@ -227,8 +227,8 @@
 </template>
 
 <script>
-import OrganizationService from '@/services/entities/organization/OrganizationService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import OrganizationService from '@/services/entities/organization/OrganizationService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import { Modal } from 'bootstrap';
 
 export default {

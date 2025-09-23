@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import FilterService from '@/services/entities/filter/FilterService';
+import FilterService from '@/services/entities/filter/FilterService.js';
 export default {
   name: 'FilterDetail',
   data() {

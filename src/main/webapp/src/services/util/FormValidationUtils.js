@@ -1,4 +1,4 @@
-import CommonUtils from './CommonUtils';
+import CommonUtils from './CommonUtils.js';
 
 const FormErrorType = Object.freeze({
   REQUIRED: 'required',

@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import NavBarDefault from '@/components/navbar/NavBarDefault';
-import NavBarManager from '@/components/navbar/NavBarManager';
-import NavBarPublish from '@/components/navbar/NavBarPublish';
+import NavBarDefault from '@/components/navbar/NavBarDefault.vue';
+import NavBarManager from '@/components/navbar/NavBarManager.vue';
+import NavBarPublish from '@/components/navbar/NavBarPublish.vue';
 export default {
   name: 'NavBarComponent',
   components: {

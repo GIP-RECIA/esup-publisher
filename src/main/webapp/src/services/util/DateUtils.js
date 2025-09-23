@@ -1,4 +1,4 @@
-import CommonUtils from './CommonUtils';
+import CommonUtils from './CommonUtils.js';
 
 const toString = Object.prototype.toString;
 

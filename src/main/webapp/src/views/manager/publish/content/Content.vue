@@ -134,19 +134,19 @@
 </template>
 <script>
 import { computed, readonly } from 'vue';
-import FileManagerService from '@/services/entities/file/FileManagerService';
-import ConfigurationService from '@/services/params/ConfigurationService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import ItemService from '@/services/entities/item/ItemService';
-import Base64Utils from '@/services/util/Base64Utils';
-import CommonUtils from '@/services/util/CommonUtils';
-import DateUtils from '@/services/util/DateUtils';
-import UploadUtils from '@/services/util/UploadUtils';
-import ContentAttachment from './ContentAttachment';
-import ContentFlash from './ContentFlash';
-import ContentMedia from './ContentMedia';
-import ContentNews from './ContentNews';
-import ContentResource from './ContentResource';
+import FileManagerService from '@/services/entities/file/FileManagerService.js';
+import ConfigurationService from '@/services/params/ConfigurationService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import ItemService from '@/services/entities/item/ItemService.js';
+import Base64Utils from '@/services/util/Base64Utils.js';
+import CommonUtils from '@/services/util/CommonUtils.js';
+import DateUtils from '@/services/util/DateUtils.js';
+import UploadUtils from '@/services/util/UploadUtils.js';
+import ContentAttachment from './ContentAttachment.vue';
+import ContentFlash from './ContentFlash.vue';
+import ContentMedia from './ContentMedia.vue';
+import ContentNews from './ContentNews.vue';
+import ContentResource from './ContentResource.vue';
 import i18n from '@/i18n';
 import { Modal } from 'bootstrap';
 

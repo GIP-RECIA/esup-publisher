@@ -1,5 +1,5 @@
-import FetchWrapper from '../../util/FetchWrapper';
-import DateUtils from '../../util/DateUtils';
+import FetchWrapper from '../../util/FetchWrapper.js';
+import DateUtils from '../../util/DateUtils.js';
 
 class OrganizationService {
   query() {

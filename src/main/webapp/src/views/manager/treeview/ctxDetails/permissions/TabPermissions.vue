@@ -38,12 +38,12 @@
 </template>
 
 <script>
-import PermissionOnCtxWithSubjects from './PermissionOnCtxWithSubjects';
-import PermissionOnCtx from './PermissionOnCtx';
-import PermissionService from '@/services/entities/permission/PermissionService';
-import PermissionOnContextService from '@/services/entities/permissionOnContext/PermissionOnContextService';
-import SubjectService from '@/services/params/SubjectService';
-import CommonUtils from '@/services/util/CommonUtils';
+import PermissionOnCtxWithSubjects from './PermissionOnCtxWithSubjects.vue';
+import PermissionOnCtx from './PermissionOnCtx.vue';
+import PermissionService from '@/services/entities/permission/PermissionService.js';
+import PermissionOnContextService from '@/services/entities/permissionOnContext/PermissionOnContextService.js';
+import SubjectService from '@/services/params/SubjectService.js';
+import CommonUtils from '@/services/util/CommonUtils.js';
 import i18n from '@/i18n';
 import { computed, readonly } from 'vue';
 import { Modal } from 'bootstrap';

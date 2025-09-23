@@ -87,8 +87,8 @@
 </template>
 
 <script>
-import RedactorService from '@/services/entities/redactor/RedactorService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
+import RedactorService from '@/services/entities/redactor/RedactorService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
 
 export default {
   name: 'RedactorDetail',

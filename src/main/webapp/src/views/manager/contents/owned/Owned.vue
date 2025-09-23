@@ -208,15 +208,15 @@
 </template>
 
 <script>
-import ItemService from '@/services/entities/item/ItemService';
-import ClassificationService from '@/services/entities/classification/ClassificationService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
+import ItemService from '@/services/entities/item/ItemService.js';
+import ClassificationService from '@/services/entities/classification/ClassificationService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
 import store from '@/store/index.js';
-import ContentService from '@/services/entities/content/ContentService';
-import DateUtils from '@/services/util/DateUtils';
-import ParseLinkUtils from '@/services/util/ParseLinkUtils';
-import UploadUtils from '@/services/util/UploadUtils';
-import CommonUtils from '@/services/util/CommonUtils';
+import ContentService from '@/services/entities/content/ContentService.js';
+import DateUtils from '@/services/util/DateUtils.js';
+import ParseLinkUtils from '@/services/util/ParseLinkUtils.js';
+import UploadUtils from '@/services/util/UploadUtils.js';
+import CommonUtils from '@/services/util/CommonUtils.js';
 import { Modal } from 'bootstrap';
 
 export default {

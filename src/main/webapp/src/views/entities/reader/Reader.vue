@@ -242,9 +242,9 @@
 </template>
 
 <script>
-import ReaderService from '@/services/entities/reader/ReaderService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import ReaderService from '@/services/entities/reader/ReaderService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import { Modal } from 'bootstrap';
 
 export default {

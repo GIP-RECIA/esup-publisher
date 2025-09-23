@@ -161,10 +161,10 @@
   </div>
 </template>
 <script>
-import FilterService from '@/services/entities/filter/FilterService';
-import OrganizationService from '@/services/entities/organization/OrganizationService';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
+import FilterService from '@/services/entities/filter/FilterService.js';
+import OrganizationService from '@/services/entities/organization/OrganizationService.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
 import { Modal } from 'bootstrap';
 
 export default {

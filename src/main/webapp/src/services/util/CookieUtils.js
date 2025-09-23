@@ -18,7 +18,7 @@ class CookieUtils {
 
   // Modification de la valeur d'un cookie
   setCookie(name, value) {
-    const path = ';path=' + process.env.VUE_APP_BACK_BASE_URL;
+    const path = ';path=' + import.meta.env.VITE_BACK_BASE_URL;
     if (!document.cookie) {
       document.cookie = name + '=' + encodeURIComponent(value) + path;
     } else {

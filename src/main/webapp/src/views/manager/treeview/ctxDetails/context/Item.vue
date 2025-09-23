@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import News from './News';
-import Media from './Media';
-import Resource from './Resource';
-import Flash from './Flash';
-import Empty from './Empty';
+import News from './News.vue';
+import Media from './Media.vue';
+import Resource from './Resource.vue';
+import Flash from './Flash.vue';
+import Empty from './Empty.vue';
 
 export default {
   name: 'TabItem',

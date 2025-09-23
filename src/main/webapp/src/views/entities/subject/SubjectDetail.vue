@@ -93,7 +93,7 @@
 
 <script>
 import { Modal } from 'bootstrap';
-import SubjectService from '@/services/params/SubjectService';
+import SubjectService from '@/services/params/SubjectService.js';
 
 export default {
   name: 'SubjectDetail',

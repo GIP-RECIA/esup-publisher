@@ -1,8 +1,8 @@
-import ConfCKEditorService from './ConfCKEditorService.js';
-import ConfFileSizeService from './ConfFileSizeService.js';
 import ConfImageSizeService from './ConfImageSizeService.js';
-import ConfInjectedWebComponentsService from './ConfInjectedWebComponentsService.js';
+import ConfFileSizeService from './ConfFileSizeService.js';
 import ConfMimeTypesService from './ConfMimeTypesService.js';
+import ConfCKEditorService from './ConfCKEditorService.js';
+import ConfInjectedWebComponentsService from './ConfInjectedWebComponentsService.js';
 
 class ConfigurationService {
   confImageSize;

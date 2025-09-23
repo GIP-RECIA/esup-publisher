@@ -1,4 +1,4 @@
-import CommonUtils from './CommonUtils';
+import CommonUtils from './CommonUtils.js';
 
 class ParseLinkUtils {
   parse(header) {

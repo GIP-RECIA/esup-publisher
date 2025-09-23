@@ -1,5 +1,5 @@
-import FetchWrapper from '../../util/FetchWrapper';
-import DateUtils from '../../util/DateUtils';
+import FetchWrapper from '../../util/FetchWrapper.js';
+import DateUtils from '../../util/DateUtils.js';
 
 class ContentService {
   query() {
@@ -50,7 +50,7 @@ function addBaseUrlToBodyLinks(content) {
   if (content.item && content.item.body && content.linkedFiles && content.linkedFiles.length > 0) {
     content.linkedFiles.forEach((link) => {
       if (content.item.body.includes('"' + link.uri + '"')) {
-        content.item.body = content.item.body.replaceAll('"' + link.uri + '"', '"' + process.env.VUE_APP_BACK_BASE_URL + link.uri + '"');
+        content.item.body = content.item.body.replaceAll('"' + link.uri + '"', '"' + import.meta.env.VITE_BACK_BASE_URL + link.uri + '"');
       }
     });
   }
@@ -64,8 +64,8 @@ function addBaseUrlToBodyLinks(content) {
 function removeBaseUrlToBodyLinks(content) {
   if (content.item && content.item.body && content.linkedFiles && content.linkedFiles.length > 0) {
     content.linkedFiles.forEach((link) => {
-      if (content.item.body.includes('"' + process.env.VUE_APP_BACK_BASE_URL + link.uri + '"')) {
-        content.item.body = content.item.body.replaceAll('"' + process.env.VUE_APP_BACK_BASE_URL + link.uri + '"', '"' + link.uri + '"');
+      if (content.item.body.includes('"' + import.meta.env.VITE_BACK_BASE_URL + link.uri + '"')) {
+        content.item.body = content.item.body.replaceAll('"' + import.meta.env.VITE_BACK_BASE_URL + link.uri + '"', '"' + link.uri + '"');
       }
     });
   }

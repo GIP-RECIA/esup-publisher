@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import AuditsService from '@/services/admin/AuditsService';
-import DateUtils from '@/services/util/DateUtils';
+import AuditsService from '@/services/admin/AuditsService.js';
+import DateUtils from '@/services/util/DateUtils.js';
 import store from '@/store/index.js';
 
 export default {

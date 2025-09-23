@@ -239,8 +239,8 @@
   </div>
 </template>
 <script>
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
 import store from '@/store/index.js';
 import { Modal } from 'bootstrap';
 

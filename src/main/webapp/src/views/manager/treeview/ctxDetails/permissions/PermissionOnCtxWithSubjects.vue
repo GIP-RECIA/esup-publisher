@@ -249,10 +249,10 @@
   </div>
 </template>
 <script>
-import GroupService from '@/services/entities/group/GroupService';
-import SubjectService from '@/services/params/SubjectService';
-import UserService from '@/services/user/UserService';
-import SubjectDetail from '@/views/entities/subject/SubjectDetail';
+import GroupService from '@/services/entities/group/GroupService.js';
+import SubjectService from '@/services/params/SubjectService.js';
+import UserService from '@/services/user/UserService.js';
+import SubjectDetail from '@/views/entities/subject/SubjectDetail.vue';
 
 export default {
   name: 'PermissionOnCtxWithSubjects',

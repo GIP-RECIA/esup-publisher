@@ -1,5 +1,5 @@
 import store from '@/store/index.js';
-import AccountService from './AccountService';
+import AccountService from './AccountService.js';
 
 class PrincipalService {
   identify(force) {

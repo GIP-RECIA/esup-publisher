@@ -1,7 +1,7 @@
 import router from '@/router/index.js';
 import store from '@/store/index.js';
 import { ref } from 'vue';
-import CookieUtils from './CookieUtils';
+import CookieUtils from './CookieUtils.js';
 
 class FetchWrapper {
   countPendingRequests() {
@@ -10,17 +10,17 @@ class FetchWrapper {
 
   getJson(url) {
     return new Promise((resolve, reject) => {
-      fetchWithRetry(resolve, reject, process.env.VUE_APP_BACK_BASE_URL + url);
+      fetchWithRetry(resolve, reject, import.meta.env.VITE_BACK_BASE_URL + url);
     });
   }
 
   getJsonP(url) {
-    return jsonp(process.env.VUE_APP_BACK_BASE_URL + url, 'JSON_CALLBACK', 1000);
+    return jsonp(import.meta.env.VITE_BACK_BASE_URL + url, 'JSON_CALLBACK', 1000);
   }
 
   postJson(url, data) {
     return new Promise((resolve, reject) => {
-      fetchWithRetry(resolve, reject, process.env.VUE_APP_BACK_BASE_URL + url, {
+      fetchWithRetry(resolve, reject, import.meta.env.VITE_BACK_BASE_URL + url, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: getHeader(),
@@ -30,7 +30,7 @@ class FetchWrapper {
 
   putJson(url, data) {
     return new Promise((resolve, reject) => {
-      fetchWithRetry(resolve, reject, process.env.VUE_APP_BACK_BASE_URL + url, {
+      fetchWithRetry(resolve, reject, import.meta.env.VITE_BACK_BASE_URL + url, {
         method: 'PUT',
         body: JSON.stringify(data),
         headers: getHeader(),
@@ -40,7 +40,7 @@ class FetchWrapper {
 
   deleteJson(url) {
     return new Promise((resolve, reject) => {
-      fetchWithRetry(resolve, reject, process.env.VUE_APP_BACK_BASE_URL + url, {
+      fetchWithRetry(resolve, reject, import.meta.env.VITE_BACK_BASE_URL + url, {
         method: 'DELETE',
         headers: getHeader(),
       });
@@ -57,7 +57,7 @@ function fetchWithRetry(resolve, reject, url, params) {
   fetch(url, params)
     .then((response) => {
       if (!response.ok) {
-        if (response.status !== 401 || url === process.env.VUE_APP_BACK_BASE_URL + 'api/account' || store.getters.getLoginModalOpened) {
+        if (response.status !== 401 || url === import.meta.env.VITE_BACK_BASE_URL + 'api/account' || store.getters.getLoginModalOpened) {
           reject(response);
         } else {
           // Si erreur 401, redirection vers la page de login
