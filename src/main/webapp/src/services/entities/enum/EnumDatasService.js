@@ -1,4 +1,4 @@
-import AllEnumsService from './AllEnumsService';
+import AllEnumsService from './AllEnumsService.js';
 
 class EnumDatasService {
   AccessTypeList;

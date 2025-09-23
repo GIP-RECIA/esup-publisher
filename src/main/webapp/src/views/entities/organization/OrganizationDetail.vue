@@ -98,8 +98,8 @@
 
 <script>
 import store from '@/store/index.js';
-import OrganizationService from '@/services/entities/organization/OrganizationService';
-import DateUtils from '@/services/util/DateUtils';
+import OrganizationService from '@/services/entities/organization/OrganizationService.js';
+import DateUtils from '@/services/util/DateUtils.js';
 
 export default {
   name: 'OrganizationDetail',

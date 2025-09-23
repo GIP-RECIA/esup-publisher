@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import ReaderService from '@/services/entities/reader/ReaderService';
+import ReaderService from '@/services/entities/reader/ReaderService.js';
 
 export default {
   name: 'ReaderDetail',

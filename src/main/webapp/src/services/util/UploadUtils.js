@@ -1,5 +1,5 @@
-import CommonUtils from './CommonUtils';
-import CookieUtils from './CookieUtils';
+import CommonUtils from './CommonUtils.js';
+import CookieUtils from './CookieUtils.js';
 
 // Classe contenant des méthodes utilitaires pour l'upload de fichier
 class UploadUtils {
@@ -137,7 +137,7 @@ class UploadUtils {
         formData.append(key, value);
       }
     });
-    req.open('POST', process.env.VUE_APP_BACK_BASE_URL + url);
+    req.open('POST', import.meta.env.VITE_BACK_BASE_URL + url);
     req.setRequestHeader('X-CSRF-TOKEN', CookieUtils.getCookie('CSRF-TOKEN'));
     req.send(formData);
 
@@ -250,7 +250,7 @@ class UploadUtils {
   // Retourne l'url d'un fichier interne
   getInternalUrl(url) {
     if (url) {
-      return url.startsWith('https:') || url.startsWith('http:') || url.startsWith('ftp:') ? url : process.env.VUE_APP_BACK_BASE_URL + url;
+      return url.startsWith('https:') || url.startsWith('http:') || url.startsWith('ftp:') ? url : import.meta.env.VITE_BACK_BASE_URL + url;
     }
     return url;
   }

@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import MonitoringService from '@/services/admin/MonitoringService';
+import MonitoringService from '@/services/admin/MonitoringService.js';
 import { Modal } from 'bootstrap';
 
 export default {

@@ -21,13 +21,13 @@
 
 <script>
 import { computed, readonly } from 'vue';
-import UploadUtils from '@/services/util/UploadUtils';
-import Organization from './Organization';
-import Publisher from './Publisher';
-import Empty from './Empty';
-import Category from './Category';
-import Feed from './Feed';
-import Item from './Item';
+import UploadUtils from '@/services/util/UploadUtils.js';
+import Organization from './Organization.vue';
+import Publisher from './Publisher.vue';
+import Empty from './Empty.vue';
+import Category from './Category.vue';
+import Feed from './Feed.vue';
+import Item from './Item.vue';
 
 export default {
   name: 'TabContext',
@@ -45,7 +45,7 @@ export default {
         type: this.$route.params.ctxType,
         id: this.$route.params.ctxId,
       },
-      appUrl: window.location.origin + process.env.VUE_APP_BACK_BASE_URL,
+      appUrl: window.location.origin + import.meta.env.VITE_BACK_BASE_URL,
     };
   },
   provide() {

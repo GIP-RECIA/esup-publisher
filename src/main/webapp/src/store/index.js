@@ -1,7 +1,7 @@
 import { createStore } from 'vuex';
-import language from './modules/language';
-import principal from './modules/principal';
-import CookieUtils from '@/services/util/CookieUtils';
+import language from './modules/language.js';
+import principal from './modules/principal.js';
+import CookieUtils from '@/services/util/CookieUtils.js';
 
 const STORE_KEY = 'store';
 

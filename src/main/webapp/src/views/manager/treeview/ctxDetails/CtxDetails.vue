@@ -52,23 +52,23 @@
 
 <script>
 import { computed, readonly } from 'vue';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService';
-import OrganizationService from '@/services/entities/organization/OrganizationService';
-import PermissionOnContextService from '@/services/entities/permissionOnContext/PermissionOnContextService';
-import PermissionOnClassificationWithSubjectListService from '@/services/entities/permissionOnClassificationWithSubjectList/PermissionOnClassificationWithSubjectListService';
-import PublisherService from '@/services/entities/publisher/PublisherService';
-import ClassificationService from '@/services/entities/classification/ClassificationService';
-import ItemService from '@/services/entities/item/ItemService';
-import SubscriberService from '@/services/entities/subscriber/SubscriberService';
-import ContentService from '@/services/entities/content/ContentService';
-import CategoryService from '@/services/entities/category/CategoryService';
-import PrincipalService from '@/services/auth/PrincipalService';
-import SubjectService from '@/services/params/SubjectService';
-import CommonUtils from '@/services/util/CommonUtils';
-import UserService from '@/services/user/UserService';
-import TabContext from './context/TabContext';
-import TabPermissions from './permissions/TabPermissions';
-import TabTargets from './targets/TabTargets';
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
+import OrganizationService from '@/services/entities/organization/OrganizationService.js';
+import PermissionOnContextService from '@/services/entities/permissionOnContext/PermissionOnContextService.js';
+import PermissionOnClassificationWithSubjectListService from '@/services/entities/permissionOnClassificationWithSubjectList/PermissionOnClassificationWithSubjectListService.js';
+import PublisherService from '@/services/entities/publisher/PublisherService.js';
+import ClassificationService from '@/services/entities/classification/ClassificationService.js';
+import ItemService from '@/services/entities/item/ItemService.js';
+import SubscriberService from '@/services/entities/subscriber/SubscriberService.js';
+import ContentService from '@/services/entities/content/ContentService.js';
+import CategoryService from '@/services/entities/category/CategoryService.js';
+import PrincipalService from '@/services/auth/PrincipalService.js';
+import SubjectService from '@/services/params/SubjectService.js';
+import CommonUtils from '@/services/util/CommonUtils.js';
+import UserService from '@/services/user/UserService.js';
+import TabContext from './context/TabContext.vue';
+import TabPermissions from './permissions/TabPermissions.vue';
+import TabTargets from './targets/TabTargets.vue';
 
 export default {
   name: 'CtxDetails',

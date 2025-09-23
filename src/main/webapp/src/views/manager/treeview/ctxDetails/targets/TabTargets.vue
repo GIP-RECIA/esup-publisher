@@ -140,13 +140,13 @@
 
 <script>
 import { Modal } from 'bootstrap';
-import GroupService from '@/services/entities/group/GroupService';
-import SubjectService from '@/services/params/SubjectService';
-import SubscriberService from '@/services/entities/subscriber/SubscriberService';
-import Base64Utils from '@/services/util/Base64Utils';
-import UserService from '@/services/user/UserService';
-import SubjectDetail from '@/views/entities/subject/SubjectDetail';
-import CommonUtils from '@/services/util/CommonUtils';
+import GroupService from '@/services/entities/group/GroupService.js';
+import SubjectService from '@/services/params/SubjectService.js';
+import SubscriberService from '@/services/entities/subscriber/SubscriberService.js';
+import Base64Utils from '@/services/util/Base64Utils.js';
+import UserService from '@/services/user/UserService.js';
+import SubjectDetail from '@/views/entities/subject/SubjectDetail.vue';
+import CommonUtils from '@/services/util/CommonUtils.js';
 import i18n from '@/i18n';
 
 const { t } = i18n.global;

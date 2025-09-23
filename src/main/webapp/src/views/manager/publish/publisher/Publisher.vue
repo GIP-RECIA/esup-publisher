@@ -79,9 +79,9 @@
   </div>
 </template>
 <script>
-import ClassificationService from '@/services/entities/classification/ClassificationService';
-import PublisherService from '@/services/entities/publisher/PublisherService';
-import CommonUtils from '@/services/util/CommonUtils';
+import ClassificationService from '@/services/entities/classification/ClassificationService.js';
+import PublisherService from '@/services/entities/publisher/PublisherService.js';
+import CommonUtils from '@/services/util/CommonUtils.js';
 
 export default {
   name: 'Publisher',

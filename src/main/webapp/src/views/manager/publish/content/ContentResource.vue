@@ -277,13 +277,13 @@
 </template>
 
 <script>
-import ItemService from '@/services/entities/item/ItemService';
-import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils';
-import DateUtils from '@/services/util/DateUtils';
-import UploadUtils from '@/services/util/UploadUtils';
+import ItemService from '@/services/entities/item/ItemService.js';
+import { FormValidationUtils, FormErrorType } from '@/services/util/FormValidationUtils.js';
+import DateUtils from '@/services/util/DateUtils.js';
+import UploadUtils from '@/services/util/UploadUtils.js';
 import store from '@/store/index.js';
 import { Modal } from 'bootstrap';
-import ConfigurationService from '@/services/params/ConfigurationService';
+import ConfigurationService from '@/services/params/ConfigurationService.js';
 
 export default {
   name: 'ContentResource',
