@@ -19,6 +19,17 @@ describe('richText.vue tests', () => {
         stubs: {
           Ckeditor: { template: '<div class="ckeditor-stub"></div>' },
         },
+        provide: {
+          publisher() {
+            return null
+          },
+          linkedFilesToContent() {
+            return null
+          },
+          setLinkedFilesToContent() {
+            return null
+          },
+        },
       },
       props: {
         modelValue: '<p>test</p>',

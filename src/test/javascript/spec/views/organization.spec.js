@@ -9,6 +9,12 @@ vi.mock('@/services/entities/enum/EnumDatasService.js')
 describe('organization.vue tests', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.mock('bootstrap', () => ({
+      Modal: class {
+        show() {}
+        hide() {}
+      },
+    }))
   })
 
   it('test 1 Organization - Affichage d\'un élément dans la liste des organizations', async () => {
