@@ -1,6 +1,6 @@
 import Compressor from 'compressorjs'
+import ConfigurationService from '@/services/params/ConfigurationService.js'
 import UploadUtils from '@/services/util/UploadUtils.js'
-import ConfigurationService from '@/services/params/ConfigurationService.js';
 
 // Upload adpter utilisé pour l'upload de fichier
 class CustomUploadAdapter {
@@ -70,11 +70,13 @@ class CustomUploadAdapter {
   }
 
   async compressImage(file) {
-    const imageMaxSize = ConfigurationService.getConfUploadImageSize();
-    if (file.size <= imageMaxSize) return file;
+    const imageMaxSize = ConfigurationService.getConfUploadImageSize()
+    if (file.size <= imageMaxSize)
+      return file
 
-    const compress = (quality) =>
+    const compress = quality =>
       new Promise((resolve, reject) => {
+        // eslint-disable-next-line no-new
         new Compressor(file, {
           quality,
           maxWidth: 1280,
@@ -82,18 +84,19 @@ class CustomUploadAdapter {
           convertTypes: ['image/png', 'image/jpeg'],
           convertSize: imageMaxSize,
           success(blob) {
-            resolve(new File([blob], blob.name || file.name, { type: blob.type }));
+            resolve(new File([blob], blob.name || file.name, { type: blob.type }))
           },
           error(err) {
-            reject(err);
+            reject(err)
           },
-        });
-      });
+        })
+      })
 
-    let compressed = await compress(1);
-    if (compressed.size <= imageMaxSize) return compressed;
+    const compressed = await compress(1)
+    if (compressed.size <= imageMaxSize)
+      return compressed
 
-    return await compress(0.8);
+    return await compress(0.8)
   }
 
   abort() {

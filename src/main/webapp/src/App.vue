@@ -31,22 +31,23 @@ export default {
   },
   created() {
     // Ajout du script iframe-resizer si on est dans une iFrame
-    const isIframe = this.isIframe();
+    const isIframe = this.isIframe()
     if (isIframe) {
-      const iframeResizerScript = document.createElement('script');
-      iframeResizerScript.setAttribute('src', '/commun/postMessage-resize-iframe-in-parent.js');
-      document.head.appendChild(iframeResizerScript);
+      const iframeResizerScript = document.createElement('script')
+      iframeResizerScript.setAttribute('src', '/commun/postMessage-resize-iframe-in-parent.js')
+      document.head.appendChild(iframeResizerScript)
     }
     Promise.all([ConfigurationService.init(), EnumDatasService.init()]).finally(() => {
-      this.initData = true;
-      if (!isIframe) this.injectWebComponents();
-    });
+      this.initData = true
+      if (!isIframe)
+        this.injectWebComponents()
+    })
   },
   beforeMount() {
     // Initialisation du store et de la langue
-    this.$store.commit('initializeStore');
+    this.$store.commit('initializeStore')
     if (this.$i18n.locale !== this.$store.getters.getLanguage) {
-      this.$i18n.locale = this.$store.getters.getLanguage;
+      this.$i18n.locale = this.$store.getters.getLanguage
     }
   },
   methods: {
@@ -96,33 +97,36 @@ export default {
         // 2 ways to test if iframe depending on browser compatibility
         return window.self !== window.top || window.location !== window.parent.location
       }
+      // eslint-disable-next-line unused-imports/no-unused-vars
       catch (e) {
         // default use: the app is in iframe
         return true
       }
     },
     async injectWebComponents() {
-      const injectedWebComponents = await ConfigurationService.getConfInjectedWebComponents();
-      if (!injectedWebComponents) return;
+      const injectedWebComponents = await ConfigurationService.getConfInjectedWebComponents()
+      if (!injectedWebComponents)
+        return
 
       const injectWebComponent = (name, selector, data) => {
-        if (document.querySelector(`script[src="${data.componentPath}"]`)) return;
+        if (document.querySelector(`script[src="${data.componentPath}"]`))
+          return
 
-        const script = document.createElement('script');
-        script.setAttribute('src', data.componentPath);
-        document.head.appendChild(script);
+        const script = document.createElement('script')
+        script.setAttribute('src', data.componentPath)
+        document.head.appendChild(script)
 
-        const component = document.createElement(name);
+        const component = document.createElement(name)
         Object.entries(data.props).forEach(([key, value]) => {
-          component.setAttribute(key, value);
-        });
-        document.body.querySelector(selector).appendChild(component);
-      };
+          component.setAttribute(key, value)
+        })
+        document.body.querySelector(selector).appendChild(component)
+      }
 
-      injectedWebComponents.forEach(({ name, selector, data }) => injectWebComponent(name, selector, data));
+      injectedWebComponents.forEach(({ name, selector, data }) => injectWebComponent(name, selector, data))
     },
-  }
-};
+  },
+}
 </script>
 
 <template>

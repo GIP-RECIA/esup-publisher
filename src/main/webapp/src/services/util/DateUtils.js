@@ -33,7 +33,7 @@ class DateUtils {
   }
 
   addDaysToLocalDate(date, nbDays) {
-    if (date && toString.call(date) === '[object Date]' && !isNaN(nbDays) && typeof nbDays === 'number') {
+    if (date && toString.call(date) === '[object Date]' && !Number.isNaN(nbDays) && typeof nbDays === 'number') {
       const tmp = new Date(date.getTime() + nbDays * 24 * 60 * 60 * 1000)
       return new Date(new Date(tmp.getFullYear(), tmp.getMonth(), tmp.getDate()))
     }
@@ -133,7 +133,7 @@ class DateUtils {
     }
     const dateTime = new Date(dateStr)
 
-    if (isNaN(dateTime)) {
+    if (Number.isNaN(dateTime)) {
       return false
     }
     return true

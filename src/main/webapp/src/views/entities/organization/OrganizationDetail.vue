@@ -36,8 +36,7 @@ export default {
           this.organization = response.data
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Fonction de formatage de date

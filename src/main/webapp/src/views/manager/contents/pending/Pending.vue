@@ -87,8 +87,7 @@ export default {
           this.links = ParseLinkUtils.parse(response.headers.get('link'))
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     loadPage(page) {
@@ -121,8 +120,7 @@ export default {
           this.validateModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge d'ouvrir la modale de suppression d'une publication
@@ -137,8 +135,7 @@ export default {
           this.loadAll()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge d'ouvrir la modale de suppression d'une publication
@@ -149,8 +146,7 @@ export default {
           this.deleteModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge de supprimer un item
@@ -161,8 +157,7 @@ export default {
           this.loadAll()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     getEnumKey(name) {
@@ -291,7 +286,7 @@ export default {
           <th class="d-md-none d-lg-none d-xl-table-cell">
             {{ $t('item.rssAllowed') }}
           </th>
-          <th v-if="organizations !== null && organizations.length > 1 && organization_filter == -1">
+          <th v-if="organizations !== null && organizations.length > 1 && organization_filter === -1">
             {{ $t('item.organization') }}
           </th>
           <th class="d-none">
@@ -356,7 +351,7 @@ export default {
           <td class="d-md-none d-lg-none d-xl-table-cell text-center" :data-label="$t('item.rssAllowed')">
             <input v-model="item.rssAllowed" type="checkbox" disabled>
           </td>
-          <td v-if="organizations !== null && organizations.length > 1 && organization_filter == -1" :data-label="$t('item.organization')">
+          <td v-if="organizations !== null && organizations.length > 1 && organization_filter === -1" :data-label="$t('item.organization')">
             {{ item.organization.name }}
           </td>
           <td class="d-none" :data-label="$t('item.redactor')">

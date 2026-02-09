@@ -93,8 +93,7 @@ export default {
         this.publisher.context.redactor = this.redactors[0]
       })
       .catch((error) => {
-        // eslint-disable-next-line
-        console.error(error);
+        console.error(error)
       })
     OrganizationService.query()
       .then((response) => {
@@ -102,8 +101,7 @@ export default {
         this.publisher.context.organization = this.organizations[0]
       })
       .catch((error) => {
-        // eslint-disable-next-line
-        console.error(error);
+        console.error(error)
       })
     ReaderService.query()
       .then((response) => {
@@ -111,8 +109,7 @@ export default {
         this.publisher.context.reader = this.readers[0]
       })
       .catch((error) => {
-        // eslint-disable-next-line
-        console.error(error);
+        console.error(error)
       })
   },
   methods: {
@@ -123,8 +120,7 @@ export default {
           this.publishers = response.data
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode permettant d'initialiser le FormValidator
@@ -151,8 +147,7 @@ export default {
           this.clear()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge d'ouvrir la modale de mise à jour de contexte de publication
@@ -164,8 +159,7 @@ export default {
           this.updateModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge d'ouvrir la modale de suppression de contexte de publication
@@ -176,8 +170,7 @@ export default {
           this.deleteModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge de supprimer un contexte de publication
@@ -189,8 +182,7 @@ export default {
           this.clear()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     clear() {

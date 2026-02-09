@@ -16,7 +16,7 @@ class ParseLinkUtils {
       }
       const url = section[0].replace(/<(.*)>/, '$1').trim()
       const queryString = {}
-      url.replace(new RegExp('([^?=&]+)(=([^&]*))?', 'g'), ($0, $1, $2, $3) => {
+      url.replace(/([^?=&]+)(=([^&]*))?/g, ($0, $1, $2, $3) => {
         queryString[$1] = $3
       })
       let page = queryString.page

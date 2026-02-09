@@ -76,7 +76,7 @@ describe('dateUtils.js tests', () => {
       'en',
     )
     // warning nodejs version have a change moving from whitespace to a non-breaking whitespace
-    expect(result).toMatch(new RegExp('December 9, 2021 at 10:55:40\\sAM'))
+    expect(result).toMatch(/December 9, 2021 at 10:55:40\sAM/)
   })
 
   it('test 13 DateUtils - min function OK', () => {
