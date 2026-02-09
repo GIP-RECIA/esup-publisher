@@ -1,15 +1,15 @@
-import ConfCKEditorService from './ConfCKEditorService.js';
-import ConfFileSizeService from './ConfFileSizeService.js';
-import ConfImageSizeService from './ConfImageSizeService.js';
-import ConfInjectedWebComponentsService from './ConfInjectedWebComponentsService.js';
-import ConfMimeTypesService from './ConfMimeTypesService.js';
+import ConfCKEditorService from './ConfCKEditorService.js'
+import ConfFileSizeService from './ConfFileSizeService.js'
+import ConfImageSizeService from './ConfImageSizeService.js'
+import ConfInjectedWebComponentsService from './ConfInjectedWebComponentsService.js'
+import ConfMimeTypesService from './ConfMimeTypesService.js'
 
 class ConfigurationService {
-  confImageSize;
-  confFileSize;
-  confMimeTypes;
-  confCKEditor;
-  confInjectedWebComponents;
+  confImageSize
+  confFileSize
+  confMimeTypes
+  confCKEditor
+  confInjectedWebComponents
 
   init() {
     return Promise.all([
@@ -21,53 +21,52 @@ class ConfigurationService {
     ])
       .then((results) => {
         if (results && results.length === 5) {
-          this.confImageSize = results[0].data.value;
-          this.confFileSize = results[1].data.value;
-          this.confMimeTypes = results[2].data.value;
-          this.confCKEditor = results[3].data.value;
-          this.confInjectedWebComponents = results[4].data;
+          this.confImageSize = results[0].data.value
+          this.confFileSize = results[1].data.value
+          this.confMimeTypes = results[2].data.value
+          this.confCKEditor = results[3].data.value
+          this.confInjectedWebComponents = results[4].data
         }
       })
       .catch((error) => {
-        // eslint-disable-next-line
-        console.error(error);
-      });
+        console.error(error)
+      })
   }
 
   getConfUploadImageSize() {
     if (!this.confImageSize) {
-      this.init();
+      this.init()
     }
-    return this.confImageSize;
+    return this.confImageSize
   }
 
   getConfUploadFileSize() {
     if (!this.confFileSize) {
-      this.init();
+      this.init()
     }
-    return this.confFileSize;
+    return this.confFileSize
   }
 
   getConfAuthorizedMimeTypes() {
     if (!this.confMimeTypes) {
-      this.init();
+      this.init()
     }
-    return this.confMimeTypes;
+    return this.confMimeTypes
   }
 
   getConfCKEditor() {
     if (!this.confCKEditor) {
-      this.init();
+      this.init()
     }
-    return this.confCKEditor;
+    return this.confCKEditor
   }
 
   getConfInjectedWebComponents() {
     if (!this.confInjectedWebComponents) {
-      this.init();
+      this.init()
     }
-    return this.confInjectedWebComponents;
+    return this.confInjectedWebComponents
   }
 }
 
-export default new ConfigurationService();
+export default new ConfigurationService()

@@ -1,13 +1,13 @@
-import FetchWrapper from '../util/FetchWrapper';
+import FetchWrapper from '../util/FetchWrapper.js'
 
 class LogsService {
   findAll() {
-    return FetchWrapper.getJson('api/logs');
+    return FetchWrapper.getJson('api/logs')
   }
 
   changeLevel(name, level) {
-    return FetchWrapper.putJson('api/logs', { name: name, level: level });
+    return FetchWrapper.putJson('api/logs', { name, level })
   }
 }
 
-export default new LogsService();
+export default new LogsService()

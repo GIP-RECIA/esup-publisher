@@ -1,32 +1,32 @@
-import FetchWrapper from '../../util/FetchWrapper';
-import DateUtils from '../../util/DateUtils';
+import DateUtils from '../../util/DateUtils.js'
+import FetchWrapper from '../../util/FetchWrapper.js'
 
 class PermissionOnContextService {
   query() {
-    return FetchWrapper.getJson('api/permissionOnContexts');
+    return FetchWrapper.getJson('api/permissionOnContexts')
   }
 
   get(id) {
-    return FetchWrapper.getJson('api/permissionOnContexts/' + id).then((response) => {
+    return FetchWrapper.getJson(`api/permissionOnContexts/${id}`).then((response) => {
       if (response.data) {
-        response.data.createdDate = DateUtils.convertDateTimeFromServer(response.data.createdDate);
-        response.data.lastModifiedDate = DateUtils.convertDateTimeFromServer(response.data.lastModifiedDate);
+        response.data.createdDate = DateUtils.convertDateTimeFromServer(response.data.createdDate)
+        response.data.lastModifiedDate = DateUtils.convertDateTimeFromServer(response.data.lastModifiedDate)
       }
-      return response;
-    });
+      return response
+    })
   }
 
   update(permissionOnContext) {
-    return FetchWrapper.putJson('api/permissionOnContexts', permissionOnContext);
+    return FetchWrapper.putJson('api/permissionOnContexts', permissionOnContext)
   }
 
   delete(id) {
-    return FetchWrapper.deleteJson('api/permissionOnContexts/' + id);
+    return FetchWrapper.deleteJson(`api/permissionOnContexts/${id}`)
   }
 
   queryForCtx(ctxType, ctxId) {
-    return FetchWrapper.getJson('api/permissionOnContexts/' + ctxType + '/' + ctxId);
+    return FetchWrapper.getJson(`api/permissionOnContexts/${ctxType}/${ctxId}`)
   }
 }
 
-export default new PermissionOnContextService();
+export default new PermissionOnContextService()

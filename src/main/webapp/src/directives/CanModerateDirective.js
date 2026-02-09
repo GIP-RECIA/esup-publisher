@@ -1,21 +1,22 @@
-import UserService from '@/services/user/UserService';
+import UserService from '@/services/user/UserService.js'
 
 // Directive en charge de déterminer si l'utilisateur a les
 // droits de modération
 const CanModerateDirective = {
   canModerate(el) {
-    el.classList.add('d-none');
+    el.classList.add('d-none')
     UserService.canModerateAnyThing().then((response) => {
       if (!response.data.value) {
-        el.classList.add('d-none');
-      } else {
-        el.classList.remove('d-none');
+        el.classList.add('d-none')
       }
-    });
+      else {
+        el.classList.remove('d-none')
+      }
+    })
   },
   beforeMount(el, { dir }) {
-    dir.canModerate(el);
+    dir.canModerate(el)
   },
-};
+}
 
-export default CanModerateDirective;
+export default CanModerateDirective

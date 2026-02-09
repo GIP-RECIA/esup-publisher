@@ -5,4 +5,4 @@ export default Object.freeze({
   BOTTOM_RIGHT: 'bottom-right',
   BOTTOM: 'bottom',
   BOTTOM_LEFT: 'bottom-left',
-});
+})

@@ -1,32 +1,8 @@
-<template>
-  <transition :enter-active-class="transition.enter" :leave-active-class="transition.leave">
-    <div
-      ref="root"
-      role="alert"
-      aria-live="polite"
-      aria-atomic="true"
-      v-show="isActive"
-      class="custom-toast-item"
-      :class="[`custom-toast-item-${type}`, `custom-toast-item-${position}`]"
-      @mouseover="toggleTimer(true)"
-      @mouseleave="toggleTimer(false)"
-      @click="whenClicked"
-    >
-      <div class="custom-toast-icon d-block ms-3">
-        <i v-if="type === 'info' || type === 'default'" class="fas fa-info-circle fa-2x"></i>
-        <i v-else-if="type === 'warning'" class="fas fa-exclamation-triangle fa-2x"></i>
-        <i v-else-if="type === 'error'" class="fas fa-times-circle fa-2x"></i>
-        <i v-else-if="type === 'success'" class="fas fa-check-circle fa-2x"></i>
-      </div>
-      <p class="custom-toast-text py-4 px-3" v-html="message"></p>
-    </div>
-  </transition>
-</template>
 <script>
-import { defineComponent, render } from 'vue';
-import eventBus from './Event.js';
-import Positions from './Positions.js';
-import Timer from './Timer.js';
+import { defineComponent, render } from 'vue'
+import eventBus from './Event.js'
+import Positions from './Positions.js'
+import Timer from './Timer.js'
 
 export default defineComponent({
   name: 'Toaster',
@@ -46,7 +22,7 @@ export default defineComponent({
       type: String,
       default: Positions.TOP,
       validator(value) {
-        return Object.values(Positions).includes(value);
+        return Object.values(Positions).includes(value)
       },
     },
     // Durée d'affichage du toaster
@@ -87,7 +63,7 @@ export default defineComponent({
       parentTop: null,
       parentBottom: null,
       isHovered: false,
-    };
+    }
   },
   computed: {
     correctParent() {
@@ -95,13 +71,13 @@ export default defineComponent({
         case Positions.TOP:
         case Positions.TOP_RIGHT:
         case Positions.TOP_LEFT:
-          return this.parentTop;
+          return this.parentTop
         case Positions.BOTTOM:
         case Positions.BOTTOM_RIGHT:
         case Positions.BOTTOM_LEFT:
-          return this.parentBottom;
+          return this.parentBottom
         default:
-          return this.parentTop;
+          return this.parentTop
       }
     },
     transition() {
@@ -112,7 +88,7 @@ export default defineComponent({
           return {
             enter: 'custom-toast-fade-in-up',
             leave: 'custom-toast-fade-out',
-          };
+          }
         case Positions.TOP:
         case Positions.TOP_RIGHT:
         case Positions.TOP_LEFT:
@@ -120,86 +96,117 @@ export default defineComponent({
           return {
             enter: 'custom-toast-fade-in-down',
             leave: 'custom-toast-fade-out',
-          };
+          }
       }
     },
+  },
+  beforeMount() {
+    this.setupContainer()
+  },
+  mounted() {
+    this.showNotice()
+    eventBus.$on('toast-clear', this.dismiss)
+  },
+  beforeUnmount() {
+    eventBus.$off('toast-clear', this.dismiss)
   },
   methods: {
     removeElement(el) {
       if (typeof el.remove !== 'undefined') {
-        el.remove();
-      } else {
+        el.remove()
+      }
+      else {
         if (el.parentNode) {
-          el.parentNode.removeChild(el);
+          el.parentNode.removeChild(el)
         }
       }
     },
     setupContainer() {
-      this.parentTop = document.querySelector('.custom-toast-container.custom-toast-top');
-      this.parentBottom = document.querySelector('.custom-toast-container.custom-toast-bottom');
-      if (this.parentTop && this.parentBottom) return;
+      this.parentTop = document.querySelector('.custom-toast-container.custom-toast-top')
+      this.parentBottom = document.querySelector('.custom-toast-container.custom-toast-bottom')
+      if (this.parentTop && this.parentBottom)
+        return
       if (!this.parentTop) {
-        this.parentTop = document.createElement('div');
-        this.parentTop.className = 'custom-toast-container custom-toast-top';
+        this.parentTop = document.createElement('div')
+        this.parentTop.className = 'custom-toast-container custom-toast-top'
       }
       if (!this.parentBottom) {
-        this.parentBottom = document.createElement('div');
-        this.parentBottom.className = 'custom-toast-container custom-toast-bottom';
+        this.parentBottom = document.createElement('div')
+        this.parentBottom.className = 'custom-toast-container custom-toast-bottom'
       }
-      const container = document.body;
-      container.appendChild(this.parentTop);
-      container.appendChild(this.parentBottom);
+      const container = document.body
+      container.appendChild(this.parentTop)
+      container.appendChild(this.parentBottom)
     },
     shouldQueue() {
-      if (!this.queue) return false;
-      return this.parentTop.childElementCount > 0 || this.parentBottom.childElementCount > 0;
+      if (!this.queue)
+        return false
+      return this.parentTop.childElementCount > 0 || this.parentBottom.childElementCount > 0
     },
     dismiss() {
-      if (this.timer) this.timer.stop();
-      clearTimeout(this.queueTimer);
-      this.isActive = false;
+      if (this.timer)
+        this.timer.stop()
+      clearTimeout(this.queueTimer)
+      this.isActive = false
       setTimeout(() => {
-        this.onDismiss.apply(null, arguments);
-        const wrapper = this.$refs.root;
-        render(null, wrapper);
-        this.removeElement(wrapper);
-      }, 150);
+        this.onDismiss.apply(null, arguments)
+        const wrapper = this.$refs.root
+        render(null, wrapper)
+        this.removeElement(wrapper)
+      }, 150)
     },
     showNotice() {
       if (this.shouldQueue()) {
-        this.queueTimer = setTimeout(this.showNotice, 250);
-        return;
+        this.queueTimer = setTimeout(this.showNotice, 250)
+        return
       }
-      const wrapper = this.$refs.root.parentElement;
-      this.correctParent.insertAdjacentElement('afterbegin', this.$refs.root);
-      this.removeElement(wrapper);
-      this.isActive = true;
+      const wrapper = this.$refs.root.parentElement
+      this.correctParent.insertAdjacentElement('afterbegin', this.$refs.root)
+      this.removeElement(wrapper)
+      this.isActive = true
       if (this.duration) {
-        this.timer = new Timer(this.dismiss, this.duration);
+        this.timer = new Timer(this.dismiss, this.duration)
       }
     },
     whenClicked() {
-      if (!this.dismissible) return;
-      this.onClick.apply(null, arguments);
-      this.dismiss();
+      if (!this.dismissible)
+        return
+      this.onClick.apply(null, arguments)
+      this.dismiss()
     },
     toggleTimer(newVal) {
-      if (!this.pauseOnHover || !this.timer) return;
-      newVal ? this.timer.pause() : this.timer.resume();
+      if (!this.pauseOnHover || !this.timer)
+        return
+      newVal ? this.timer.pause() : this.timer.resume()
     },
   },
-  beforeMount() {
-    this.setupContainer();
-  },
-  mounted() {
-    this.showNotice();
-    eventBus.$on('toast-clear', this.dismiss);
-  },
-  beforeUnmount() {
-    eventBus.$off('toast-clear', this.dismiss);
-  },
-});
+})
 </script>
+
+<template>
+  <transition :enter-active-class="transition.enter" :leave-active-class="transition.leave">
+    <div
+      v-show="isActive"
+      ref="root"
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+      class="custom-toast-item"
+      :class="[`custom-toast-item-${type}`, `custom-toast-item-${position}`]"
+      @mouseover="toggleTimer(true)"
+      @mouseleave="toggleTimer(false)"
+      @click="whenClicked"
+    >
+      <div class="custom-toast-icon d-block ms-3">
+        <i v-if="type === 'info' || type === 'default'" class="fas fa-info-circle fa-2x" />
+        <i v-else-if="type === 'warning'" class="fas fa-exclamation-triangle fa-2x" />
+        <i v-else-if="type === 'error'" class="fas fa-times-circle fa-2x" />
+        <i v-else-if="type === 'success'" class="fas fa-check-circle fa-2x" />
+      </div>
+      <p class="custom-toast-text py-4 px-3" v-html="message" />
+    </div>
+  </transition>
+</template>
 
 <style lang="scss">
 @keyframes fadeOut {
