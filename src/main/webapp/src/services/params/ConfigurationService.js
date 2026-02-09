@@ -1,15 +1,15 @@
-import ConfImageSizeService from './ConfImageSizeService.js';
-import ConfFileSizeService from './ConfFileSizeService.js';
-import ConfMimeTypesService from './ConfMimeTypesService.js';
-import ConfCKEditorService from './ConfCKEditorService.js';
+import ConfCKEditorService from './ConfCKEditorService.js'
+import ConfFileSizeService from './ConfFileSizeService.js'
+import ConfImageSizeService from './ConfImageSizeService.js'
+import ConfMimeTypesService from './ConfMimeTypesService.js'
 import ConfInjectedWebComponentsService from './ConfInjectedWebComponentsService.js';
 
 class ConfigurationService {
-  confImageSize;
-  confFileSize;
-  confMimeTypes;
-  confCKEditor;
-  confInjectedWebComponents;
+  confImageSize
+  confFileSize
+  confMimeTypes
+  confCKEditor
+  confInjectedWebComponents
 
   init() {
     return Promise.all([
@@ -31,35 +31,35 @@ class ConfigurationService {
       .catch((error) => {
         // eslint-disable-next-line
         console.error(error);
-      });
+      })
   }
 
   getConfUploadImageSize() {
     if (!this.confImageSize) {
-      this.init();
+      this.init()
     }
-    return this.confImageSize;
+    return this.confImageSize
   }
 
   getConfUploadFileSize() {
     if (!this.confFileSize) {
-      this.init();
+      this.init()
     }
-    return this.confFileSize;
+    return this.confFileSize
   }
 
   getConfAuthorizedMimeTypes() {
     if (!this.confMimeTypes) {
-      this.init();
+      this.init()
     }
-    return this.confMimeTypes;
+    return this.confMimeTypes
   }
 
   getConfCKEditor() {
     if (!this.confCKEditor) {
-      this.init();
+      this.init()
     }
-    return this.confCKEditor;
+    return this.confCKEditor
   }
 
   getConfInjectedWebComponents() {
@@ -70,4 +70,4 @@ class ConfigurationService {
   }
 }
 
-export default new ConfigurationService();
+export default new ConfigurationService()

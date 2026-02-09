@@ -1,3 +1,88 @@
+<script>
+import EnumDatasService from '@/services/entities/enum/EnumDatasService.js'
+import PublisherService from '@/services/entities/publisher/PublisherService.js'
+import DateUtils from '@/services/util/DateUtils.js'
+import store from '@/store/index.js'
+
+export default {
+  name: 'PublisherDetail',
+  data() {
+    return {
+      publisher: {
+        context: { organization: {}, redactor: {}, reader: {} },
+        displayName: null,
+        defaultDisplayOrder: null,
+        defaultItemsDisplayOrder: null,
+        permissionType: null,
+        used: false,
+        displayOrder: 0,
+        hasSubPermsManagement: false,
+        doHighlight: false,
+        id: null,
+        lastModifiedBy: { displayName: null },
+        createdBy: { displayName: null },
+      },
+    }
+  },
+  computed: {
+    // Liste des types de permission
+    permissionClasses() {
+      return EnumDatasService.getPermissionClassList()
+    },
+    // Liste des types de Display Order
+    displayOrderTypeList() {
+      return EnumDatasService.getDisplayOrderTypeList()
+    },
+  },
+  created() {
+    this.initData()
+  },
+  methods: {
+    // Méthode de récupération de l'objet grâce à l'id passé en paramètre
+    initData() {
+      PublisherService.get(this.$route.params.id)
+        .then((response) => {
+          this.publisher = response.data
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        })
+    },
+    // Fonction de formatage de date
+    formatDate(date) {
+      return DateUtils.formatDateTimeToLongIntString(date, store.getters.getLanguage)
+    },
+    // Méthode de redirection sur la page listant les contextes de publications
+    publisherPage() {
+      this.$router.push({ name: 'AdminEntityPublisher' })
+    },
+    getPermissionClassLabel(name) {
+      return this.getEnumlabel('permissionClass', name)
+    },
+    getDisplayOrderTypeLabel(name) {
+      return this.getEnumlabel('displayOrderType', name)
+    },
+    getEnumlabel(type, name) {
+      let data
+      switch (type) {
+        case 'permissionClass':
+          data = this.permissionClasses.find((val) => {
+            return val.name === name
+          })
+          return data ? data.label : ''
+        case 'displayOrderType':
+          data = this.displayOrderTypeList.find((val) => {
+            return val.name === name
+          })
+          return data ? data.label : ''
+      }
+      return ''
+    },
+  },
+}
+</script>
+
 <template>
   <div>
     <h2>
@@ -21,14 +106,14 @@
                 type="text"
                 class="form-control form-control-sm"
                 :value="
-                  publisher.context.organization.name +
-                  ' - ' +
-                  publisher.context.reader.displayName +
-                  ' - ' +
-                  publisher.context.redactor.displayName
+                  `${publisher.context.organization.name
+                  } - ${
+                    publisher.context.reader.displayName
+                  } - ${
+                    publisher.context.redactor.displayName}`
                 "
                 readonly
-              />
+              >
             </td>
           </tr>
           <tr>
@@ -36,7 +121,7 @@
               <span>{{ $t('publisher.displayName') }}</span>
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" :value="publisher.displayName" readonly />
+              <input type="text" class="form-control form-control-sm" :value="publisher.displayName" readonly>
             </td>
           </tr>
           <tr>
@@ -49,7 +134,7 @@
                 class="form-control form-control-sm"
                 :value="$t(getPermissionClassLabel(publisher.permissionType))"
                 readonly
-              />
+              >
             </td>
           </tr>
           <tr>
@@ -62,7 +147,7 @@
                 class="form-control form-control-sm"
                 :value="$t(getDisplayOrderTypeLabel(publisher.defaultDisplayOrder))"
                 readonly
-              />
+              >
             </td>
           </tr>
           <tr>
@@ -75,7 +160,7 @@
                 class="form-control form-control-sm"
                 :value="$t(getDisplayOrderTypeLabel(publisher.defaultItemsDisplayOrder))"
                 readonly
-              />
+              >
             </td>
           </tr>
           <tr>
@@ -83,7 +168,7 @@
               <span>{{ $t('publisher.used') }}</span>
             </td>
             <td>
-              <input type="checkbox" class="form-control-sm" v-model="publisher.used" disabled />
+              <input v-model="publisher.used" type="checkbox" class="form-control-sm" disabled>
             </td>
           </tr>
           <tr>
@@ -91,7 +176,7 @@
               <span>{{ $t('publisher.displayOrder') }}</span>
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" :value="publisher.displayOrder" disabled />
+              <input type="text" class="form-control form-control-sm" :value="publisher.displayOrder" disabled>
             </td>
           </tr>
           <tr>
@@ -99,7 +184,7 @@
               <span>{{ $t('publisher.hasSubPermsManagement') }}</span>
             </td>
             <td>
-              <input type="checkbox" class="form-control-sm" v-model="publisher.hasSubPermsManagement" disabled />
+              <input v-model="publisher.hasSubPermsManagement" type="checkbox" class="form-control-sm" disabled>
             </td>
           </tr>
           <tr>
@@ -107,7 +192,7 @@
               <span>{{ $t('publisher.doHighlight') }}</span>
             </td>
             <td>
-              <input type="checkbox" class="form-control-sm" v-model="publisher.doHighlight" disabled />
+              <input v-model="publisher.doHighlight" type="checkbox" class="form-control-sm" disabled>
             </td>
           </tr>
           <tr>
@@ -115,7 +200,7 @@
               <span>{{ $t('publisher.createdBy') }}</span>
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" :value="publisher.createdBy.displayName" readonly />
+              <input type="text" class="form-control form-control-sm" :value="publisher.createdBy.displayName" readonly>
             </td>
           </tr>
           <tr>
@@ -123,7 +208,7 @@
               <span>{{ $t('publisher.createdDate') }}</span>
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" :value="formatDate(publisher.createdDate)" readonly />
+              <input type="text" class="form-control form-control-sm" :value="formatDate(publisher.createdDate)" readonly>
             </td>
           </tr>
           <tr>
@@ -131,7 +216,7 @@
               <span>{{ $t('publisher.lastModifiedBy') }}</span>
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" :value="publisher.lastModifiedBy.displayName" readonly />
+              <input type="text" class="form-control form-control-sm" :value="publisher.lastModifiedBy.displayName" readonly>
             </td>
           </tr>
           <tr>
@@ -139,100 +224,15 @@
               <span>{{ $t('publisher.lastModifiedDate') }}</span>
             </td>
             <td>
-              <input type="text" class="form-control form-control-sm" :value="formatDate(publisher.lastModifiedDate)" readonly />
+              <input type="text" class="form-control form-control-sm" :value="formatDate(publisher.lastModifiedDate)" readonly>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <button type="submit" @click="publisherPage" class="btn btn-info">
-      <span class="fas fa-arrow-left"></span>&nbsp;<span> {{ $t('entity.action.back') }}</span>
+    <button type="submit" class="btn btn-info" @click="publisherPage">
+      <span class="fas fa-arrow-left" />&nbsp;<span> {{ $t('entity.action.back') }}</span>
     </button>
   </div>
 </template>
-
-<script>
-import store from '@/store/index.js';
-import PublisherService from '@/services/entities/publisher/PublisherService.js';
-import EnumDatasService from '@/services/entities/enum/EnumDatasService.js';
-import DateUtils from '@/services/util/DateUtils.js';
-
-export default {
-  name: 'PublisherDetail',
-  data() {
-    return {
-      publisher: {
-        context: { organization: {}, redactor: {}, reader: {} },
-        displayName: null,
-        defaultDisplayOrder: null,
-        defaultItemsDisplayOrder: null,
-        permissionType: null,
-        used: false,
-        displayOrder: 0,
-        hasSubPermsManagement: false,
-        doHighlight: false,
-        id: null,
-        lastModifiedBy: { displayName: null },
-        createdBy: { displayName: null },
-      },
-    };
-  },
-  computed: {
-    // Liste des types de permission
-    permissionClasses() {
-      return EnumDatasService.getPermissionClassList();
-    },
-    // Liste des types de Display Order
-    displayOrderTypeList() {
-      return EnumDatasService.getDisplayOrderTypeList();
-    },
-  },
-  methods: {
-    // Méthode de récupération de l'objet grâce à l'id passé en paramètre
-    initData() {
-      PublisherService.get(this.$route.params.id)
-        .then((response) => {
-          this.publisher = response.data;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
-        });
-    },
-    // Fonction de formatage de date
-    formatDate(date) {
-      return DateUtils.formatDateTimeToLongIntString(date, store.getters.getLanguage);
-    },
-    // Méthode de redirection sur la page listant les contextes de publications
-    publisherPage() {
-      this.$router.push({ name: 'AdminEntityPublisher' });
-    },
-    getPermissionClassLabel(name) {
-      return this.getEnumlabel('permissionClass', name);
-    },
-    getDisplayOrderTypeLabel(name) {
-      return this.getEnumlabel('displayOrderType', name);
-    },
-    getEnumlabel(type, name) {
-      let data;
-      switch (type) {
-        case 'permissionClass':
-          data = this.permissionClasses.find((val) => {
-            return val.name === name;
-          });
-          return data ? data.label : '';
-        case 'displayOrderType':
-          data = this.displayOrderTypeList.find((val) => {
-            return val.name === name;
-          });
-          return data ? data.label : '';
-      }
-      return '';
-    },
-  },
-  created() {
-    this.initData();
-  },
-};
-</script>

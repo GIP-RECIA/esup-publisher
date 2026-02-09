@@ -1,12 +1,12 @@
-import { nextTick } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
-import AuthenticationService from '../services/auth/AuthenticationService.js';
-import PrincipalService from '../services/auth/PrincipalService.js';
-import store from '@/store/index.js';
-import i18n from '../i18n';
+import { nextTick } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import store from '@/store/index.js'
+import i18n from '../i18n'
+import AuthenticationService from '../services/auth/AuthenticationService.js'
+import PrincipalService from '../services/auth/PrincipalService.js'
 
-const { t } = i18n.global;
-const DEFAULT_TITLE = 'global.title';
+const { t } = i18n.global
+const DEFAULT_TITLE = 'global.title'
 
 const routes = [
   {
@@ -345,51 +345,53 @@ const routes = [
   },
   // Sinon redirection vers Home
   { path: '/:pathMatch(.*)*', redirect: '/' },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-});
+})
 
 router.beforeEach((to, from, next) => {
   store.commit('setPreviousRoute', {
     name: from.name,
     params: from.params,
     meta: from.meta,
-  });
+  })
   store.commit('setNextRoute', {
     name: to.name,
     params: to.params,
     meta: to.meta,
-  });
-  if (to.matched.some((record) => record.meta.requireLogin)) {
+  })
+  if (to.matched.some(record => record.meta.requireLogin)) {
     if (!PrincipalService.isAuthenticated() && !store.getters.getLoginModalOpened) {
       AuthenticationService.login()
         .then(() => {
-          next();
+          next()
         })
         .catch(() => {
-          store.commit('setLoginModalOpened', true);
-          store.commit('setReturnRoute', store.getters.getNextRoute);
+          store.commit('setLoginModalOpened', true)
+          store.commit('setReturnRoute', store.getters.getNextRoute)
           next({
             path: '/login',
-          });
-        });
-    } else {
-      AuthenticationService.authorize().then(() => {
-        next();
-      });
+          })
+        })
     }
-  } else {
-    next();
+    else {
+      AuthenticationService.authorize().then(() => {
+        next()
+      })
+    }
   }
-});
+  else {
+    next()
+  }
+})
 
 router.afterEach((to) => {
   nextTick(() => {
-    document.title = t(to.meta.titleKey || DEFAULT_TITLE);
-  });
-});
+    document.title = t(to.meta.titleKey || DEFAULT_TITLE)
+  })
+})
 
-export default router;
+export default router
