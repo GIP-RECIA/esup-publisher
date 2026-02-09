@@ -1,67 +1,68 @@
-import store from '@/store/index.js';
-import AccountService from './AccountService.js';
+import store from '@/store/index.js'
+import AccountService from './AccountService.js'
 
 class PrincipalService {
   identify(force) {
     return new Promise((resolve, reject) => {
-      let identity = store.getters.getIdentity;
+      let identity = store.getters.getIdentity
       if (force === true) {
-        store.commit('setIdentity', undefined);
-        identity = undefined;
+        store.commit('setIdentity', undefined)
+        identity = undefined
       }
 
       // check and see if we have retrieved the identity data from the server.
       // if we have, reuse it by immediately resolving
       if (identity !== undefined && identity !== null) {
-        resolve(identity);
-      } else {
+        resolve(identity)
+      }
+      else {
         // retrieve the identity data from the server, update the identity object, and then resolve.
         AccountService.account()
           .then((response) => {
-            store.commit('setIdentity', response.data);
-            store.commit('setAuthenticated', true);
-            resolve(identity);
+            store.commit('setIdentity', response.data)
+            store.commit('setAuthenticated', true)
+            resolve(identity)
           })
           .catch(() => {
-            store.commit('setIdentity', null);
-            store.commit('setAuthenticated', false);
-            reject(identity);
-          });
+            store.commit('setIdentity', null)
+            store.commit('setAuthenticated', false)
+            reject(identity)
+          })
       }
-    });
+    })
   }
 
   authenticate(identity) {
-    store.commit('setIdentity', identity);
-    store.commit('setAuthenticated', identity !== null && identity !== undefined);
+    store.commit('setIdentity', identity)
+    store.commit('setAuthenticated', identity !== null && identity !== undefined)
   }
 
   isInAnyRole(roles) {
-    const identity = store.getters.getIdentity;
-    const authenticated = store.getters.getAuthenticated;
+    const identity = store.getters.getIdentity
+    const authenticated = store.getters.getAuthenticated
     if (!authenticated || identity === undefined || identity === null || !identity.roles) {
-      return false;
+      return false
     }
 
-    return roles.some((role) => this.isInRole(role));
+    return roles.some(role => this.isInRole(role))
   }
 
   isInRole(role) {
-    const identity = store.getters.getIdentity;
-    const authenticated = store.getters.getAuthenticated;
+    const identity = store.getters.getIdentity
+    const authenticated = store.getters.getAuthenticated
     if (!authenticated || identity === undefined || identity === null || !identity.roles) {
-      return false;
+      return false
     }
-    return identity.roles.indexOf(role) !== -1;
+    return identity.roles.includes(role)
   }
 
   isAuthenticated() {
-    return store.getters.getAuthenticated;
+    return store.getters.getAuthenticated
   }
 
   isIdentityResolved() {
-    return typeof store.getters.getIdentity !== 'undefined';
+    return typeof store.getters.getIdentity !== 'undefined'
   }
 }
 
-export default new PrincipalService();
+export default new PrincipalService()

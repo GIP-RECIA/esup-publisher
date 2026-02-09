@@ -1,19 +1,19 @@
-import FetchWrapper from '../util/FetchWrapper.js';
+import FetchWrapper from '../util/FetchWrapper.js'
 
 class ConfigurationService {
   get() {
     return FetchWrapper.getJson('management/configprops').then((response) => {
-      let properties = [];
+      const properties = []
       Object.values(response.data).forEach((data) => {
-        properties.push(data);
-      });
-      return properties;
-    });
+        properties.push(data)
+      })
+      return properties
+    })
   }
 
   getEnv() {
-    return FetchWrapper.getJson('management/env');
+    return FetchWrapper.getJson('management/env')
   }
 }
 
-export default new ConfigurationService();
+export default new ConfigurationService()

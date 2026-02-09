@@ -1,153 +1,153 @@
-import AllEnumsService from './AllEnumsService.js';
+import AllEnumsService from './AllEnumsService.js'
 
 class EnumDatasService {
-  AccessTypeList;
-  ClassificationDecorTypeList;
-  ContextTypeList;
-  DisplayOrderTypeList;
-  FilterTypeList;
-  ItemStatusList;
-  ItemTypeList;
-  OperatorTypeList;
-  PermissionClassList;
-  PermissionTypeList;
-  StringEvaluationModeList;
-  SubjectTypeList;
-  SubscribeTypeList;
-  WritingModeList;
-  WritingFormatList;
+  AccessTypeList
+  ClassificationDecorTypeList
+  ContextTypeList
+  DisplayOrderTypeList
+  FilterTypeList
+  ItemStatusList
+  ItemTypeList
+  OperatorTypeList
+  PermissionClassList
+  PermissionTypeList
+  StringEvaluationModeList
+  SubjectTypeList
+  SubscribeTypeList
+  WritingModeList
+  WritingFormatList
 
   init() {
     return AllEnumsService.query()
       .then((response) => {
         if (response.data) {
-          this.AccessTypeList = response.data.AccessType;
-          this.ContextTypeList = response.data.ContextType;
-          this.DisplayOrderTypeList = response.data.DisplayOrderType;
-          this.FilterTypeList = response.data.FilterType;
-          this.ItemStatusList = response.data.ItemStatus;
-          this.ItemTypeList = response.data.ItemType;
-          this.OperatorTypeList = response.data.OperatorType;
-          this.PermissionClassList = response.data.PermissionClass;
-          this.PermissionTypeList = response.data.PermissionType;
-          this.StringEvaluationModeList = response.data.StringEvaluationMode;
-          this.SubjectTypeList = response.data.SubjectType;
-          this.SubscribeTypeList = response.data.SubscribeType;
-          this.WritingModeList = response.data.WritingMode;
-          this.WritingFormatList = response.data.WritingFormat;
-          this.ClassificationDecorTypeList = response.data.ClassificationDecorType;
+          this.AccessTypeList = response.data.AccessType
+          this.ContextTypeList = response.data.ContextType
+          this.DisplayOrderTypeList = response.data.DisplayOrderType
+          this.FilterTypeList = response.data.FilterType
+          this.ItemStatusList = response.data.ItemStatus
+          this.ItemTypeList = response.data.ItemType
+          this.OperatorTypeList = response.data.OperatorType
+          this.PermissionClassList = response.data.PermissionClass
+          this.PermissionTypeList = response.data.PermissionType
+          this.StringEvaluationModeList = response.data.StringEvaluationMode
+          this.SubjectTypeList = response.data.SubjectType
+          this.SubscribeTypeList = response.data.SubscribeType
+          this.WritingModeList = response.data.WritingMode
+          this.WritingFormatList = response.data.WritingFormat
+          this.ClassificationDecorTypeList = response.data.ClassificationDecorType
         }
       })
       .catch((error) => {
         // eslint-disable-next-line
         console.error(error);
-      });
+      })
   }
 
   getAccessTypeList() {
     if (!this.AccessTypeList) {
-      this.init();
+      this.init()
     }
-    return this.AccessTypeList;
+    return this.AccessTypeList
   }
 
   getClassificationDecorTypeList() {
     if (!this.ClassificationDecorTypeList) {
-      this.init();
+      this.init()
     }
-    return this.ClassificationDecorTypeList;
+    return this.ClassificationDecorTypeList
   }
 
   getContextTypeList() {
     if (!this.ContextTypeList) {
-      this.init();
+      this.init()
     }
-    return this.ContextTypeList;
+    return this.ContextTypeList
   }
 
   getDisplayOrderTypeList() {
     if (!this.DisplayOrderTypeList) {
-      this.init();
+      this.init()
     }
-    return this.DisplayOrderTypeList;
+    return this.DisplayOrderTypeList
   }
 
   getFilterTypeList() {
     if (!this.FilterTypeList) {
-      this.init();
+      this.init()
     }
-    return this.FilterTypeList;
+    return this.FilterTypeList
   }
 
   getItemStatusList() {
     if (!this.ItemStatusList) {
-      this.init();
+      this.init()
     }
-    return this.ItemStatusList;
+    return this.ItemStatusList
   }
 
   getItemTypeList() {
     if (!this.ItemTypeList) {
-      this.init();
+      this.init()
     }
-    return this.ItemTypeList;
+    return this.ItemTypeList
   }
 
   getOperatorTypeList() {
     if (!this.OperatorTypeList) {
-      this.init();
+      this.init()
     }
-    return this.OperatorTypeList;
+    return this.OperatorTypeList
   }
 
   getPermissionClassList() {
     if (!this.PermissionClassList) {
-      this.init();
+      this.init()
     }
-    return this.PermissionClassList;
+    return this.PermissionClassList
   }
 
   getPermissionTypeList() {
     if (!this.PermissionTypeList) {
-      this.init();
+      this.init()
     }
-    return this.PermissionTypeList;
+    return this.PermissionTypeList
   }
 
   getStringEvaluationModeList() {
     if (!this.StringEvaluationModeList) {
-      this.init();
+      this.init()
     }
-    return this.StringEvaluationModeList;
+    return this.StringEvaluationModeList
   }
 
   getSubjectTypeList() {
     if (!this.SubjectTypeList) {
-      this.init();
+      this.init()
     }
-    return this.SubjectTypeList;
+    return this.SubjectTypeList
   }
 
   getSubscribeTypeList() {
     if (!this.SubscribeTypeList) {
-      this.init();
+      this.init()
     }
-    return this.SubscribeTypeList;
+    return this.SubscribeTypeList
   }
 
   getWritingModeList() {
     if (!this.WritingModeList) {
-      this.init();
+      this.init()
     }
-    return this.WritingModeList;
+    return this.WritingModeList
   }
 
   getWritingFormatList() {
     if (!this.WritingFormatList) {
-      this.init();
+      this.init()
     }
-    return this.WritingFormatList;
+    return this.WritingFormatList
   }
 }
 
-export default new EnumDatasService();
+export default new EnumDatasService()

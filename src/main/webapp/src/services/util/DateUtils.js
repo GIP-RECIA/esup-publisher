@@ -1,52 +1,55 @@
-import CommonUtils from './CommonUtils.js';
+import CommonUtils from './CommonUtils.js'
 
-const toString = Object.prototype.toString;
+const toString = Object.prototype.toString
 
 class DateUtils {
   convertDateTimeFromServer(date) {
     if (date) {
-      return new Date(date);
-    } else {
-      return null;
+      return new Date(date)
+    }
+    else {
+      return null
     }
   }
 
   convertLocalDateFromServer(date) {
     if (date) {
-      let dateString = date.split('-');
-      return new Date(dateString[0], dateString[1] - 1, dateString[2]);
+      const dateString = date.split('-')
+      return new Date(dateString[0], dateString[1] - 1, dateString[2])
     }
-    return null;
+    return null
   }
 
   convertLocalDateToServer(date) {
     if (date) {
-      let parseDate = new Date(date);
-      let day = parseDate.getDate().toString().length === 1 ? '0' + parseDate.getDate() : parseDate.getDate();
-      let month = (parseDate.getMonth() + 1).toString().length === 1 ? '0' + (parseDate.getMonth() + 1) : parseDate.getMonth() + 1;
-      return parseDate.getFullYear() + '-' + month + '-' + day;
-    } else {
-      return null;
+      const parseDate = new Date(date)
+      const day = parseDate.getDate().toString().length === 1 ? `0${parseDate.getDate()}` : parseDate.getDate()
+      const month = (parseDate.getMonth() + 1).toString().length === 1 ? `0${parseDate.getMonth() + 1}` : parseDate.getMonth() + 1
+      return `${parseDate.getFullYear()}-${month}-${day}`
+    }
+    else {
+      return null
     }
   }
 
   addDaysToLocalDate(date, nbDays) {
     if (date && toString.call(date) === '[object Date]' && !isNaN(nbDays) && typeof nbDays === 'number') {
-      let tmp = new Date(date.getTime() + nbDays * 24 * 60 * 60 * 1000);
-      return new Date(new Date(tmp.getFullYear(), tmp.getMonth(), tmp.getDate()));
+      const tmp = new Date(date.getTime() + nbDays * 24 * 60 * 60 * 1000)
+      return new Date(new Date(tmp.getFullYear(), tmp.getMonth(), tmp.getDate()))
     }
-    return null;
+    return null
   }
 
   dateformat() {
-    return 'yyyy-MM-dd';
+    return 'yyyy-MM-dd'
   }
 
   convertToIntString(date, format, lang) {
     if (date && format && lang) {
-      return Intl.DateTimeFormat(lang, format).format(CommonUtils.isString(date) ? new Date(date) : date);
-    } else {
-      return null;
+      return Intl.DateTimeFormat(lang, format).format(CommonUtils.isString(date) ? new Date(date) : date)
+    }
+    else {
+      return null
     }
   }
 
@@ -60,9 +63,10 @@ class DateUtils {
           day: 'numeric',
         },
         lang,
-      );
-    } else {
-      return null;
+      )
+    }
+    else {
+      return null
     }
   }
 
@@ -76,9 +80,10 @@ class DateUtils {
           day: 'numeric',
         },
         lang,
-      );
-    } else {
-      return null;
+      )
+    }
+    else {
+      return null
     }
   }
 
@@ -95,9 +100,10 @@ class DateUtils {
           second: 'numeric',
         },
         lang,
-      );
-    } else {
-      return null;
+      )
+    }
+    else {
+      return null
     }
   }
 
@@ -114,66 +120,67 @@ class DateUtils {
           second: 'numeric',
         },
         lang,
-      );
-    } else {
-      return null;
+      )
+    }
+    else {
+      return null
     }
   }
 
   isValidDate(dateStr) {
     if (dateStr === undefined) {
-      return false;
+      return false
     }
-    let dateTime = new Date(dateStr);
+    const dateTime = new Date(dateStr)
 
     if (isNaN(dateTime)) {
-      return false;
+      return false
     }
-    return true;
+    return true
   }
 
   getDateDifference(fromDate, toDate) {
-    return new Date(toDate) - new Date(fromDate);
+    return new Date(toDate) - new Date(fromDate)
   }
 
   isValidDateRange(fromDate, toDate) {
     if (fromDate === '' || toDate === '') {
-      return true;
+      return true
     }
     if (this.isValidDate(fromDate) === false) {
-      return false;
+      return false
     }
     if (this.isValidDate(toDate) === true) {
-      let days = this.getDateDifference(fromDate, toDate);
+      const days = this.getDateDifference(fromDate, toDate)
       if (days <= 0) {
-        return false;
+        return false
       }
     }
-    return true;
+    return true
   }
 
   // normalize string dd/mm/yyyy or yyyy-mm-dd into date
   normalize(str) {
     if (str && !CommonUtils.isDate(str)) {
-      let match = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      let match = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
       if (match) {
-        return new Date(match[3], match[2] - 1, match[1]);
+        return new Date(match[3], match[2] - 1, match[1])
       }
-      match = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      match = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)
       if (match) {
-        return new Date(match[1], match[2] - 1, match[3]);
+        return new Date(match[1], match[2] - 1, match[3])
       }
     }
   }
 
   min(date1, date2) {
     if (!date1) {
-      return date2;
+      return date2
     }
     if (!date2) {
-      return date1;
+      return date1
     }
-    return this.getDateDifference(date1, date2) > 0 ? date1 : date2;
+    return this.getDateDifference(date1, date2) > 0 ? date1 : date2
   }
 }
-export default new DateUtils();
+export default new DateUtils()

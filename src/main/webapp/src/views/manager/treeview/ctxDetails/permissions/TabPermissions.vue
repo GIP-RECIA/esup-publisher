@@ -1,54 +1,15 @@
-<template>
-  <div v-if="permissionTemplate === 'permissionOnCtx'">
-    <PermissionOnCtx></PermissionOnCtx>
-  </div>
-  <div v-else-if="permissionTemplate === 'permissionOnCtxWithSubjects'">
-    <PermissionOnCtxWithSubjects></PermissionOnCtxWithSubjects>
-  </div>
-
-  <div class="modal fade" id="deletePermissionConfirmation" ref="deletePermissionConfirmation">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form name="deleteForm">
-          <div class="modal-header">
-            <h4 class="modal-title">{{ $t('entity.delete.title') }}</h4>
-            <button type="button" class="btn-close" aria-hidden="true" data-bs-dismiss="modal" @click="clearPermission"></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              {{
-                $t('permission.delete.question', {
-                  id: $t(getPermissionTypeLabel(permission.role)),
-                })
-              }}
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-outline-dark" data-bs-dismiss="modal" @click="clearPermission">
-              <span class="fas fa-times"></span>&nbsp;<span>{{ $t('entity.action.cancel') }}</span>
-            </button>
-            <button type="button" class="btn btn-danger" @click="confirmDeletePermission(permission.id)">
-              <span class="far fa-trash-can"></span>&nbsp;<span>{{ $t('entity.action.delete') }}</span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
-import PermissionOnCtxWithSubjects from './PermissionOnCtxWithSubjects.vue';
-import PermissionOnCtx from './PermissionOnCtx.vue';
-import PermissionService from '@/services/entities/permission/PermissionService.js';
-import PermissionOnContextService from '@/services/entities/permissionOnContext/PermissionOnContextService.js';
-import SubjectService from '@/services/params/SubjectService.js';
-import CommonUtils from '@/services/util/CommonUtils.js';
-import i18n from '@/i18n';
-import { computed, readonly } from 'vue';
-import { Modal } from 'bootstrap';
+import { Modal } from 'bootstrap'
+import { computed, readonly } from 'vue'
+import i18n from '@/i18n'
+import PermissionService from '@/services/entities/permission/PermissionService.js'
+import PermissionOnContextService from '@/services/entities/permissionOnContext/PermissionOnContextService.js'
+import SubjectService from '@/services/params/SubjectService.js'
+import CommonUtils from '@/services/util/CommonUtils.js'
+import PermissionOnCtx from './PermissionOnCtx.vue'
+import PermissionOnCtxWithSubjects from './PermissionOnCtxWithSubjects.vue'
 
-const { t } = i18n.global;
+const { t } = i18n.global
 
 export default {
   name: 'TabPermissions',
@@ -56,6 +17,47 @@ export default {
     PermissionOnCtx,
     PermissionOnCtxWithSubjects,
   },
+  provide() {
+    return {
+      addPerm: readonly(computed(() => this.addPerm)),
+      editEvaluatorError: readonly(computed(() => this.editEvaluatorError)),
+      selectedSubjects: readonly(computed(() => this.selectedSubjects)),
+      permission: computed(() => this.permission),
+      permissionAdvanced: readonly(computed(() => this.permissionAdvanced)),
+      isDatasLoad: readonly(computed(() => this.isDatasLoad)),
+      setIsDatasLoad: (isDatasLoad) => {
+        this.isDatasLoad = isDatasLoad
+      },
+      addPermission: this.addPermission,
+      areSubjectsSelected: this.areSubjectsSelected,
+      changePermissionAdvanced: this.changePermissionAdvanced,
+      clearPermission: this.clearPermission,
+      createPermission: this.createPermission,
+      deletePermission: this.deletePermission,
+      getPermissionTypeLabel: this.getPermissionTypeLabel,
+      onModificationEditEvaluator: this.onModificationEditEvaluator,
+      isAdvancedEvaluator: this.isAdvancedEvaluator,
+      updatePermission: this.updatePermission,
+      updateSelectedSubject: this.updateSelectedSubject,
+      updateAuthorizedSubjects: this.updateAuthorizedSubjects,
+      removeFromSelectedSubjects: this.removeFromSelectedSubjects,
+      removePermTarget: this.removePermTarget,
+      userDisplayedAttrs: this.userDisplayedAttrs,
+      userFonctionalAttrs: this.userFonctionalAttrs,
+    }
+  },
+  inject: [
+    'load',
+    'context',
+    'ctxPermissionType',
+    'loadAvailableRoles',
+    'availableRoles',
+    'permissionTypeList',
+    'selectPermissionManager',
+    'setCtxPermissionType',
+    'setPermissions',
+    'permissionTemplate',
+  ],
   data() {
     return {
       addPerm: true,
@@ -79,62 +81,24 @@ export default {
       },
       permissionAdvanced: false,
       isDatasLoad: false,
-    };
+    }
   },
-  provide() {
-    return {
-      addPerm: readonly(computed(() => this.addPerm)),
-      editEvaluatorError: readonly(computed(() => this.editEvaluatorError)),
-      selectedSubjects: readonly(computed(() => this.selectedSubjects)),
-      permission: computed(() => this.permission),
-      permissionAdvanced: readonly(computed(() => this.permissionAdvanced)),
-      isDatasLoad: readonly(computed(() => this.isDatasLoad)),
-      setIsDatasLoad: (isDatasLoad) => {
-        this.isDatasLoad = isDatasLoad;
-      },
-      addPermission: this.addPermission,
-      areSubjectsSelected: this.areSubjectsSelected,
-      changePermissionAdvanced: this.changePermissionAdvanced,
-      clearPermission: this.clearPermission,
-      createPermission: this.createPermission,
-      deletePermission: this.deletePermission,
-      getPermissionTypeLabel: this.getPermissionTypeLabel,
-      onModificationEditEvaluator: this.onModificationEditEvaluator,
-      isAdvancedEvaluator: this.isAdvancedEvaluator,
-      updatePermission: this.updatePermission,
-      updateSelectedSubject: this.updateSelectedSubject,
-      updateAuthorizedSubjects: this.updateAuthorizedSubjects,
-      removeFromSelectedSubjects: this.removeFromSelectedSubjects,
-      removePermTarget: this.removePermTarget,
-      userDisplayedAttrs: this.userDisplayedAttrs,
-      userFonctionalAttrs: this.userFonctionalAttrs,
-    };
-  },
-  inject: [
-    'load',
-    'context',
-    'ctxPermissionType',
-    'loadAvailableRoles',
-    'availableRoles',
-    'permissionTypeList',
-    'selectPermissionManager',
-    'setCtxPermissionType',
-    'setPermissions',
-    'permissionTemplate',
-  ],
   computed: {
     userDisplayedAttrs() {
-      return SubjectService.getUserDisplayedAttrs();
+      return SubjectService.getUserDisplayedAttrs()
     },
     userFonctionalAttrs() {
-      return SubjectService.getUserFonctionalAttrs();
+      return SubjectService.getUserFonctionalAttrs()
     },
+  },
+  mounted() {
+    this.deletePermissionConfirmation = new Modal(this.$refs.deletePermissionConfirmation)
   },
   methods: {
     addPermission() {
-      this.addPerm = false;
-      this.loadAvailableRoles();
-      this.selectedSubjects = [];
+      this.addPerm = false
+      this.loadAvailableRoles()
+      this.selectedSubjects = []
       switch (this.ctxPermissionType) {
         case 'CONTEXT':
           this.permission = {
@@ -155,9 +119,9 @@ export default {
               type: 'OR',
               evaluators: [],
             },
-          };
-          this.editEvaluatorError = true;
-          break;
+          }
+          this.editEvaluatorError = true
+          break
         case 'CONTEXT_WITH_SUBJECTS':
           this.permission = {
             type: 'PERMONCTXWSUBJS',
@@ -178,19 +142,19 @@ export default {
               evaluators: [],
             },
             authorizedSubjects: [],
-          };
-          this.editEvaluatorError = true;
-          break;
+          }
+          this.editEvaluatorError = true
+          break
         default:
-          this.permission = {};
-          break;
+          this.permission = {}
+          break
       }
     },
     areSubjectsSelected() {
-      return this.selectedSubjects.length > 0;
+      return this.selectedSubjects.length > 0
     },
     changePermissionAdvanced() {
-      this.permissionAdvanced = !this.permissionAdvanced;
+      this.permissionAdvanced = !this.permissionAdvanced
     },
     clearPermission() {
       this.permission = {
@@ -203,16 +167,16 @@ export default {
         lastModifiedDate: null,
         id: null,
         evaluator: { class: null, id: null, type: null, evaluators: [] },
-      };
-      this.deletePermissionConfirmation.hide();
-      this.loadAvailableRoles();
-      this.editEvaluatorError = false;
-      this.addPerm = true;
+      }
+      this.deletePermissionConfirmation.hide()
+      this.loadAvailableRoles()
+      this.editEvaluatorError = false
+      this.addPerm = true
     },
     confirmDeletePermission(id) {
       PermissionService.delete(id).then(() => {
-        this.load(this.ctxType, this.context.id);
-        this.deletePermissionConfirmation.hide();
+        this.load(this.ctxType, this.context.id)
+        this.deletePermissionConfirmation.hide()
         this.permission = {
           type: '',
           context: { keyId: null, keyType: null },
@@ -223,12 +187,12 @@ export default {
           lastModifiedDate: null,
           id: null,
           evaluator: { class: null, id: null, type: null, evaluators: [] },
-        };
-      });
+        }
+      })
     },
     createPermission() {
       if (!this.permissionAdvanced) {
-        this.permission.evaluator.evaluators = [];
+        this.permission.evaluator.evaluators = []
         for (let i = 0; i < this.selectedSubjects.length; i++) {
           if (this.selectedSubjects[i].keyType === 'PERSON') {
             this.permission.evaluator.evaluators.push({
@@ -237,91 +201,95 @@ export default {
               mode: 'EQUALS',
               attribute: 'uid',
               value: this.selectedSubjects[i].keyId,
-            });
-          } else if (this.selectedSubjects[i].keyType === 'GROUP') {
+            })
+          }
+          else if (this.selectedSubjects[i].keyType === 'GROUP') {
             this.permission.evaluator.evaluators.push({
               class: 'USERGROUP',
               id: null,
               group: this.selectedSubjects[i].keyId,
-            });
+            })
           }
         }
       }
       this.selectPermissionManager(this.ctxPermissionType)
         .update(this.permission)
         .then(() => {
-          this.load(this.ctxType, this.context.id);
-          this.clearPermission();
-        });
+          this.load(this.ctxType, this.context.id)
+          this.clearPermission()
+        })
     },
     deletePermission(id) {
       PermissionService.get(id).then((result) => {
-        this.permission = result.data;
-        this.deletePermissionConfirmation.show();
-      });
+        this.permission = result.data
+        this.deletePermissionConfirmation.show()
+      })
     },
     getEnumlabel(name) {
-      let data;
+      let data
       data = this.permissionTypeList.find((val) => {
-        return val.name === name;
-      });
-      return data ? data.label : '';
+        return val.name === name
+      })
+      return data ? data.label : ''
     },
     getPermissionTypeLabel(name) {
-      return this.getEnumlabel(name);
+      return this.getEnumlabel(name)
     },
     onModificationEditEvaluator(data, isValid) {
-      this.permission.evaluator = data;
-      this.editEvaluatorError = !isValid;
+      this.permission.evaluator = data
+      this.editEvaluatorError = !isValid
     },
     isAdvancedEvaluator(evaluator, depth) {
-      depth = typeof depth === 'undefined' ? 0 : depth;
+      depth = typeof depth === 'undefined' ? 0 : depth
       if (depth < 2 && CommonUtils.isDefined(evaluator) && CommonUtils.isDefined(evaluator.class)) {
         switch (evaluator.class) {
           case 'OPERATOR':
             if (
-              CommonUtils.isDefined(evaluator.type) &&
-              CommonUtils.equals('OR', evaluator.type) &&
-              CommonUtils.isDefined(evaluator.evaluators)
+              CommonUtils.isDefined(evaluator.type)
+              && CommonUtils.equals('OR', evaluator.type)
+              && CommonUtils.isDefined(evaluator.evaluators)
             ) {
-              let boolEval = false;
+              let boolEval = false
               for (let i = 0; i < evaluator.evaluators.length; i++) {
-                boolEval = boolEval && this.isAdvancedEvaluator(evaluator.evaluators[i], depth + 1);
-                if (boolEval) return true;
+                boolEval = boolEval && this.isAdvancedEvaluator(evaluator.evaluators[i], depth + 1)
+                if (boolEval)
+                  return true
               }
-              return false;
+              return false
             }
-            return true;
+            return true
           case 'USERATTRIBUTES':
           case 'USERMULTIVALUEDATTRIBUTES':
           case 'USERGROUP':
-            return false;
+            return false
           default:
-            return true;
+            return true
         }
       }
-      return true;
+      return true
     },
     removeFromSelectedSubjects(subject) {
-      this.selectedSubjects = this.selectedSubjects.filter(function (element) {
+      this.selectedSubjects = this.selectedSubjects.filter((element) => {
         if ('modelId' in subject) {
-          return !CommonUtils.equals(element.modelId, subject.modelId);
-        } else {
-          return !CommonUtils.equals(element, subject);
+          return !CommonUtils.equals(element.modelId, subject.modelId)
         }
-      });
+        else {
+          return !CommonUtils.equals(element, subject)
+        }
+      })
     },
     removePermTarget(subject) {
-      this.permission.authorizedSubjects = this.permission.authorizedSubjects.filter(function (element) {
-        if ('modelId' in subject) return !CommonUtils.equals(element, subject.modelId);
-        return !CommonUtils.equals(element, subject);
-      });
+      this.permission.authorizedSubjects = this.permission.authorizedSubjects.filter((element) => {
+        if ('modelId' in subject)
+          return !CommonUtils.equals(element, subject.modelId)
+        return !CommonUtils.equals(element, subject)
+      })
     },
     setSelectedSubjectsFromEvaluator(evaluator) {
-      this.selectedSubjects = [];
+      this.selectedSubjects = []
       if (!this.isAdvancedEvaluator(evaluator)) {
         for (let i = 0; i < evaluator.evaluators.length; i++) {
-          let subjectEval = evaluator.evaluators[i];
+          const subjectEval = evaluator.evaluators[i]
           switch (subjectEval.class) {
             case 'USERATTRIBUTES':
             case 'USERMULTIVALUEDATTRIBUTES':
@@ -329,66 +297,106 @@ export default {
                 this.selectedSubjects.push({
                   keyType: 'PERSON',
                   keyId: subjectEval.value,
-                });
+                })
               }
-              break;
+              break
             case 'USERGROUP':
               this.selectedSubjects.push({
                 keyType: 'GROUP',
                 keyId: subjectEval.group,
-              });
-              break;
+              })
+              break
             default:
-              throw new Error('not yet implemented');
+              throw new Error('not yet implemented')
           }
         }
       }
     },
     updateAuthorizedSubjects(datas) {
-      let newVal = datas[0];
+      const newVal = datas[0]
       if (CommonUtils.isDefined(newVal) && !CommonUtils.equals({}, newVal)) {
-        let found = false;
+        let found = false
         this.permission.authorizedSubjects.forEach((value) => {
           if (CommonUtils.equals(newVal.modelId, value)) {
-            found = true;
+            found = true
           }
-        });
+        })
         if (!found) {
-          this.permission.authorizedSubjects.push(newVal.modelId);
-        } else {
-          this.$toast.warning(t('permission.subjectAlreadySelected'));
+          this.permission.authorizedSubjects.push(newVal.modelId)
+        }
+        else {
+          this.$toast.warning(t('permission.subjectAlreadySelected'))
         }
       }
     },
     updatePermission(id) {
       PermissionOnContextService.get(id).then((result) => {
-        this.permission = result.data;
-        this.loadAvailableRoles(result.data.role);
-        this.setSelectedSubjectsFromEvaluator(this.permission.evaluator);
-        this.editEvaluatorError = false;
-        this.addPerm = false;
-      });
+        this.permission = result.data
+        this.loadAvailableRoles(result.data.role)
+        this.setSelectedSubjectsFromEvaluator(this.permission.evaluator)
+        this.editEvaluatorError = false
+        this.addPerm = false
+      })
     },
     // Mise à jour du sujet séléctionné
     updateSelectedSubject(datas) {
-      let newVal = datas[0];
+      const newVal = datas[0]
       if (CommonUtils.isDefined(newVal) && !CommonUtils.equals({}, newVal)) {
-        let found = false;
+        let found = false
         this.selectedSubjects.forEach((subject) => {
           if (CommonUtils.equals(newVal.modelId, subject)) {
-            found = true;
+            found = true
           }
-        });
+        })
         if (!found) {
-          this.selectedSubjects.push(newVal.modelId);
-        } else {
-          this.$toast.warning(t('permission.subjectAlreadySelected'));
+          this.selectedSubjects.push(newVal.modelId)
+        }
+        else {
+          this.$toast.warning(t('permission.subjectAlreadySelected'))
         }
       }
     },
   },
-  mounted() {
-    this.deletePermissionConfirmation = new Modal(this.$refs.deletePermissionConfirmation);
-  },
-};
+}
 </script>
+
+<template>
+  <div v-if="permissionTemplate === 'permissionOnCtx'">
+    <PermissionOnCtx />
+  </div>
+  <div v-else-if="permissionTemplate === 'permissionOnCtxWithSubjects'">
+    <PermissionOnCtxWithSubjects />
+  </div>
+
+  <div id="deletePermissionConfirmation" ref="deletePermissionConfirmation" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form name="deleteForm">
+          <div class="modal-header">
+            <h4 class="modal-title">
+              {{ $t('entity.delete.title') }}
+            </h4>
+            <button type="button" class="btn-close" aria-hidden="true" data-bs-dismiss="modal" @click="clearPermission" />
+          </div>
+          <div class="modal-body">
+            <p>
+              {{
+                $t('permission.delete.question', {
+                  id: $t(getPermissionTypeLabel(permission.role)),
+                })
+              }}
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-outline-dark" data-bs-dismiss="modal" @click="clearPermission">
+              <span class="fas fa-times" />&nbsp;<span>{{ $t('entity.action.cancel') }}</span>
+            </button>
+            <button type="button" class="btn btn-danger" @click="confirmDeletePermission(permission.id)">
+              <span class="far fa-trash-can" />&nbsp;<span>{{ $t('entity.action.delete') }}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>

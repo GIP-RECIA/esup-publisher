@@ -1,27 +1,9 @@
-<template>
-  <div v-if="context.type === 'NEWS'">
-    <News></News>
-  </div>
-  <div v-else-if="context.type === 'MEDIA'">
-    <Media></Media>
-  </div>
-  <div v-else-if="context.type === 'RESOURCE'">
-    <Resource></Resource>
-  </div>
-  <div v-else-if="context.type === 'FLASH'">
-    <Flash></Flash>
-  </div>
-  <div v-else>
-    <Empty></Empty>
-  </div>
-</template>
-
 <script>
-import News from './News.vue';
-import Media from './Media.vue';
-import Resource from './Resource.vue';
-import Flash from './Flash.vue';
-import Empty from './Empty.vue';
+import Empty from './Empty.vue'
+import Flash from './Flash.vue'
+import Media from './Media.vue'
+import News from './News.vue'
+import Resource from './Resource.vue'
 
 export default {
   name: 'TabItem',
@@ -33,5 +15,23 @@ export default {
     Empty,
   },
   inject: ['context'],
-};
+}
 </script>
+
+<template>
+  <div v-if="context.type === 'NEWS'">
+    <News />
+  </div>
+  <div v-else-if="context.type === 'MEDIA'">
+    <Media />
+  </div>
+  <div v-else-if="context.type === 'RESOURCE'">
+    <Resource />
+  </div>
+  <div v-else-if="context.type === 'FLASH'">
+    <Flash />
+  </div>
+  <div v-else>
+    <Empty />
+  </div>
+</template>
