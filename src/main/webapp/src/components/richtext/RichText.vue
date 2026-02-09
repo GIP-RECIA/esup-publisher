@@ -51,6 +51,7 @@ export default {
     'callBackProgress',
     'callBackAbord',
   ],
+  emits: ['update:modelValue'],
   data() {
     return {
       editorData: this.modelValue || '',
@@ -269,7 +270,7 @@ export default {
 
         const index = this.linkedFilesToContent.findIndex(element => element.uri === fileURI)
         const newValue = Array.from(this.linkedFilesToContent || [])
-        this.setLinkedFilesToContent(newValue.filter((element, i) => i != index))
+        this.setLinkedFilesToContent(newValue.filter((element, i) => i !== index))
       })
     },
     getUploadedFiles(editorData) {
@@ -282,8 +283,9 @@ export default {
         const { mediaUrlPattern } = ConfigurationService.getConfCKEditor()
         return new RegExp(mediaUrlPattern.substring(1, mediaUrlPattern.length - 1))
       }
-      catch (error) {
-        return new RegExp(/^(?:(?:https?:)?\/\/)?(.*\.fr\/POD\/video)\/(.*)\/(\?is_iframe=true)?$/)
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      catch (e) {
+        return /^(?:(?:https?:)?\/\/)?(.*\.fr\/POD\/video)\/(.*)\/(\?is_iframe=true)?$/
       }
     },
   },

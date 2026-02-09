@@ -5,6 +5,9 @@ import router from '@/router/index.js'
 import store from '@/store/index.js'
 import CookieUtils from './CookieUtils.js'
 
+// Compteur des requêtes en cours
+const countPendingRequests = ref(0)
+
 class FetchWrapper {
   countPendingRequests() {
     return countPendingRequests
@@ -49,9 +52,6 @@ class FetchWrapper {
     })
   }
 }
-
-// Compteur des requêtes en cours
-let countPendingRequests = ref(0)
 
 // Fonction permettant de faire une requête JSON et de la réessayer après login si erreur 401
 function fetchWithRetry(resolve, reject, url, params) {
@@ -115,8 +115,7 @@ function jsonp(url, callbackName, timeout) {
     let timeoutTimer = null
     if (timeout > -1) {
       timeoutTimer = setTimeout(() => {
-        // eslint-disable-next-line
-        console.warn('Timeout JSONP');
+        console.warn('Timeout JSONP')
         removeErrorListener()
         removeScript()
         reject(
@@ -129,8 +128,7 @@ function jsonp(url, callbackName, timeout) {
     }
 
     const onError = (err) => {
-      // eslint-disable-next-line
-      console.error('Error JSONP', err);
+      console.error('Error JSONP', err)
       if (timeoutTimer) {
         clearTimeout(timeoutTimer)
       }

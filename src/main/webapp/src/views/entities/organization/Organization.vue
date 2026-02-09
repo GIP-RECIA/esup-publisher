@@ -51,8 +51,7 @@ export default {
           this.organizations = response.data
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode permettant d'initialiser le FormValidator
@@ -90,8 +89,7 @@ export default {
           this.clear()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge d'ouvrir la modale de mise à jour de structure
@@ -103,8 +101,7 @@ export default {
           this.updateModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge d'ouvrir la modale de suppression de structure
@@ -115,8 +112,7 @@ export default {
           this.deleteModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Méthode en charge de supprimer une structure
@@ -128,8 +124,7 @@ export default {
           this.clear()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     clear() {

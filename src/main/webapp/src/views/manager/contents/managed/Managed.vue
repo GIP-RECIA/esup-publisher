@@ -85,8 +85,7 @@ export default {
           }
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     itemDetail(item) {
@@ -141,8 +140,7 @@ export default {
           this.deleteModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     confirmDelete(id) {
@@ -152,8 +150,7 @@ export default {
           this.loadAll()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     validateItem(id) {
@@ -163,8 +160,7 @@ export default {
           this.validateModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     confirmValidate(id) {
@@ -174,8 +170,7 @@ export default {
           this.loadAll()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     invalidateItem(id) {
@@ -185,8 +180,7 @@ export default {
           this.invalidateModal.show()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     confirmInvalidate(id) {
@@ -196,8 +190,7 @@ export default {
           this.loadAll()
         })
         .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
+          console.error(error)
         })
     },
     // Fonction de formatage de date avec heure
@@ -365,7 +358,7 @@ export default {
             <th class="d-md-none d-lg-none d-xl-table-cell">
               {{ $t('item.rssAllowed') }}
             </th>
-            <th v-if="organizations !== null && organizations.length > 1 && organization_filter == -1">
+            <th v-if="organizations !== null && organizations.length > 1 && organization_filter === -1">
               {{ $t('item.organization') }}
             </th>
             <th class="d-none">
@@ -431,7 +424,7 @@ export default {
               <input v-model="item.rssAllowed" type="checkbox" disabled>
             </td>
             <td
-              v-if="organizations !== null && organizations.length > 1 && organization_filter == -1"
+              v-if="organizations !== null && organizations.length > 1 && organization_filter === -1"
               :data-label="$t('item.organization')"
             >
               {{ item.organization.name }}
@@ -448,7 +441,7 @@ export default {
                   <span class="fas fa-pencil" />&nbsp;<span>{{ $t('entity.action.edit') }}</span>
                 </button>
                 <button
-                  v-if="item.status == 'PENDING'"
+                  v-if="item.status === 'PENDING'"
                   type="button"
                   class="btn btn-warning btn-sm me-1 text-white"
                   @click="validateItem(item.id)"
@@ -456,7 +449,7 @@ export default {
                   <span class="fas fa-check" />&nbsp;<span>{{ $t('entity.action.validate') }}</span>
                 </button>
                 <button
-                  v-if="item.status == 'SCHEDULED' || item.status == 'PUBLISHED'"
+                  v-if="item.status === 'SCHEDULED' || item.status === 'PUBLISHED'"
                   type="button"
                   class="btn btn-warning btn-sm me-1 text-white"
                   @click="invalidateItem(item.id)"
