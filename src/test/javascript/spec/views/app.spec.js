@@ -14,6 +14,7 @@ describe('app.vue tests', () => {
 
   it('test 1 App footer - Affichage de la version de l\'application', async () => {
     ConfigurationService.init = vi.fn().mockReturnValue(Promise.resolve([]))
+    ConfigurationService.getConfInjectedWebComponents = vi.fn().mockReturnValue([])
     EnumDatasService.init = vi.fn().mockReturnValue(Promise.resolve([]))
     process.env = Object.assign(process.env, {
       NODE_ENV: 'production',
@@ -57,6 +58,7 @@ describe('app.vue tests', () => {
     expect(wrapper.find('#footer-back-version').exists()).toBe(true)
     expect(wrapper.find('.development').exists()).toBe(false)
     expect(ConfigurationService.init).toHaveBeenCalledTimes(1)
+    expect(ConfigurationService.getConfInjectedWebComponents).toHaveBeenCalledTimes(1)
     expect(EnumDatasService.init).toHaveBeenCalledTimes(1)
     expect($store.commit).toHaveBeenCalledTimes(1)
     expect($store.commit).toHaveBeenCalledWith('initializeStore')
