@@ -198,6 +198,7 @@ public class ItemResource {
     //+ " && hasPermission(#id,  '" + SecurityConstants.CTX_ITEM + "', '" + SecurityConstants.PERM_EDITOR + "')")
     public void delete(@PathVariable Long id) {
         log.debug("REST request to delete Item : {}", id);
+        log.warn("Direct REST request to delete Item: {}. Prefer DELETE /api/contents/{}.", id, id);
         contentService.deleteContent(id);
     }
 }
