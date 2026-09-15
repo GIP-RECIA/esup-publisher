@@ -20,6 +20,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -61,7 +63,6 @@ import org.esupportail.publisher.security.AuthoritiesConstants;
 import org.esupportail.publisher.security.CustomUserDetails;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.service.ContentService;
-import org.esupportail.publisher.service.FileService;
 import org.esupportail.publisher.service.factories.UserDTOFactory;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
 
@@ -138,7 +139,6 @@ public class ItemResourceTest {
     private IPermissionService permissionService;
 
     private MockMvc restNewsMockMvc;
-
     private Organization organization;
     private AbstractItem item;
     private Redactor redactor;
@@ -152,11 +152,10 @@ public class ItemResourceTest {
         //closeable = MockitoAnnotations.openMocks(this);
         ItemResource itemResource = new ItemResource();
         OrganizationResource organizationResource = new OrganizationResource();
-        FileService fileservice = new FileService();
+        contentService = mock(ContentService.class);
         RedactorResource redactorResource = new RedactorResource();
         ReflectionTestUtils.setField(itemResource, "itemRepository", itemRepository);
         ReflectionTestUtils.setField(itemResource, "permissionService", permissionService);
-        ReflectionTestUtils.setField(itemResource, "fileService", fileservice);
         ReflectionTestUtils.setField(organizationResource, "organizationRepository", organizationRepository);
         ReflectionTestUtils.setField(itemResource, "contentService", contentService);
         ReflectionTestUtils.setField(redactorResource, "redactorRepository", redactorRepository);
@@ -452,17 +451,10 @@ public class ItemResourceTest {
     @Test
     @Transactional
     public void deleteItem() throws Exception {
-        // Initialize the database
-        itemRepository.saveAndFlush(item);
-
-        int databaseSizeBeforeDelete = itemRepository.findAll().size();
-
-        // Get the news
-        restNewsMockMvc.perform(delete("/api/items/{id}", item.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
+        final long itemId = 42L;
+        restNewsMockMvc.perform(delete("/api/items/{id}", itemId).accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
-        // Validate the database is empty
-        List<AbstractItem> items = itemRepository.findAll();
-        assertThat(items, hasSize(databaseSizeBeforeDelete - 1));
+        verify(contentService).deleteContent(itemId);
     }
 }

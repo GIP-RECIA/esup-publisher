@@ -33,7 +33,6 @@ import org.esupportail.publisher.repository.predicates.ItemPredicates;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.security.SecurityConstants;
 import org.esupportail.publisher.service.ContentService;
-import org.esupportail.publisher.service.FileService;
 import org.esupportail.publisher.web.rest.dto.ActionDTO;
 import org.esupportail.publisher.web.rest.util.PaginationUtil;
 
@@ -73,9 +72,6 @@ public class ItemResource {
 
     @Inject
     private ContentService contentService;
-
-    @Inject
-    private FileService fileService;
 
     /**
      * POST  /items -> Create a new item.
@@ -202,13 +198,6 @@ public class ItemResource {
     //+ " && hasPermission(#id,  '" + SecurityConstants.CTX_ITEM + "', '" + SecurityConstants.PERM_EDITOR + "')")
     public void delete(@PathVariable Long id) {
         log.debug("REST request to delete Item : {}", id);
-        Optional<AbstractItem> optionalAbstractItem =  itemRepository.findById(id);
-        AbstractItem item = optionalAbstractItem.orElse(null);
-        if (item == null) {
-            log.warn("Try to delete an item not existing !");
-            return;
-        }
-        fileService.deleteInternalResource(item.getEnclosure());
-        itemRepository.deleteById(id);
+        contentService.deleteContent(id);
     }
 }
