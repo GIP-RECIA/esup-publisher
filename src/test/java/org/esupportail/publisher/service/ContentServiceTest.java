@@ -16,10 +16,13 @@
 package org.esupportail.publisher.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -36,6 +39,47 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class ContentServiceTest {
+
+    @Test
+    public void archivePublishedContents_ArchivesExpiredPublishedItems() {
+        final ContentService contentService = new ContentService();
+        final ItemRepository<AbstractItem> itemRepository = mock(ItemRepository.class);
+        ReflectionTestUtils.setField(contentService, "itemRepository", itemRepository);
+
+        contentService.archivePublishedContents();
+
+        verify(itemRepository).archiveExpiredPublished();
+    }
+
+    @Test
+    public void publishScheduledContents_PublishesScheduledItems() {
+        final ContentService contentService = new ContentService();
+        final ItemRepository<AbstractItem> itemRepository = mock(ItemRepository.class);
+        ReflectionTestUtils.setField(contentService, "itemRepository", itemRepository);
+
+        contentService.publishScheduledContents();
+
+        verify(itemRepository).publishScheduled();
+    }
+
+    @Test
+    public void removeOldContents_DeletesEveryItemSelectedForRemoval() {
+        final AbstractItem firstItem = new News();
+        firstItem.setId(42L);
+        final AbstractItem secondItem = new News();
+        secondItem.setId(84L);
+        final ContentService contentService = spy(new ContentService());
+        final ItemRepository<AbstractItem> itemRepository = mock(ItemRepository.class);
+        ReflectionTestUtils.setField(contentService, "itemRepository", itemRepository);
+        when(itemRepository.findAll(any(Predicate.class))).thenReturn(Arrays.asList(firstItem, secondItem));
+        doNothing().when(contentService).deleteContent(any(Long.class));
+
+        contentService.removeOldContents();
+
+        verify(itemRepository).findAll(any(Predicate.class));
+        verify(contentService).deleteContent(firstItem.getId());
+        verify(contentService).deleteContent(secondItem.getId());
+    }
 
     @Test
     public void deleteContent_DeletesItemAndItsFilesAndAssociations() {
