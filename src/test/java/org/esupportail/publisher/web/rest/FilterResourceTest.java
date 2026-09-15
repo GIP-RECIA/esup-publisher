@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.Filter;

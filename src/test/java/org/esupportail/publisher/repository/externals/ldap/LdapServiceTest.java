@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.nullValue;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.externals.ExternalGroupHelper;

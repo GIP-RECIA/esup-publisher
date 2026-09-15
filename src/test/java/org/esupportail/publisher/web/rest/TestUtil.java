@@ -20,9 +20,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
@@ -47,10 +46,7 @@ public final class TestUtil {
             MediaType.APPLICATION_RSS_XML.getSubtype(), StandardCharsets.UTF_8);
 
     private static ObjectMapper createObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        mapper.registerModule(new JavaTimeModule());
-        return mapper;
+        return JsonMapper.builder().findAndAddModules().build();
     }
 
     /**

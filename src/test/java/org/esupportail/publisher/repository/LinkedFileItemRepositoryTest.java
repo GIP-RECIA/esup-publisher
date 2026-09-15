@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.AbstractItem;

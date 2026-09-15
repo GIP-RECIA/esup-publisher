@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.repository.UserRepository;

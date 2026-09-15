@@ -18,21 +18,11 @@ package org.esupportail.publisher.service;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import org.esupportail.publisher.Application;
-
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-@SpringBootTest(classes = Application.class)
-@WebAppConfiguration
 public class FileServiceTest {
 
-//	@Mock
-//	private FileUploadHelper publicFileUploadHelper;
-	@InjectMocks
-	private FileService fileService;
+    private final FileService fileService = new FileService();
 
 	@Test
 	public void deleteInternalResource_UrlPathIsNull_ReturnFalse() {
