@@ -53,6 +53,24 @@ public class DateAdaptersTest {
     }
 
     @Test
+    public void testAdaptersPreserveInputOffset() throws Exception {
+        Instant expectedDate = Instant.parse("2020-06-15T17:10:12Z");
+        RFC822LocalDateTimeXmlAdapter rfc822Adapter = new RFC822LocalDateTimeXmlAdapter();
+        ISO8601LocalDateTimeXmlAdapter iso8601Adapter = new ISO8601LocalDateTimeXmlAdapter();
+
+        assertThat(expectedDate, equalTo(rfc822Adapter.unmarshal("Mon, 15 Jun 2020 12:10:12 -0500")));
+        assertThat(expectedDate, equalTo(iso8601Adapter.unmarshal("2020-06-15T12:10:12-05:00")));
+    }
+
+    @Test
+    public void testAdaptersUseSummerTimeWhenMarshalling() throws Exception {
+        Instant mydate = Instant.parse("2024-03-31T01:30:00Z");
+        ISO8601LocalDateTimeXmlAdapter adapter = new ISO8601LocalDateTimeXmlAdapter();
+
+        assertThat("2024-03-31T03:30:00+02:00", equalTo(adapter.marshal(mydate)));
+    }
+
+    @Test
     public void testLocalDateToISO8601() throws Exception {
         ISO8601LocalDateTimeXmlAdapter adapter = new ISO8601LocalDateTimeXmlAdapter();
         Instant mydate = LocalDate.of(2020,02,10).atStartOfDay(ZoneId.systemDefault()).toInstant();

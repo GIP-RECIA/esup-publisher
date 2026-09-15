@@ -29,8 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -232,6 +234,23 @@ public class ItemResourceTest {
         assertThat(testNews.getRedactor(), equalTo(redactor));
         assertThat(testNews.getOrganization(), equalTo(organization));
 
+    }
+
+    @Test
+    @Transactional
+    public void createItemWithTimezoneOffset() throws Exception {
+        Instant authorDate = OffsetDateTime.parse("2024-06-15T12:00:00+02:00").toInstant();
+        item.setValidatedDate(authorDate);
+        String itemJson = new String(TestUtil.convertObjectToJsonBytes(item), StandardCharsets.UTF_8)
+            .replace(authorDate.toString(), "2024-06-15T12:00:00+02:00");
+
+        restNewsMockMvc.perform(post("/api/items").contentType(TestUtil.APPLICATION_JSON_UTF8).content(itemJson))
+            .andExpect(status().isCreated());
+
+        AbstractItem persistedItem = itemRepository.findAll().get(0);
+        restNewsMockMvc.perform(get("/api/items/{id}", persistedItem.getId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.validatedDate").value(authorDate.toString()));
     }
 
     @Test

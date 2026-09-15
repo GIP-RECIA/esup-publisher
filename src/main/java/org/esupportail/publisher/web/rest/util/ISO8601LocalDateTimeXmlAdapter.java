@@ -20,7 +20,7 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -34,7 +34,7 @@ public class ISO8601LocalDateTimeXmlAdapter extends XmlAdapter<String, Instant> 
 
     @Override
     public Instant unmarshal(String v) throws Exception {
-        return LocalDateTime.parse(v, DateTimeFormatter.ISO_OFFSET_DATE_TIME).atZone(ZoneId.systemDefault()).toInstant();
+        return OffsetDateTime.parse(v, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant();
     }
 
     @Override

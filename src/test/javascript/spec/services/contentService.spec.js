@@ -112,6 +112,29 @@ describe("ContentService.js tests", () => {
     });
   });
 
+  it("preserves instants with an explicit timezone offset", async () => {
+    const response = {
+      data: {
+        item: {
+          endDate: "2024-03-31",
+          startDate: "2024-03-30",
+          validatedDate: "2024-03-31T03:30:00+02:00",
+          createdDate: "2024-03-31T01:30:00Z",
+          lastModifiedDate: "2024-03-31T01:30:00Z",
+        },
+        linkedFiles: [],
+      },
+      headers: [],
+    };
+    FetchWrapper.getJson = jest.fn().mockReturnValue(Promise.resolve(response));
+
+    const value = await ContentService.get(1);
+
+    expect(value.data.item.validatedDate.toISOString()).toBe("2024-03-31T01:30:00.000Z");
+    expect(value.data.item.startDate).toStrictEqual(new Date(2024, 2, 30));
+    expect(value.data.item.endDate).toStrictEqual(new Date(2024, 2, 31));
+  });
+
   it("test 4 ContentService - save", (done) => {
     FetchWrapper.postJson = jest.fn().mockReturnValue(Promise.resolve({}));
 

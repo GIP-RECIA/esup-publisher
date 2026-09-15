@@ -96,4 +96,10 @@ describe("DateUtils.js tests", () => {
     result = DateUtils.min(null, null);
     expect(result).toStrictEqual(null);
   });
+
+  it("normalizes supported local date formats", () => {
+    expect(DateUtils.normalize("31/12/2024")).toStrictEqual(new Date(2024, 11, 31));
+    expect(DateUtils.normalize("2024-12-31")).toStrictEqual(new Date(2024, 11, 31));
+    expect(DateUtils.normalize("31-12-2024")).toBeUndefined();
+  });
 });
