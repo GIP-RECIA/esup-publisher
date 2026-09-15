@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.Filter;
 import org.esupportail.publisher.domain.enums.ContextType;
@@ -39,6 +38,8 @@ import org.esupportail.publisher.repository.externals.IExternalGroupDao;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.service.factories.TreeJSDTOFactory;
 import org.esupportail.publisher.service.factories.UserDTOFactory;
+import org.esupportail.publisher.service.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.esupportail.publisher.web.rest.dto.PermissionDTO;
 import org.esupportail.publisher.web.rest.dto.TreeJS;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
@@ -53,11 +54,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.web.WebAppConfiguration;
-@SpringBootTest(classes = Application.class)
-@WebAppConfiguration
 public class GroupServiceTest {
 
 	@Mock
