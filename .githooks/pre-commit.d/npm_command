@@ -2,6 +2,8 @@
 
 echo "Run npm hook for Prettier checking"
 
+export PATH="$(pwd)/node:$PATH"
+
 npm run format:check
 
 if [ $? -gt 0 ]
