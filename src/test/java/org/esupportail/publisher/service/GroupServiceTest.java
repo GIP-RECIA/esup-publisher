@@ -439,5 +439,48 @@ public class GroupServiceTest {
 		assertThat(resultList.size(), equalTo(0));
 	}
 
+	@Test
+	public void getRootNodes_IfPermissionTypeADMINAndGroupsAreResolved_shouldReturnTreeNodes() {
+		// GIVEN
+		ContextKey contextKey = Utils.contextKeyValue(1L, ContextType.ORGANIZATION);
+		ContextKey contextKey1 = Utils.contextKeyValue(2L, ContextType.PUBLISHER);
+		List<ContextKey> subContextKeys = Utils.subContextKeys(new ContextKey[] {contextKey, contextKey1});
+		Filter filter = new Filter();
+
+		ExternalGroup filteredGroup1 = new ExternalGroup();
+		filteredGroup1.setId("1");
+		ExternalGroup filteredGroup2 = new ExternalGroup();
+		filteredGroup2.setId("2");
+		List<IExternalGroup> filteredGroups = new ArrayList<>();
+		filteredGroups.add(filteredGroup1);
+		filteredGroups.add(filteredGroup2);
+
+		List<IExternalGroup> resolvedGroups = new ArrayList<>();
+		resolvedGroups.add(filteredGroup1);
+		resolvedGroups.add(filteredGroup2);
+		List<TreeJS> expectedTreeNodes = new ArrayList<>();
+		expectedTreeNodes.add(new TreeJS());
+		expectedTreeNodes.add(new TreeJS());
+
+		Pair<PermissionType, PermissionDTO> perms = new Pair<>(PermissionType.ADMIN, null);
+		Set<String> groupIds = Sets.newHashSet("1", "2");
+
+		// GIVEN SERVICES
+		when(permissionService.getPermsOfUserInContext(SecurityContextHolder
+				.getContext().getAuthentication(), contextKey)).thenReturn(perms);
+		when(contextService.getOrganizationCtxOfCtx(contextKey)).thenReturn(contextKey);
+		when(filterRepository.findOne(Mockito.any(Predicate.class))).thenReturn(Optional.of(filter));
+		when(externalGroupDao.getGroupsWithFilter(filter.getPattern(), null, false)).thenReturn(filteredGroups);
+		when(externalGroupDao.getGroupsById(groupIds, true)).thenReturn(resolvedGroups);
+		when(treeJSDTOFactory.asDTOList(resolvedGroups)).thenReturn(expectedTreeNodes);
+
+		// WHEN
+		List<TreeJS> resultList = groupService.getRootNodes(contextKey, subContextKeys);
+
+		// THEN
+		assertThat(resultList, equalTo(expectedTreeNodes));
+		verify(treeJSDTOFactory).asDTOList(resolvedGroups);
+	}
+
 
 }
