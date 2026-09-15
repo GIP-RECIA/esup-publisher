@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

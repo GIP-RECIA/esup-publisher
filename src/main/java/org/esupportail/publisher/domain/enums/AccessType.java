@@ -22,8 +22,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlEnumValue;
+import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * @author GIP RECIA - Julien Gribonvald 1 juil. 2014

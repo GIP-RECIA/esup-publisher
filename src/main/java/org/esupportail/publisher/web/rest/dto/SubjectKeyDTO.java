@@ -15,12 +15,12 @@
  */
 package org.esupportail.publisher.web.rest.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.esupportail.publisher.domain.enums.SubjectType;
 import org.esupportail.publisher.domain.util.CustomEnumSerializer;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

@@ -23,9 +23,9 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.constraints.NotNull;
 
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.SubjectKey;

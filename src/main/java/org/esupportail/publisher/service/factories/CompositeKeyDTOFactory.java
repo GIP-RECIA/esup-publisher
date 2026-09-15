@@ -17,7 +17,7 @@ package org.esupportail.publisher.service.factories;
 
 import org.esupportail.publisher.web.rest.dto.ICompositeKey;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;

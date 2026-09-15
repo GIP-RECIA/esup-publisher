@@ -23,8 +23,8 @@ import lombok.ToString;
 import org.esupportail.publisher.domain.enums.StringEvaluationMode;
 import org.esupportail.publisher.service.evaluators.IEvaluationVisitor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author GIP RECIA - Julien Gribonvald 14 oct. 2013

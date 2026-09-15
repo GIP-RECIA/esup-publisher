@@ -19,8 +19,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.domain.AbstractItem;
 import org.esupportail.publisher.domain.enums.ContextType;
@@ -149,7 +149,7 @@ public class ItemResource {
     /**
      * GET  /items -> get all the items.
      */
-    @RequestMapping(value = "/items",
+    @RequestMapping(value = { "/items", "/items/" },
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(SecurityConstants.IS_ROLE_USER)

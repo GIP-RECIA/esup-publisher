@@ -15,8 +15,8 @@
  */
 package org.esupportail.publisher.domain.enums;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * @author GIP RECIA - Julien Gribonvald
@@ -27,6 +27,9 @@ public class BooleanConverter implements AttributeConverter<Boolean, String> {
 
     @Override
     public String convertToDatabaseColumn(Boolean value) {
+        if (value == null) {
+            return null;
+        }
         if (value) {
             return "1";
         }
@@ -35,6 +38,9 @@ public class BooleanConverter implements AttributeConverter<Boolean, String> {
 
     @Override
     public Boolean convertToEntityAttribute(String value) {
+        if (value == null) {
+            return null;
+        }
         return "1".equals(value);
     }
 

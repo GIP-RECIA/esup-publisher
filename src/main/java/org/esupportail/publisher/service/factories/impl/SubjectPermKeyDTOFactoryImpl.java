@@ -26,9 +26,9 @@ import org.esupportail.publisher.web.rest.dto.SubjectKeyDTO;
 import org.esupportail.publisher.web.rest.dto.SubjectPermKeyDTO;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 

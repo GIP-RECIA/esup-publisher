@@ -39,7 +39,6 @@ import org.esupportail.publisher.service.bean.ServiceUrlHelper;
 import org.esupportail.publisher.service.factories.*;
 import org.esupportail.publisher.web.rest.vo.Category;
 import org.esupportail.publisher.web.rest.vo.*;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,9 +46,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -303,7 +302,7 @@ public class PublishController {
                 } else {
                     // we don't manager more than redactor.getNbLevelsOfClassification() > 2
                     // systeme classic esup-lecture/esup-news
-                    if (WritingMode.TARGETS_ON_ITEM.equals(redactor.getWritingMode())) throw new NotYetImplementedException();
+                    if (WritingMode.TARGETS_ON_ITEM.equals(redactor.getWritingMode())) throw new UnsupportedOperationException();
                     List<? extends AbstractClassification> cts = Lists.newArrayList(categoryRepository.findAll(ClassificationPredicates.CategoryOfPublisher(pub.getId()),
                         ClassificationPredicates.categoryOrderByDisplayOrderType(pub.getDefaultDisplayOrder())));
                     log.debug("list of categories associated to publisher : {}", cts);

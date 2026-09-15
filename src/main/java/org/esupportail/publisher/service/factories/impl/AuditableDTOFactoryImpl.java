@@ -23,7 +23,7 @@ import org.esupportail.publisher.service.factories.SubjectDTOFactory;
 import org.esupportail.publisher.service.factories.UserDTOFactory;
 import org.esupportail.publisher.web.rest.dto.AuditableDTO;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author GIP RECIA - Julien Gribonvald

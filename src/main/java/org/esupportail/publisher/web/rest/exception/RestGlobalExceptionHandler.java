@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.web.rest.exception;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.esupportail.publisher.service.exceptions.UnsupportedMimeTypeException;
 import org.esupportail.publisher.web.rest.dto.ErrorMessage;
@@ -24,12 +24,15 @@ import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.impl.SizeException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -40,7 +43,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     //StandardServletMultipartResolver
-    @ExceptionHandler({MultipartException.class, MaxUploadSizeExceededException.class})
+    @ExceptionHandler(MultipartException.class)
     @ResponseBody
     ResponseEntity<?> handleException(HttpServletRequest request, Throwable ex) {
         HttpStatus status = getStatus(request);
@@ -52,6 +55,12 @@ public class RestGlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 ImmutableMap.of("size", ((SizeException) ex.getCause().getCause()).getPermittedSize())),status);
         }
         return new ResponseEntity<Object>(new ErrorMessage("errors.upload.generic"),status);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex,
+            HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        return new ResponseEntity<>(new ErrorMessage("errors.upload.generic"), headers, status);
     }
     //CommonsMultipartResolver
     // removed since apache FileUpload library isn't anymore used into spring and that have a custom impl
@@ -72,7 +81,7 @@ public class RestGlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+        Integer statusCode = (Integer) request.getAttribute("jakarta.servlet.error.status_code");
         if (statusCode == null) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }

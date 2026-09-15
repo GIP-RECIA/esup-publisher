@@ -21,7 +21,7 @@ spring:
         useServerPrepStmts: true
 
   jpa:
-    database-platform: org.hibernate.dialect.MariaDB10Dialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
     database: MYSQL
     show-sql: false
     hibernate:

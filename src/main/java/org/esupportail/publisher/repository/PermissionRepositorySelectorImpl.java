@@ -19,8 +19,8 @@ import org.esupportail.publisher.domain.AbstractPermission;
 import org.esupportail.publisher.domain.enums.PermissionClass;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * Created by jgribonvald on 04/11/15.

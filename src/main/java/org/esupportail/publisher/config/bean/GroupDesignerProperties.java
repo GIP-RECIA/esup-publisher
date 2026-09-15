@@ -18,8 +18,8 @@ package org.esupportail.publisher.config.bean;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;

@@ -21,8 +21,8 @@ package org.esupportail.publisher.service.factories.impl;
 import java.util.Collection;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

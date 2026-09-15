@@ -15,20 +15,23 @@
  */
 package org.esupportail.publisher.domain.util;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ser.std.StdSerializer;
+import tools.jackson.databind.SerializationContext;
 
-import java.io.IOException;
 
 /**
  * Created by jgribonvald on 01/04/15.
  */
-public class CustomEnumSerializer extends JsonSerializer<Enum<?>> {
+public class CustomEnumSerializer extends StdSerializer<Object> {
+
+    public CustomEnumSerializer() {
+        super(Object.class);
+    }
 
     @Override
-    public void serialize(Enum<?> value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+    public void serialize(Object value, JsonGenerator jgen, SerializationContext provider) throws JacksonException {
         jgen.writeString(value.toString());
     }
 }

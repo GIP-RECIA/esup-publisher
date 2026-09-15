@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.web.rest.util;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import lombok.extern.slf4j.Slf4j;
 

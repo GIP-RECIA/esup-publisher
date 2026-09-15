@@ -23,11 +23,11 @@ import lombok.ToString;
 import org.esupportail.publisher.domain.util.CstPropertiesLength;
 import org.esupportail.publisher.service.evaluators.IEvaluationVisitor;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author GIP RECIA - Julien Gribonvald 14 oct. 2013

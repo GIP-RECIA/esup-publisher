@@ -23,7 +23,7 @@ import org.esupportail.publisher.domain.enums.PermissionType;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.Serializable;
 
 @Slf4j

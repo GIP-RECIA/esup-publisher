@@ -23,9 +23,9 @@ import org.esupportail.publisher.domain.enums.ContextType;
 import org.esupportail.publisher.domain.util.CstPropertiesLength;
 import java.time.Instant;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**

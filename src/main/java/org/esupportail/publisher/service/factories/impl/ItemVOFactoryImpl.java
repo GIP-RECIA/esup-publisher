@@ -22,9 +22,9 @@ import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import lombok.SneakyThrows;
 import org.esupportail.publisher.domain.AbstractClassification;

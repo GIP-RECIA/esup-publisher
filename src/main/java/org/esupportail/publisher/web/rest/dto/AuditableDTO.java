@@ -20,7 +20,7 @@ import lombok.Setter;
 import lombok.ToString;
 import java.time.Instant;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 @ToString(callSuper=true)

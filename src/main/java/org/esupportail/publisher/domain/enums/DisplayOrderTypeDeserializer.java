@@ -15,25 +15,26 @@
  */
 package org.esupportail.publisher.domain.enums;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
-import java.io.IOException;
 
 /**
  * Created by jgribonvald on 01/04/15.
  */
-public class DisplayOrderTypeDeserializer extends JsonDeserializer<DisplayOrderType> {
+public class DisplayOrderTypeDeserializer extends StdDeserializer<DisplayOrderType> {
+    public DisplayOrderTypeDeserializer() {
+        super(DisplayOrderType.class);
+    }
     @Override
-    public DisplayOrderType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public DisplayOrderType deserialize(JsonParser jp, DeserializationContext ctxt) throws JacksonException {
         DisplayOrderType type = DisplayOrderType.fromName(jp.getValueAsString());
         if (type != null) {
             return type;
         }
-        throw new JsonMappingException(jp, String.format("Invalid value '%s' for %s, must be in range of %s", jp.getValueAsString(),
-            DisplayOrderType.class.getSimpleName(), DisplayOrderType.values().toString()));
+        return (DisplayOrderType) ctxt.handleWeirdStringValue(DisplayOrderType.class, jp.getValueAsString(),
+            "Invalid value '%s' for %s, must be in range of %s", jp.getValueAsString(), DisplayOrderType.class.getSimpleName(), DisplayOrderType.values().toString());
     }
 }

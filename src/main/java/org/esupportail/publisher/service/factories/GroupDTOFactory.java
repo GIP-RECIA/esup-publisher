@@ -22,7 +22,7 @@ import org.esupportail.publisher.domain.externals.IExternalGroup;
 import org.esupportail.publisher.web.rest.dto.GroupDTO;
 import org.esupportail.publisher.web.rest.dto.SubjectDTO;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 

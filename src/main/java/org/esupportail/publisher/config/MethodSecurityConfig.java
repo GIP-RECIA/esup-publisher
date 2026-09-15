@@ -38,16 +38,13 @@ import org.springframework.security.access.expression.method.DefaultMethodSecuri
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.access.vote.RoleHierarchyVoter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
-import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.util.Assert;
 
 @Configuration
 @AutoConfigureBefore(SecurityConfiguration.class)
-@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
-public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+@EnableMethodSecurity(jsr250Enabled = true)
+public class MethodSecurityConfig {
 
 	private ApplicationContext applicationContext;
 
@@ -58,18 +55,11 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 		this.esupPublisherProperties = esupPublisherProperties;
 	}
 
-	@Bean
-	public RoleHierarchyVoter roleVoter() {
-		return new RoleHierarchyVoter(roleHierarchy());
-	}
-
-	@Bean
-	public RoleHierarchy roleHierarchy() {
-		RoleHierarchyImpl rhi = new RoleHierarchyImpl();
-		rhi.setHierarchy(AuthoritiesConstants.ADMIN + " > " + AuthoritiesConstants.USER
-				+ " > " + AuthoritiesConstants.AUTHENTICATED
-				+ " > " + AuthoritiesConstants.ANONYMOUS);
-		return rhi;
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        return RoleHierarchyImpl.fromHierarchy(AuthoritiesConstants.ADMIN + " > " + AuthoritiesConstants.USER + "\n"
+            + AuthoritiesConstants.USER + " > " + AuthoritiesConstants.AUTHENTICATED + "\n"
+            + AuthoritiesConstants.AUTHENTICATED + " > " + AuthoritiesConstants.ANONYMOUS);
 	}
 
 	@Bean
@@ -77,20 +67,11 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 		return new CustomPermissionEvaluator();
 	}
 
-	@Override
-	protected MethodSecurityExpressionHandler createExpressionHandler() {
+    @Bean
+    public MethodSecurityExpressionHandler methodSecurityExpressionHandler() {
 		DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
 		expressionHandler.setPermissionEvaluator(permissionEvaluator());
 		expressionHandler.setRoleHierarchy(roleHierarchy());
-		expressionHandler.setApplicationContext(applicationContext);
-		return expressionHandler;
-	}
-
-	@Bean
-	public DefaultWebSecurityExpressionHandler webExpressionHandler() {
-		DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
-		expressionHandler.setRoleHierarchy(roleHierarchy());
-		expressionHandler.setPermissionEvaluator(permissionEvaluator());
 		expressionHandler.setApplicationContext(applicationContext);
 		return expressionHandler;
 	}

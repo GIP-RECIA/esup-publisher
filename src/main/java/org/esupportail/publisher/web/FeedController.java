@@ -18,7 +18,7 @@ package org.esupportail.publisher.web;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.domain.AbstractClassification;
 import org.esupportail.publisher.domain.ItemClassificationOrder;

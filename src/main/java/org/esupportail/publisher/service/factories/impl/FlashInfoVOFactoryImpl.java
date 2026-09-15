@@ -18,8 +18,8 @@ package org.esupportail.publisher.service.factories.impl;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.google.common.collect.Lists;
 import org.esupportail.publisher.domain.AbstractClassification;

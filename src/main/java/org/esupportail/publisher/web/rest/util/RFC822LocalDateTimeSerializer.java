@@ -15,26 +15,30 @@
  */
 package org.esupportail.publisher.web.rest.util;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ser.std.StdSerializer;
+import tools.jackson.databind.SerializationContext;
 
 /**
  * Custom Jackson serializer for displaying LocalDateTime objects.
  */
-public class RFC822LocalDateTimeSerializer extends JsonSerializer<Instant> {
+public class RFC822LocalDateTimeSerializer extends StdSerializer<Instant> {
+
+    public RFC822LocalDateTimeSerializer() {
+        super(Instant.class);
+    }
 
     //see in RFC822DateTimeXmlAdapter.java for the reference
     //private static DateTimeFormatter formatter = DateTimeFormat.forPattern("EEE, dd MMM yyyy HH:mm:ss Z").withLocale(Locale.US);
 
     @Override
     public void serialize(Instant value, JsonGenerator generator,
-                          SerializerProvider serializerProvider)
-            throws IOException {
+                          SerializationContext serializerProvider)
+            throws JacksonException {
         generator.writeString(RFC822LocalDateTimeXmlAdapter.formatter.format(value));
     }
 }

@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.config.apidoc;
 
-import org.springdoc.core.SpringDocConfigProperties;
+import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -36,7 +36,7 @@ public class JHipsterOpenApiEndpointConfiguration {
     /**
      * <p>jHipsterOpenApiEndpoint.</p>
      *
-     * @param springDocConfigProperties a {@link org.springdoc.core.SpringDocConfigProperties} object.
+     * @param springDocConfigProperties a {@link org.springdoc.core.properties.SpringDocConfigProperties} object.
      * @return a {@link JHipsterOpenApiEndpoint} object.
      */
     @Bean

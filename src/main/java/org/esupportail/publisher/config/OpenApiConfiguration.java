@@ -18,7 +18,7 @@ package org.esupportail.publisher.config;
 import org.esupportail.publisher.config.apidoc.customizer.JHipsterOpenApiCustomizer;
 import org.esupportail.publisher.config.bean.ApiDocsProperties;
 
-import org.springdoc.core.GroupedOpenApi;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +40,7 @@ public class OpenApiConfiguration {
         return GroupedOpenApi
             .builder()
             .group("openapi")
-            .addOpenApiCustomiser(jhipsterOpenApiCustomizer)
+            .addOpenApiCustomizer(jhipsterOpenApiCustomizer)
             .packagesToScan(API_FIRST_PACKAGE)
             .pathsToMatch(properties.getDefaultIncludePattern())
             .build();

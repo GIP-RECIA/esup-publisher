@@ -21,7 +21,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.esupportail.publisher.annotation.ExcludeFromJacocoGeneratedReport;
 import org.esupportail.publisher.config.Constants;
@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.boot.liquibase.autoconfigure.LiquibaseProperties;
+import org.springframework.boot.mail.autoconfigure.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;

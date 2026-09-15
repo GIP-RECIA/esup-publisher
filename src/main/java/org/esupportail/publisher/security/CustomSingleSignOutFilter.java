@@ -18,18 +18,18 @@ package org.esupportail.publisher.security;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import org.jasig.cas.client.configuration.ConfigurationKey;
-import org.jasig.cas.client.configuration.ConfigurationKeys;
-import org.jasig.cas.client.session.SessionMappingStorage;
-import org.jasig.cas.client.util.AbstractConfigurationFilter;
+import org.apereo.cas.client.configuration.ConfigurationKey;
+import org.apereo.cas.client.configuration.ConfigurationKeys;
+import org.apereo.cas.client.session.SessionMappingStorage;
+import org.apereo.cas.client.util.AbstractConfigurationFilter;
 
 /**
  * Created by jgribonvald on 01/06/16.
@@ -94,7 +94,7 @@ public final class CustomSingleSignOutFilter extends AbstractConfigurationFilter
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         /**
-         * <p>Workaround for now for the fact that Spring Security will fail since it doesn't call {@link #init(javax.servlet.FilterConfig)}.</p>
+         * <p>Workaround for now for the fact that Spring Security will fail since it doesn't call {@link #init(jakarta.servlet.FilterConfig)}.</p>
          * <p>Ultimately we need to allow deployers to actually inject their fully-initialized {@link SingleSignOutHandler}.</p>
          */
         if (!this.handlerInitialized.getAndSet(true)) {

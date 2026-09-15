@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.config;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 
 import org.esupportail.publisher.config.bean.ApiDocsProperties;
@@ -33,7 +33,7 @@ import org.esupportail.publisher.config.bean.SecurityProperties;
 import org.esupportail.publisher.config.bean.ServiceProperties;
 import org.esupportail.publisher.config.bean.UploadProperties;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -69,7 +69,7 @@ public class ESUPPublisherProperties {
     private InjectedWebComponentsProperties injectedWebComponents = new InjectedWebComponentsProperties();
 
     @PostConstruct
-    private void init() throws JsonProcessingException {
+    private void init() throws JacksonException {
         log.info("Loaded properties: \n{}", this);
     }
 

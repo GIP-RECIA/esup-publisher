@@ -21,9 +21,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

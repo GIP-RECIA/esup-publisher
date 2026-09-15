@@ -18,7 +18,7 @@ package org.esupportail.publisher.config.bean;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 @Data
 @Validated

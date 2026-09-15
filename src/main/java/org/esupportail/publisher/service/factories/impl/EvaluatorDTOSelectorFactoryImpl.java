@@ -17,7 +17,7 @@ package org.esupportail.publisher.service.factories.impl;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.domain.evaluators.AbstractEvaluator;
 import org.esupportail.publisher.repository.EvaluatorRepository;

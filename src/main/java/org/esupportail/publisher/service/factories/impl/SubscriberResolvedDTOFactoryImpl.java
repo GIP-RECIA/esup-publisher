@@ -18,9 +18,9 @@ package org.esupportail.publisher.service.factories.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.extern.slf4j.Slf4j;
 

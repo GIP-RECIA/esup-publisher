@@ -19,7 +19,7 @@ import org.esupportail.publisher.config.Constants;
 import org.esupportail.publisher.config.ESUPPublisherProperties;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import org.springdoc.core.SpringDocConfiguration;
+import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

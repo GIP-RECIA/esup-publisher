@@ -23,10 +23,10 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
-import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.core.Ordered;
 
-public class JHipsterOpenApiCustomizer implements OpenApiCustomiser, Ordered {
+public class JHipsterOpenApiCustomizer implements OpenApiCustomizer, Ordered {
     public static final int DEFAULT_ORDER = 0;
     private int order = 0;
     private final ApiDocsProperties properties;

@@ -17,7 +17,7 @@ package org.esupportail.publisher.web.rest;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.enums.ContextType;

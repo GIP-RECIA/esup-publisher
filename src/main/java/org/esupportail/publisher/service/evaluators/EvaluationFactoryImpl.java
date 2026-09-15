@@ -20,8 +20,8 @@ import org.esupportail.publisher.domain.evaluators.*;
 import org.esupportail.publisher.domain.externals.ExternalUserHelper;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 import java.util.Set;
 
 @Service

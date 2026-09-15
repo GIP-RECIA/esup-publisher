@@ -17,9 +17,9 @@ package org.esupportail.publisher.web;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.esupportail.publisher.security.CustomUserDetails;
 import org.esupportail.publisher.security.SecurityUtils;
