@@ -59,7 +59,6 @@ import org.esupportail.publisher.security.AuthoritiesConstants;
 import org.esupportail.publisher.security.CustomUserDetails;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.service.ContentService;
-import org.esupportail.publisher.service.FileService;
 import org.esupportail.publisher.service.factories.UserDTOFactory;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
 
@@ -147,11 +146,9 @@ public class ItemResourceOptionalDateTest {
         //closeable = MockitoAnnotations.openMocks(this);
         ItemResource itemResource = new ItemResource();
         OrganizationResource organizationResource = new OrganizationResource();
-        FileService fileservice = new FileService();
         RedactorResource redactorResource = new RedactorResource();
         ReflectionTestUtils.setField(itemResource, "itemRepository", itemRepository);
         ReflectionTestUtils.setField(itemResource, "permissionService", permissionService);
-        ReflectionTestUtils.setField(itemResource, "fileService", fileservice);
         ReflectionTestUtils.setField(organizationResource, "organizationRepository", organizationRepository);
         ReflectionTestUtils.setField(itemResource, "contentService", contentService);
         ReflectionTestUtils.setField(redactorResource, "redactorRepository", redactorRepository);
