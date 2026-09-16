@@ -1,13 +1,23 @@
 /**
  * Copyright (C) 2014 Esup Portail http://www.esup-portail.org
+ * @Author (C) 2012 Julien Gribonvald <julien.gribonvald@recia.fr>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *                 http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.esupportail.publisher.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,6 +45,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import com.querydsl.core.types.Predicate;
+import com.mysema.commons.lang.Pair;
 
 @ExtendWith(MockitoExtension.class)
 class PermissionServiceImplTest {
@@ -86,7 +97,7 @@ class PermissionServiceImplTest {
     @Test
     void userTreeIsLoadedBeforeResolvingRole() {
         Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
-        ContextKey contextKey = new ContextKey(1L, ContextType.PUBLISHER);
+        ContextKey contextKey = new ContextKey(1L, ContextType.CATEGORY);
         when(userSessionTree.isTreeLoaded()).thenReturn(false);
         when(userSessionTree.getRoleFromContextTree(contextKey)).thenReturn(PermissionType.MANAGER);
 
@@ -154,6 +165,85 @@ class PermissionServiceImplTest {
 
         assertSame(predicate, permissionService.filterAuthorizedAllOfContextType(
             authentication, ContextType.ITEM, PermissionType.EDITOR, predicate));
+    }
+
+    @Test
+    void publisherPermissionManagementRequiresLinkedPublisherAuthorization() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
+        ContextKey contextKey = new ContextKey(1L, ContextType.CATEGORY);
+        when(contextService.isLinkedPublisherHasSubPermManagement(contextKey)).thenReturn(false);
+
+        assertFalse(permissionService.canEditCtxPerms(authentication, contextKey));
+    }
+
+    @Test
+    void regularUserCannotManageOrganizationPermissions() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
+        ContextKey contextKey = new ContextKey(1L, ContextType.ORGANIZATION);
+
+        assertFalse(permissionService.canEditCtxPerms(authentication, contextKey));
+    }
+
+    @Test
+    void managerCanManagePublisherPermissionsWhenLinkedPublisherAllowsIt() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
+        ContextKey contextKey = new ContextKey(1L, ContextType.CATEGORY);
+        when(contextService.isLinkedPublisherHasSubPermManagement(contextKey)).thenReturn(true);
+        when(userSessionTree.isTreeLoaded()).thenReturn(true);
+        when(userSessionTree.getRoleFromContextTree(contextKey)).thenReturn(PermissionType.MANAGER);
+
+        assertTrue(permissionService.canEditCtxPerms(authentication, contextKey));
+    }
+
+    @Test
+    void itemHasNoAuthorizedChildren() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.ADMIN);
+
+        assertFalse(permissionService.hasAuthorizedChilds(authentication, new ContextKey(1L, ContextType.ITEM)));
+    }
+
+    @Test
+    void userHasAuthorizedChildrenWhenTreeReportsLookoverAccess() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
+        ContextKey contextKey = new ContextKey(1L, ContextType.CATEGORY);
+        when(userSessionTree.isTreeLoaded()).thenReturn(true);
+        when(userSessionTree.hasChildsOnContext(contextKey, PermissionType.LOOKOVER)).thenReturn(true);
+
+        assertTrue(permissionService.hasAuthorizedChilds(authentication, contextKey));
+    }
+
+    @Test
+    void userCanModerateWhenUpperPermissionExceedsEditor() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
+        when(userSessionTree.isTreeLoaded()).thenReturn(true);
+        when(userSessionTree.getUpperPerm()).thenReturn(PermissionType.MANAGER);
+
+        assertTrue(permissionService.canModerateSomething(authentication));
+    }
+
+    @Test
+    void userCanHighlightOnlyAboveContributor() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
+        ContextKey contextKey = new ContextKey(1L, ContextType.CATEGORY);
+        when(userSessionTree.isTreeLoaded()).thenReturn(true);
+        when(userSessionTree.getRoleFromContextTree(contextKey)).thenReturn(PermissionType.EDITOR);
+
+        assertTrue(permissionService.canHighlightInCtx(authentication, contextKey));
+    }
+
+    @Test
+    void userFilterChildContextsByAuthorizedType() {
+        Authentication authentication = authenticationWith(AuthoritiesConstants.USER);
+        ContextKey contextKey = new ContextKey(1L, ContextType.PUBLISHER);
+        Predicate predicate = mock(Predicate.class);
+        when(userSessionTree.isTreeLoaded()).thenReturn(true);
+        when(userSessionTree.getChildsOfContext(contextKey, PermissionType.EDITOR))
+            .thenReturn(new Pair<>(ContextType.CATEGORY, Collections.singleton(2L)));
+
+        Predicate filtered = permissionService.filterAuthorizedChildsOfContext(
+            authentication, contextKey, PermissionType.EDITOR, predicate);
+
+        assertNotNull(filtered);
     }
 
     private Authentication authenticationWith(String... authorities) {
