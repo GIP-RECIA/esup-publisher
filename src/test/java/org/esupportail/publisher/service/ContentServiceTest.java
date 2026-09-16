@@ -21,6 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,14 +29,27 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.esupportail.publisher.domain.AbstractItem;
+import org.esupportail.publisher.domain.AbstractClassification;
 import org.esupportail.publisher.domain.LinkedFileItem;
 import org.esupportail.publisher.domain.News;
+import org.esupportail.publisher.domain.Redactor;
+import org.esupportail.publisher.domain.ContextKey;
+import org.esupportail.publisher.domain.enums.ContextType;
 import org.esupportail.publisher.domain.enums.ItemStatus;
+import org.esupportail.publisher.domain.enums.WritingFormat;
+import org.esupportail.publisher.domain.enums.WritingMode;
+import org.esupportail.publisher.repository.ClassificationRepository;
 import org.esupportail.publisher.repository.ItemClassificationOrderRepository;
 import org.esupportail.publisher.repository.ItemRepository;
 import org.esupportail.publisher.repository.LinkedFileItemRepository;
+import org.esupportail.publisher.repository.RedactorRepository;
 import org.esupportail.publisher.repository.ReadingIndicatorRepository;
 import org.esupportail.publisher.repository.SubscriberRepository;
+import org.esupportail.publisher.security.UserContextLoaderService;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.esupportail.publisher.web.rest.dto.ContentDTO;
 import org.esupportail.publisher.web.rest.dto.LinkedFileItemDTO;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.Test;
@@ -138,5 +152,90 @@ public class ContentServiceTest {
         ReflectionTestUtils.invokeMethod(contentService, "updateLinkedFilesToItem", item, linkedFiles);
 
         verify(linkedFileItemRepository).deleteAll(Collections.singleton(linkedFile));
+    }
+
+    @Test
+    public void saveContent_ReturnsBadRequestWhenRedactorDoesNotExist() throws Exception {
+        final ContentService contentService = new ContentService();
+        final RedactorRepository redactorRepository = mock(RedactorRepository.class);
+        final Redactor redactor = new Redactor("redactor", "Redactor", "Description", WritingFormat.HTML,
+            WritingMode.STATIC, 1, false, 90);
+        final News item = new News();
+        item.setRedactor(redactor);
+        final ContentDTO content = new ContentDTO();
+        content.setItem(item);
+        ReflectionTestUtils.setField(contentService, "redactorRepository", redactorRepository);
+        when(redactorRepository.findById(null)).thenReturn(Optional.empty());
+
+        assertEquals(HttpStatus.BAD_REQUEST, contentService.saveContent(content).getStatusCode());
+    }
+
+    @Test
+    public void saveContent_SavesIncompleteContentAsDraftWithoutClassifications() throws Exception {
+        final ContentService contentService = new ContentService();
+        final RedactorRepository redactorRepository = mock(RedactorRepository.class);
+        final ItemRepository<AbstractItem> itemRepository = mock(ItemRepository.class);
+        final ItemClassificationOrderRepository itemClassificationOrderRepository = mock(ItemClassificationOrderRepository.class);
+        final LinkedFileItemRepository linkedFileItemRepository = mock(LinkedFileItemRepository.class);
+        final UserContextLoaderService userSessionTreeLoader = mock(UserContextLoaderService.class);
+        final Redactor redactor = new Redactor("redactor", "Redactor", "Description", WritingFormat.HTML,
+            WritingMode.STATIC, 1, false, 90);
+        final News item = new News();
+        item.setRedactor(redactor);
+        item.setStatus(ItemStatus.PUBLISHED);
+        final ContentDTO content = new ContentDTO();
+        content.setItem(item);
+        ReflectionTestUtils.setField(contentService, "redactorRepository", redactorRepository);
+        ReflectionTestUtils.setField(contentService, "itemRepository", itemRepository);
+        ReflectionTestUtils.setField(contentService, "itemClassificationOrderRepository", itemClassificationOrderRepository);
+        ReflectionTestUtils.setField(contentService, "linkedFileItemRepository", linkedFileItemRepository);
+        ReflectionTestUtils.setField(contentService, "userSessionTreeLoader", userSessionTreeLoader);
+        when(redactorRepository.findById(null)).thenReturn(Optional.of(redactor));
+        when(itemRepository.save(item)).thenAnswer(invocation -> {
+            item.setId(42L);
+            return item;
+        });
+        when(itemClassificationOrderRepository.findAll(any(Predicate.class))).thenReturn(Collections.emptyList());
+        when(linkedFileItemRepository.findByAbstractItemId(42L)).thenReturn(Collections.emptyList());
+
+        Authentication authentication = mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            assertEquals(HttpStatus.CREATED, contentService.saveContent(content).getStatusCode());
+            assertEquals(ItemStatus.DRAFT, item.getStatus());
+            verify(itemRepository).save(item);
+            verify(userSessionTreeLoader).loadUserTree(authentication);
+        } finally {
+            SecurityContextHolder.clearContext();
+        }
+    }
+
+    @Test
+    public void saveContent_ReturnsForbiddenWhenClassificationCannotBeCreated() throws Exception {
+        final ContentService contentService = new ContentService();
+        final RedactorRepository redactorRepository = mock(RedactorRepository.class);
+        final ClassificationRepository<AbstractClassification> classificationRepository = mock(ClassificationRepository.class);
+        final Redactor redactor = new Redactor("redactor", "Redactor", "Description", WritingFormat.HTML,
+            WritingMode.STATIC, 1, false, 90);
+        final News item = new News();
+        item.setRedactor(redactor);
+        item.setStatus(ItemStatus.DRAFT);
+        final ContextKey classificationKey = new ContextKey(1L, ContextType.CATEGORY);
+        final ContentDTO content = new ContentDTO();
+        content.setItem(item);
+        content.setClassifications(Collections.singleton(classificationKey));
+        ReflectionTestUtils.setField(contentService, "redactorRepository", redactorRepository);
+        ReflectionTestUtils.setField(contentService, "classificationRepository", classificationRepository);
+        when(redactorRepository.findById(null)).thenReturn(Optional.of(redactor));
+        when(classificationRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Authentication authentication = org.mockito.Mockito.mock(Authentication.class);
+        when(authentication.getPrincipal()).thenReturn("alice");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            assertEquals(HttpStatus.FORBIDDEN, contentService.saveContent(content).getStatusCode());
+        } finally {
+            SecurityContextHolder.clearContext();
+        }
     }
 }
