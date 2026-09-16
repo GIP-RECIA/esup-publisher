@@ -41,7 +41,7 @@ export default class InsertFilePlugin extends Plugin {
         .upload()
         .then((res) => {
           const content = `
-          <a href="${res.default}" target="_blank" rel="noopener noreferrer"/>
+          <a href="${res.default}" target="_blank" rel="noopener noreferrer">
             <i class="${UploadUtils.getCssFileFromType(file.type, file.name)}" aria-hidden="true">&nbsp;</i>
             <span>${file.name}</span>
           </a>

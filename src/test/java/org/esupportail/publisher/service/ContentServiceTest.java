@@ -36,6 +36,7 @@ import org.esupportail.publisher.domain.Redactor;
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.enums.ContextType;
 import org.esupportail.publisher.domain.enums.ItemStatus;
+import org.esupportail.publisher.domain.enums.PermissionType;
 import org.esupportail.publisher.domain.enums.WritingFormat;
 import org.esupportail.publisher.domain.enums.WritingMode;
 import org.esupportail.publisher.repository.ClassificationRepository;
@@ -45,6 +46,7 @@ import org.esupportail.publisher.repository.LinkedFileItemRepository;
 import org.esupportail.publisher.repository.RedactorRepository;
 import org.esupportail.publisher.repository.ReadingIndicatorRepository;
 import org.esupportail.publisher.repository.SubscriberRepository;
+import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.security.UserContextLoaderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -237,5 +239,84 @@ public class ContentServiceTest {
         } finally {
             SecurityContextHolder.clearContext();
         }
+    }
+
+    @Test
+    public void setValidationItem_ReturnsForbiddenWhenUserHasNoPermission() {
+        final ContentService contentService = new ContentService();
+        final IPermissionService permissionService = mock(IPermissionService.class);
+        final News item = new News();
+        item.setId(42L);
+        ReflectionTestUtils.setField(contentService, "permissionService", permissionService);
+        Authentication authentication = mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(permissionService.getRoleOfUserInContext(authentication, item.getContextKey())).thenReturn(null);
+
+        try {
+            assertEquals(HttpStatus.FORBIDDEN, contentService.setValidationItem(true, item).getStatusCode());
+        } finally {
+            SecurityContextHolder.clearContext();
+        }
+    }
+
+    @Test
+    public void setValidationItem_UnvalidatesItemForAuthorizedUser() {
+        final ContentService contentService = new ContentService();
+        final IPermissionService permissionService = mock(IPermissionService.class);
+        final ItemRepository<AbstractItem> itemRepository = mock(ItemRepository.class);
+        final News item = new News();
+        item.setId(42L);
+        item.setStatus(ItemStatus.PUBLISHED);
+        ReflectionTestUtils.setField(contentService, "permissionService", permissionService);
+        ReflectionTestUtils.setField(contentService, "itemRepository", itemRepository);
+        Authentication authentication = mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(permissionService.getRoleOfUserInContext(authentication, item.getContextKey())).thenReturn(PermissionType.MANAGER);
+
+        try {
+            assertEquals(HttpStatus.OK, contentService.setValidationItem(false, item).getStatusCode());
+            assertEquals(ItemStatus.PENDING, item.getStatus());
+            verify(itemRepository).save(item);
+        } finally {
+            SecurityContextHolder.clearContext();
+        }
+    }
+
+    @Test
+    public void setEnclosureItem_UpdatesEnclosureForAuthorizedUser() {
+        final ContentService contentService = new ContentService();
+        final IPermissionService permissionService = mock(IPermissionService.class);
+        final ItemRepository<AbstractItem> itemRepository = mock(ItemRepository.class);
+        final News item = new News();
+        item.setId(42L);
+        item.setStatus(ItemStatus.DRAFT);
+        ReflectionTestUtils.setField(contentService, "permissionService", permissionService);
+        ReflectionTestUtils.setField(contentService, "itemRepository", itemRepository);
+        Authentication authentication = mock(Authentication.class);
+        when(permissionService.canEditCtx(authentication, item.getContextKey())).thenReturn(true);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        try {
+            assertEquals(HttpStatus.OK, contentService.setEnclosureItem("/files/news.pdf", item).getStatusCode());
+            assertEquals("/files/news.pdf", item.getEnclosure());
+            verify(itemRepository).save(item);
+        } finally {
+            SecurityContextHolder.clearContext();
+        }
+    }
+
+    @Test
+    public void removeLinkedFileToItem_DeletesExistingLink() {
+        final ContentService contentService = new ContentService();
+        final LinkedFileItemRepository linkedFileItemRepository = mock(LinkedFileItemRepository.class);
+        final News item = new News();
+        item.setId(42L);
+        item.setStatus(ItemStatus.DRAFT);
+        final LinkedFileItem linkedFile = new LinkedFileItem("42/news.pdf", item);
+        ReflectionTestUtils.setField(contentService, "linkedFileItemRepository", linkedFileItemRepository);
+        when(linkedFileItemRepository.findByAbstractItemId(42L)).thenReturn(Collections.singletonList(linkedFile));
+
+        assertEquals(HttpStatus.OK, contentService.removeLinkedFileToItem(item, "42/news.pdf").getStatusCode());
+        verify(linkedFileItemRepository).delete(linkedFile);
     }
 }
