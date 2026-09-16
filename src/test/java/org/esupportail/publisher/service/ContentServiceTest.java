@@ -25,15 +25,18 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import org.esupportail.publisher.domain.AbstractItem;
 import org.esupportail.publisher.domain.LinkedFileItem;
 import org.esupportail.publisher.domain.News;
+import org.esupportail.publisher.domain.enums.ItemStatus;
 import org.esupportail.publisher.repository.ItemClassificationOrderRepository;
 import org.esupportail.publisher.repository.ItemRepository;
 import org.esupportail.publisher.repository.LinkedFileItemRepository;
 import org.esupportail.publisher.repository.ReadingIndicatorRepository;
 import org.esupportail.publisher.repository.SubscriberRepository;
+import org.esupportail.publisher.web.rest.dto.LinkedFileItemDTO;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -116,5 +119,24 @@ public class ContentServiceTest {
         verify(linkedFileItemRepository).deleteAll(Collections.singletonList(linkedFile));
         verify(fileService).deletePrivateResource(linkedFileUri);
         verify(itemRepository).deleteById(itemId);
+    }
+
+    @Test
+    public void updateLinkedFilesToItem_TreatsNullAsEmptyCollection() {
+        final Long itemId = 42L;
+        final AbstractItem item = new News();
+        item.setId(itemId);
+        item.setStatus(ItemStatus.DRAFT);
+        final LinkedFileItem linkedFile = new LinkedFileItem("42/linked-file.pdf", item);
+
+        final ContentService contentService = new ContentService();
+        final LinkedFileItemRepository linkedFileItemRepository = mock(LinkedFileItemRepository.class);
+        ReflectionTestUtils.setField(contentService, "linkedFileItemRepository", linkedFileItemRepository);
+        when(linkedFileItemRepository.findByAbstractItemId(itemId)).thenReturn(Collections.singletonList(linkedFile));
+
+        final Set<LinkedFileItemDTO> linkedFiles = null;
+        ReflectionTestUtils.invokeMethod(contentService, "updateLinkedFilesToItem", item, linkedFiles);
+
+        verify(linkedFileItemRepository).deleteAll(Collections.singleton(linkedFile));
     }
 }

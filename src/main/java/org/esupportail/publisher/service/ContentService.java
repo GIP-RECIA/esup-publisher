@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -560,6 +561,7 @@ public class ContentService {
 
 	private void updateLinkedFilesToItem(final AbstractItem item, final Set<LinkedFileItemDTO> filesLinked) {
 		Assert.notNull(item.getId(), "Item id is null");
+		final Set<LinkedFileItemDTO> requestedFiles = filesLinked == null ? Collections.emptySet() : filesLinked;
 		Set<LinkedFileItem> old = Sets.newHashSet(linkedFileItemRepository.findByAbstractItemId(item.getId()));
 		Set<LinkedFileItem> oldToRemove = Sets.newHashSet();
 		Set<String> filesPath = Sets.newHashSet();
@@ -567,7 +569,7 @@ public class ContentService {
 			final String fileUri = oldFile.getUri();
 			filesPath.add(fileUri);
 			boolean found = false;
-			for (LinkedFileItemDTO fileLinked : filesLinked) {
+			for (LinkedFileItemDTO fileLinked : requestedFiles) {
 				if (fileLinked.getUri().equals(fileUri)) {
 					found = true;
 					break;
@@ -576,9 +578,9 @@ public class ContentService {
 			if (!found)
 				oldToRemove.add(oldFile);
 		}
-		if (filesLinked != null && !filesLinked.isEmpty()) {
+		if (!requestedFiles.isEmpty()) {
 			Set<LinkedFileItem> linkedFileItems = Sets.newLinkedHashSet();
-			for (LinkedFileItemDTO fileLinked : filesLinked) {
+			for (LinkedFileItemDTO fileLinked : requestedFiles) {
 				if (!filesPath.contains(fileLinked.getUri())) {
 					linkedFileItems.add(new LinkedFileItem(fileLinked.getUri(), fileLinked.getFilename(), item,
 							fileLinked.isInBody(), fileLinked.getContentType()));
