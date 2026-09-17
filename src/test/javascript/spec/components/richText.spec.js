@@ -3,10 +3,11 @@ import { describe, expect, it, vi } from 'vitest'
 import RichText from '@/components/richtext/RichText.vue'
 import ConfCKEditorService from '@/services/params/ConfCKEditorService.js'
 import ConfFileSizeService from '@/services/params/ConfFileSizeService.js'
+import ConfigurationService from '@/services/params/ConfigurationService.js'
 import ConfImageSizeService from '@/services/params/ConfImageSizeService.js'
 import ConfMimeTypesService from '@/services/params/ConfMimeTypesService.js'
 
-describe('RichText.vue tests', () => {
+describe('richText.vue tests', () => {
   const provide = {
     publisher: null,
     linkedFilesToContent: [],
@@ -18,6 +19,7 @@ describe('RichText.vue tests', () => {
     ConfFileSizeService.query = vi.fn().mockReturnValue(Promise.resolve({ data: { value: 1000000 } }))
     ConfImageSizeService.query = vi.fn().mockReturnValue(Promise.resolve({ data: { value: 1000000 } }))
     ConfMimeTypesService.query = vi.fn().mockReturnValue(Promise.resolve({ data: { value: [] } }))
+    ConfigurationService.confCKEditor = { mediaUrlPattern: '/^$/' }
 
     const wrapper = shallowMount(RichText, {
       global: {
@@ -36,7 +38,7 @@ describe('RichText.vue tests', () => {
   })
 
   it('configures the supported toolbar and POD provider', () => {
-    ConfCKEditorService.query = vi.fn().mockReturnValue(Promise.resolve({ data: { value: { mediaUrlPattern: '/^(?:(?:https?:)?\\/\\/)?(pod\\.univ\\.fr\\/video|.*\\.fr\\/POD\\/video)\\/(.*)\\/(\\?is_iframe=true)?$/' } } }))
+    ConfigurationService.confCKEditor = { mediaUrlPattern: '/^(?:(?:https?:)?\\/\\/)?(pod\\.univ\\.fr\\/video|.*\\.fr\\/POD\\/video)\\/(.*)\\/(\\?is_iframe=true)?$/' }
     const wrapper = shallowMount(RichText, {
       global: {
         stubs: { Ckeditor: { template: '<div class="ckeditor-stub"></div>' } },
