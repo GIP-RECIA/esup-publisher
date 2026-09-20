@@ -22,14 +22,14 @@ import java.util.concurrent.Executor;
 import org.esupportail.publisher.config.Constants;
 
 import liquibase.exception.LiquibaseException;
+import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.liquibase.DataSourceClosingSpringLiquibase;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.util.StopWatch;
 
-public class AsyncSpringLiquibase extends DataSourceClosingSpringLiquibase {
+public class AsyncSpringLiquibase extends SpringLiquibase {
 
     /** Constant <code>DISABLED_MESSAGE="Liquibase is disabled"</code> */
     public static final String DISABLED_MESSAGE = "Liquibase is disabled";

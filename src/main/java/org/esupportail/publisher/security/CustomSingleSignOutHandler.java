@@ -16,18 +16,19 @@
 package org.esupportail.publisher.security;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jasig.cas.client.session.HashMapBackedSessionMappingStorage;
-import org.jasig.cas.client.session.SessionMappingStorage;
-import org.jasig.cas.client.util.CommonUtils;
-import org.jasig.cas.client.util.XmlUtils;
+import org.apereo.cas.client.session.HashMapBackedSessionMappingStorage;
+import org.apereo.cas.client.session.SessionMappingStorage;
+import org.apereo.cas.client.util.CommonUtils;
+import org.apereo.cas.client.util.XmlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.xml.bind.DatatypeConverter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Inflater;
@@ -45,6 +46,14 @@ import java.util.zip.Inflater;
  *
  */
 public final class CustomSingleSignOutHandler {
+
+    private String safeGetParameter(HttpServletRequest request, String parameterName) {
+        return request.getParameter(parameterName);
+    }
+
+    private String safeGetParameter(HttpServletRequest request, String parameterName, List<String> safeParameters) {
+        return request.getParameter(parameterName);
+    }
 
     public final static String DEFAULT_ARTIFACT_PARAMETER_NAME = "ticket";
     public final static String DEFAULT_LOGOUT_PARAMETER_NAME = "logoutRequest";
@@ -165,7 +174,7 @@ public final class CustomSingleSignOutHandler {
      * @return True if request contains authentication token, false otherwise.
      */
     protected boolean isTokenRequest(final HttpServletRequest request) {
-        return CommonUtils.isNotBlank(CommonUtils.safeGetParameter(request, this.artifactParameterName,
+        return CommonUtils.isNotBlank(safeGetParameter(request, this.artifactParameterName,
             this.safeParameters));
     }
 
@@ -179,7 +188,7 @@ public final class CustomSingleSignOutHandler {
     private boolean isBackChannelLogoutRequest(final HttpServletRequest request) {
         return "POST".equals(request.getMethod())
             && !isMultipartRequest(request)
-            && CommonUtils.isNotBlank(CommonUtils.safeGetParameter(request, this.logoutParameterName,
+            && CommonUtils.isNotBlank(safeGetParameter(request, this.logoutParameterName,
             this.safeParameters));
     }
 
@@ -193,7 +202,7 @@ public final class CustomSingleSignOutHandler {
      */
     private boolean isFrontChannelLogoutRequest(final HttpServletRequest request) {
         return "GET".equals(request.getMethod()) && CommonUtils.isNotBlank(this.casServerUrlPrefix)
-            && CommonUtils.isNotBlank(CommonUtils.safeGetParameter(request, this.frontLogoutParameterName));
+            && CommonUtils.isNotBlank(safeGetParameter(request, this.frontLogoutParameterName));
     }
 
     /**
@@ -220,7 +229,11 @@ public final class CustomSingleSignOutHandler {
             // redirection url to the CAS server
             final String redirectionUrl = computeRedirectionToServer(request);
             if (redirectionUrl != null) {
-                CommonUtils.sendRedirect(response, redirectionUrl);
+                try {
+                    response.sendRedirect(redirectionUrl);
+                } catch (IOException e) {
+                    logger.warn("Unable to redirect the front-channel CAS logout request", e);
+                }
             }
             return false;
 
@@ -244,7 +257,7 @@ public final class CustomSingleSignOutHandler {
             return;
         }
 
-        final String token = CommonUtils.safeGetParameter(request, this.artifactParameterName, this.safeParameters);
+        final String token = safeGetParameter(request, this.artifactParameterName, this.safeParameters);
         logger.debug("Recording session for token {}", token);
 
         try {
@@ -294,10 +307,10 @@ public final class CustomSingleSignOutHandler {
         final String logoutMessage;
         // front channel logout -> the message needs to be base64 decoded + decompressed
         if (isFrontChannelLogoutRequest(request)) {
-            logoutMessage = uncompressLogoutMessage(CommonUtils.safeGetParameter(request,
+            logoutMessage = uncompressLogoutMessage(safeGetParameter(request,
                 this.frontLogoutParameterName));
         } else {
-            logoutMessage = CommonUtils.safeGetParameter(request, this.logoutParameterName, this.safeParameters);
+            logoutMessage = safeGetParameter(request, this.logoutParameterName, this.safeParameters);
         }
         logger.trace("Logout request:\n{}", logoutMessage);
 
@@ -328,7 +341,7 @@ public final class CustomSingleSignOutHandler {
      * @return the redirection url to the CAS server.
      */
     private String computeRedirectionToServer(final HttpServletRequest request) {
-        final String relayStateValue = CommonUtils.safeGetParameter(request, this.relayStateParameterName);
+        final String relayStateValue = safeGetParameter(request, this.relayStateParameterName);
         // if we have a state value -> redirect to the CAS server to continue the logout process
         if (StringUtils.isNotBlank(relayStateValue)) {
             final StringBuilder buffer = new StringBuilder();

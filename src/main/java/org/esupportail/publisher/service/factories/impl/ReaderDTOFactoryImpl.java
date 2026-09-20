@@ -24,7 +24,7 @@ import org.esupportail.publisher.web.rest.dto.ReaderDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
 *

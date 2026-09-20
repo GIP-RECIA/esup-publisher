@@ -2,6 +2,8 @@
 
 echo "Run npm hook for Commit Message checking"
 
+export PATH="$(git rev-parse --show-toplevel)/node:$PATH"
+
 #npm run commit
 npx commitlint --edit
 

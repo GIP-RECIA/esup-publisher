@@ -34,8 +34,8 @@ import org.esupportail.publisher.web.rest.dto.SubjectDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * @author GIP RECIA - Julien Gribonvald

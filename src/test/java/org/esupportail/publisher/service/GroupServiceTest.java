@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.Filter;
 import org.esupportail.publisher.domain.enums.ContextType;
@@ -39,6 +38,8 @@ import org.esupportail.publisher.repository.externals.IExternalGroupDao;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.service.factories.TreeJSDTOFactory;
 import org.esupportail.publisher.service.factories.UserDTOFactory;
+import org.esupportail.publisher.service.Utils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.esupportail.publisher.web.rest.dto.PermissionDTO;
 import org.esupportail.publisher.web.rest.dto.TreeJS;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
@@ -53,11 +54,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.web.WebAppConfiguration;
-@SpringBootTest(classes = Application.class)
-@WebAppConfiguration
 public class GroupServiceTest {
 
 	@Mock
@@ -437,6 +433,49 @@ public class GroupServiceTest {
 		verify(treeJSDTOFactory).asDTOList(externalGroupList);
 		verify(externalGroupDao).getGroupsWithFilter(filter, null, false);
 		assertThat(resultList.size(), equalTo(0));
+	}
+
+	@Test
+	public void getRootNodes_IfPermissionTypeADMINAndGroupsAreResolved_shouldReturnTreeNodes() {
+		// GIVEN
+		ContextKey contextKey = Utils.contextKeyValue(1L, ContextType.ORGANIZATION);
+		ContextKey contextKey1 = Utils.contextKeyValue(2L, ContextType.PUBLISHER);
+		List<ContextKey> subContextKeys = Utils.subContextKeys(new ContextKey[] {contextKey, contextKey1});
+		Filter filter = new Filter();
+
+		ExternalGroup filteredGroup1 = new ExternalGroup();
+		filteredGroup1.setId("1");
+		ExternalGroup filteredGroup2 = new ExternalGroup();
+		filteredGroup2.setId("2");
+		List<IExternalGroup> filteredGroups = new ArrayList<>();
+		filteredGroups.add(filteredGroup1);
+		filteredGroups.add(filteredGroup2);
+
+		List<IExternalGroup> resolvedGroups = new ArrayList<>();
+		resolvedGroups.add(filteredGroup1);
+		resolvedGroups.add(filteredGroup2);
+		List<TreeJS> expectedTreeNodes = new ArrayList<>();
+		expectedTreeNodes.add(new TreeJS());
+		expectedTreeNodes.add(new TreeJS());
+
+		Pair<PermissionType, PermissionDTO> perms = new Pair<>(PermissionType.ADMIN, null);
+		Set<String> groupIds = Sets.newHashSet("1", "2");
+
+		// GIVEN SERVICES
+		when(permissionService.getPermsOfUserInContext(SecurityContextHolder
+				.getContext().getAuthentication(), contextKey)).thenReturn(perms);
+		when(contextService.getOrganizationCtxOfCtx(contextKey)).thenReturn(contextKey);
+		when(filterRepository.findOne(Mockito.any(Predicate.class))).thenReturn(Optional.of(filter));
+		when(externalGroupDao.getGroupsWithFilter(filter.getPattern(), null, false)).thenReturn(filteredGroups);
+		when(externalGroupDao.getGroupsById(groupIds, true)).thenReturn(resolvedGroups);
+		when(treeJSDTOFactory.asDTOList(resolvedGroups)).thenReturn(expectedTreeNodes);
+
+		// WHEN
+		List<TreeJS> resultList = groupService.getRootNodes(contextKey, subContextKeys);
+
+		// THEN
+		assertThat(resultList, equalTo(expectedTreeNodes));
+		verify(treeJSDTOFactory).asDTOList(resolvedGroups);
 	}
 
 

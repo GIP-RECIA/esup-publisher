@@ -18,8 +18,8 @@ package org.esupportail.publisher.domain.enums;
 import java.util.Arrays;
 import java.util.Set;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;

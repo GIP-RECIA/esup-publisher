@@ -1,32 +1,28 @@
-import FileManagerService from "@/services/entities/file/FileManagerService.js";
-import FetchWrapper from "@/services/util/FetchWrapper.js";
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import FileManagerService from '@/services/entities/file/FileManagerService.js'
+import FetchWrapper from '@/services/util/FetchWrapper.js'
 
-jest.mock("@/services/util/FetchWrapper.js");
+vi.mock('@/services/util/FetchWrapper.js')
 
-describe("FileManagerService.js tests", () => {
+describe('fileManagerService.js tests', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
+    vi.clearAllMocks()
+  })
 
-  it("test 1 FileManagerService - delete", (done) => {
+  it('test 1 FileManagerService - delete', () => {
     const response = {
       data: {},
       headers: [],
-    };
-    FetchWrapper.deleteJson = jest
-      .fn()
-      .mockReturnValue(Promise.resolve(response));
+    }
+    FetchWrapper.deleteJson = vi.fn().mockReturnValue(Promise.resolve(response))
 
-    const entityId = 1;
-    const isPublic = true;
-    const fileUri = "fileUri";
+    const entityId = 1
+    const isPublic = true
+    const fileUri = 'fileUri'
     FileManagerService.delete(entityId, isPublic, fileUri).then((value) => {
-      expect(FetchWrapper.deleteJson).toHaveBeenCalledTimes(1);
-      expect(FetchWrapper.deleteJson).toHaveBeenCalledWith(
-        "api/file/" + entityId + "/" + isPublic + "/" + fileUri
-      );
-      expect(value).toStrictEqual(response);
-      done();
-    });
-  });
-});
+      expect(FetchWrapper.deleteJson).toHaveBeenCalledTimes(1)
+      expect(FetchWrapper.deleteJson).toHaveBeenCalledWith(`api/file/${entityId}/${isPublic}/${fileUri}`)
+      expect(value).toStrictEqual(response)
+    })
+  })
+})

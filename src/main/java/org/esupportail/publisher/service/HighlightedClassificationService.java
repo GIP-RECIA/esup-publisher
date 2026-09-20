@@ -22,7 +22,7 @@ import org.esupportail.publisher.service.bean.HighlightedClassification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Created by jgribonvald on 12/04/17.

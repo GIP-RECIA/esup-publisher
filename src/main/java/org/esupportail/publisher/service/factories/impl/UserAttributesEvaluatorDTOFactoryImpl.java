@@ -29,7 +29,7 @@ import org.esupportail.publisher.web.rest.dto.evaluators.UserMultAttEvaluatorDTO
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * @author GIP RECIA - Julien Gribonvald

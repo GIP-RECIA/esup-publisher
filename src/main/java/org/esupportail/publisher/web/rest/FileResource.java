@@ -15,8 +15,8 @@
  */
 package org.esupportail.publisher.web.rest;
 
-import javax.inject.Inject;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.inject.Inject;
+import jakarta.xml.bind.DatatypeConverter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.esupportail.publisher.security.SecurityConstants;

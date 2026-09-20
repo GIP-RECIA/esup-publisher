@@ -18,8 +18,8 @@ package org.esupportail.publisher.service.factories.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.esupportail.publisher.config.Constants;

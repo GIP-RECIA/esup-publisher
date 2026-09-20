@@ -17,7 +17,7 @@ package org.esupportail.publisher.service;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.domain.Organization;
 import org.esupportail.publisher.repository.OrganizationRepository;

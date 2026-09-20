@@ -21,7 +21,7 @@ import org.esupportail.publisher.config.LDAPConfiguration;
 import org.esupportail.publisher.config.LiquibaseConfiguration;
 import org.esupportail.publisher.domain.externals.ExternalUserHelper;
 
-import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.health.contributor.HealthIndicator;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

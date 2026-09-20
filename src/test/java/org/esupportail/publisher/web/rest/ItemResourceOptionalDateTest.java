@@ -35,9 +35,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
+
+import tools.jackson.databind.json.JsonMapper;
+import jakarta.persistence.EntityManager;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.config.Constants;
@@ -57,23 +59,21 @@ import org.esupportail.publisher.security.AuthoritiesConstants;
 import org.esupportail.publisher.security.CustomUserDetails;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.service.ContentService;
-import org.esupportail.publisher.service.FileService;
 import org.esupportail.publisher.service.factories.UserDTOFactory;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
 
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -114,8 +114,7 @@ public class ItemResourceOptionalDateTest {
     @Inject
     private ItemRepository<AbstractItem> itemRepository;
     @Autowired
-    @Qualifier("mappingJackson2HttpMessageConverter")
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+    private JsonMapper objectMapper;
     @Autowired
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
     @Autowired
@@ -139,17 +138,17 @@ public class ItemResourceOptionalDateTest {
     private Organization organization;
     private Redactor redactor;
     private AbstractItem item;
+    private Authentication authentication;
 
     @PostConstruct
     public void setup() {
+        JacksonJsonHttpMessageConverter jacksonMessageConverter = new JacksonJsonHttpMessageConverter(objectMapper);
         //closeable = MockitoAnnotations.openMocks(this);
         ItemResource itemResource = new ItemResource();
         OrganizationResource organizationResource = new OrganizationResource();
-        FileService fileservice = new FileService();
         RedactorResource redactorResource = new RedactorResource();
         ReflectionTestUtils.setField(itemResource, "itemRepository", itemRepository);
         ReflectionTestUtils.setField(itemResource, "permissionService", permissionService);
-        ReflectionTestUtils.setField(itemResource, "fileService", fileservice);
         ReflectionTestUtils.setField(organizationResource, "organizationRepository", organizationRepository);
         ReflectionTestUtils.setField(itemResource, "contentService", contentService);
         ReflectionTestUtils.setField(redactorResource, "redactorRepository", redactorRepository);
@@ -165,8 +164,7 @@ public class ItemResourceOptionalDateTest {
         User userPart = optionalUser.orElse(null);
         UserDTO userDTOPart = userDTOFactory.from(userPart);
         CustomUserDetails userDetails = new CustomUserDetails(userDTOPart, userPart, Lists.newArrayList(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN)));
-        Authentication authentication = new TestingAuthenticationToken(userDetails, "password", Lists.newArrayList(userDetails.getAuthorities()));
-        Mockito.when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(authentication);
+        authentication = new TestingAuthenticationToken(userDetails, "password", Lists.newArrayList(userDetails.getAuthorities()));
     }
 
     @Inject
@@ -174,6 +172,9 @@ public class ItemResourceOptionalDateTest {
 
     @BeforeEach
     public void initTest() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
         final String name = "NAME";
         organization = organizationRepository.saveAndFlush(ObjTest.newOrganization(name));
         redactor = ObjTest.newRedactor(name);

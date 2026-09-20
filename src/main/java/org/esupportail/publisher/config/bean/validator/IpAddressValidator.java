@@ -17,8 +17,8 @@ package org.esupportail.publisher.config.bean.validator;
 
 import java.util.Collection;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import inet.ipaddr.AddressStringException;
 import inet.ipaddr.IPAddressString;

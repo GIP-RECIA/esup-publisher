@@ -18,7 +18,7 @@ package org.esupportail.publisher.web.rest.vo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 /**

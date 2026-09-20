@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.security;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;

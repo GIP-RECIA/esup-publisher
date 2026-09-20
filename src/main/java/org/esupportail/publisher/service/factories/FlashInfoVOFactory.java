@@ -18,7 +18,7 @@ package org.esupportail.publisher.service.factories;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.esupportail.publisher.domain.AbstractClassification;
 import org.esupportail.publisher.domain.Flash;

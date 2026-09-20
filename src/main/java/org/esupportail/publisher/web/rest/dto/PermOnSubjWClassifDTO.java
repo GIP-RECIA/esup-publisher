@@ -21,8 +21,8 @@ import lombok.ToString;
 import org.esupportail.publisher.web.rest.dto.evaluators.EvaluatorDTO;
 import java.time.Instant;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;

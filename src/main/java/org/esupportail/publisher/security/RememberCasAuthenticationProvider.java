@@ -17,9 +17,9 @@ package org.esupportail.publisher.security;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.jasig.cas.client.validation.Assertion;
-import org.jasig.cas.client.validation.TicketValidationException;
-import org.jasig.cas.client.validation.TicketValidator;
+import org.apereo.cas.client.validation.Assertion;
+import org.apereo.cas.client.validation.TicketValidationException;
+import org.apereo.cas.client.validation.TicketValidator;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
@@ -33,8 +33,7 @@ import org.springframework.security.cas.authentication.CasAssertionAuthenticatio
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.cas.authentication.NullStatelessTicketCache;
 import org.springframework.security.cas.authentication.StatelessTicketCache;
-import org.springframework.security.cas.web.CasAuthenticationFilter;
-import org.springframework.security.cas.web.authentication.ServiceAuthenticationDetails;
+import org.springframework.security.cas.authentication.ServiceAuthenticationDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.SpringSecurityMessageSource;
@@ -57,6 +56,9 @@ import org.springframework.util.Assert;
 public class RememberCasAuthenticationProvider implements AuthenticationProvider, InitializingBean, MessageSourceAware {
     // ~ Static fields/initializers
     // =====================================================================================
+
+    private static final String CAS_STATEFUL_IDENTIFIER = "_cas_stateful_";
+    private static final String CAS_STATELESS_IDENTIFIER = "_cas_stateless_";
 
     // ~ Instance fields
     // ================================================================================================
@@ -90,7 +92,7 @@ public class RememberCasAuthenticationProvider implements AuthenticationProvider
         }
 
         if (authentication instanceof UsernamePasswordAuthenticationToken
-            && (!CasAuthenticationFilter.CAS_STATEFUL_IDENTIFIER.equals(authentication.getPrincipal().toString()) && !CasAuthenticationFilter.CAS_STATELESS_IDENTIFIER
+            && (!CAS_STATEFUL_IDENTIFIER.equals(authentication.getPrincipal().toString()) && !CAS_STATELESS_IDENTIFIER
             .equals(authentication.getPrincipal().toString()))) {
             // UsernamePasswordAuthenticationToken not CAS related
             return null;
@@ -113,7 +115,7 @@ public class RememberCasAuthenticationProvider implements AuthenticationProvider
         }
 
         boolean stateless = authentication instanceof UsernamePasswordAuthenticationToken
-                && CasAuthenticationFilter.CAS_STATELESS_IDENTIFIER.equals(authentication.getPrincipal());
+                && CAS_STATELESS_IDENTIFIER.equals(authentication.getPrincipal());
 
         CasAuthenticationToken result = null;
 

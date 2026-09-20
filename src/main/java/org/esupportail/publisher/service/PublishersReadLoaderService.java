@@ -20,10 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.BooleanBuilder;

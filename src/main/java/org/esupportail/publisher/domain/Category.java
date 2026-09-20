@@ -25,7 +25,7 @@ import lombok.ToString;
 import org.esupportail.publisher.domain.enums.AccessType;
 import org.esupportail.publisher.domain.enums.DisplayOrderType;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 import java.io.Serializable;
 
 /**

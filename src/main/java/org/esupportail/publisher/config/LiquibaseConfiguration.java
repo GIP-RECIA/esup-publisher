@@ -15,7 +15,9 @@
  */
 package org.esupportail.publisher.config;
 
+import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -26,9 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseDataSource;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceProperties;
+import org.springframework.boot.liquibase.autoconfigure.LiquibaseDataSource;
+import org.springframework.boot.liquibase.autoconfigure.LiquibaseProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -64,18 +66,23 @@ public class LiquibaseConfiguration {
             dataSourceProperties
         );*/
         liquibase.setChangeLog("classpath:config/liquibase/master.xml");
-        liquibase.setContexts(liquibaseProperties.getContexts());
+        if (liquibaseProperties.getContexts() != null && !liquibaseProperties.getContexts().isEmpty()) {
+            liquibase.setContexts(String.join(",", liquibaseProperties.getContexts()));
+        }
         liquibase.setDefaultSchema(liquibaseProperties.getDefaultSchema());
         liquibase.setLiquibaseSchema(liquibaseProperties.getLiquibaseSchema());
         liquibase.setLiquibaseTablespace(liquibaseProperties.getLiquibaseTablespace());
         liquibase.setDatabaseChangeLogLockTable(liquibaseProperties.getDatabaseChangeLogLockTable());
         liquibase.setDatabaseChangeLogTable(liquibaseProperties.getDatabaseChangeLogTable());
         liquibase.setDropFirst(liquibaseProperties.isDropFirst());
-        liquibase.setLabels(liquibaseProperties.getLabels());
+        if (liquibaseProperties.getLabelFilter() != null) {
+            liquibase.setLabelFilter(liquibaseProperties.getLabelFilter().stream().filter(Objects::nonNull).collect(Collectors.joining(",")));
+        }
         liquibase.setChangeLogParameters(liquibaseProperties.getParameters());
         liquibase.setRollbackFile(liquibaseProperties.getRollbackFile());
         liquibase.setTestRollbackOnUpdate(liquibaseProperties.isTestRollbackOnUpdate());
-        if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_FAST))) {
+        if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_FAST))
+            && !env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_TEST))) {
             liquibase.setShouldRun(false);
         } else {
             liquibase.setShouldRun(liquibaseProperties.isEnabled());

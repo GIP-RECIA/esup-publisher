@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.service.factories.impl;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

@@ -17,7 +17,7 @@ package org.esupportail.publisher.security;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.domain.QUser;
 import org.esupportail.publisher.domain.User;

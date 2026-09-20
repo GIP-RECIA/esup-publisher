@@ -21,7 +21,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.common.io.Files;
 import com.mysema.commons.lang.Pair;

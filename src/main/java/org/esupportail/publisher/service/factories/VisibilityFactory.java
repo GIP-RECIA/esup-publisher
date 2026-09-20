@@ -18,7 +18,7 @@ package org.esupportail.publisher.service.factories;
 import org.esupportail.publisher.domain.Subscriber;
 import org.esupportail.publisher.web.rest.vo.Visibility;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**

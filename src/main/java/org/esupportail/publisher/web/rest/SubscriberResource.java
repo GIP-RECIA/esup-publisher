@@ -24,10 +24,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.bind.DatatypeConverter;
 
 import org.esupportail.publisher.domain.AbstractClassification;
 import org.esupportail.publisher.domain.AbstractItem;
@@ -269,7 +269,7 @@ public class SubscriberResource {
     /**
      * DELETE /subscribers/ -> delete the "provided" subscriber.
      */
-    @RequestMapping(value = "/subscribers", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = { "/subscribers", "/subscribers/" }, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(SecurityConstants.IS_ROLE_ADMIN + " || " + SecurityConstants.IS_ROLE_USER
         + " && @permissionService.canEditCtxTargets(authentication, #subjectContextKey.contextKey.keyId, #subjectContextKey.contextKey.keyType)")
     public void delete(@Validated @RequestBody final SubjectContextKeyDTO subjectContextKey) {

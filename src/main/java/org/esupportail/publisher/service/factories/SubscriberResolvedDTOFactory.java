@@ -17,7 +17,7 @@ package org.esupportail.publisher.service.factories;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.esupportail.publisher.domain.Subscriber;
 import org.esupportail.publisher.web.rest.dto.SubscriberResolvedDTO;

@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.web.rest.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

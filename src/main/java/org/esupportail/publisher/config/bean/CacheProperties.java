@@ -15,8 +15,8 @@
  */
 package org.esupportail.publisher.config.bean;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;

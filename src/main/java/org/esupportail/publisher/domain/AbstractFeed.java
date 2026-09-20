@@ -19,10 +19,10 @@ import lombok.*;
 import org.esupportail.publisher.domain.enums.AccessType;
 import org.esupportail.publisher.domain.enums.DisplayOrderType;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter

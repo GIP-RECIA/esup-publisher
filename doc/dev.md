@@ -31,6 +31,25 @@
 2.  Also this project embed some git hooks, so please configure hooks path for this project with this command `git config core.hooksPath .githooks`
 3.  As node version giit hooks check the java version, so please update the `.githooks/pre-commit.d/mvn_chek_on_pre-commit` file to follow versions
 
+### Front-end tests and CI
+
+The front-end uses the Node version declared in `.nvmrc`. Load it with nvm before running the front-end commands:
+
+```sh
+nvm use
+npm ci
+npm run lint
+npm run format:check
+npm run test:unit
+npm run build
+```
+
+On the current Vue CLI branch, `npm run test:unit` runs Jest. On `gh_recia/migration-vite`, the same command runs Vitest. The test directory remains `src/test/javascript/spec/` on both branches.
+
+The GitHub Actions workflow runs these front-end checks in its dedicated `frontend` job. The backend jobs run `./mvnw test` and the required MariaDB/OpenLDAP integration tests separately.
+
+`./mvnw test` does not run the front-end tests. This separation avoids installing Node and running the front-end suite once for every Java matrix entry. To run the front-end tests locally, use `npm run test:unit` explicitly.
+
 ## mvn commands
 
 ### to add NOTICE

@@ -22,10 +22,10 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.esupportail.publisher.domain.evaluators.AbstractEvaluator;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 

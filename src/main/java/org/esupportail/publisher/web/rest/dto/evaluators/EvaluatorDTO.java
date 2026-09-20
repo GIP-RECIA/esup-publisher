@@ -19,7 +19,7 @@ import lombok.ToString;
 import org.esupportail.publisher.web.rest.dto.AbstractIdDTO;
 import org.esupportail.publisher.web.rest.dto.IAbstractDTO;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @ToString(callSuper=true)

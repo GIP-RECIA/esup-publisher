@@ -24,8 +24,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.AbstractPermission;

@@ -21,7 +21,7 @@ import lombok.ToString;
 import org.esupportail.publisher.domain.enums.ContextType;
 import java.time.Instant;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @ToString(callSuper=true)
 public abstract class PermissibleDTO extends AuditableDTO {

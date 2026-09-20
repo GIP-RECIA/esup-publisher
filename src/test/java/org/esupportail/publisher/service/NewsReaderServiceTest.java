@@ -33,9 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.esupportail.publisher.domain.AbstractItem;
 import org.esupportail.publisher.domain.News;
@@ -64,12 +63,10 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.springframework.cache.CacheManager;
-import org.springframework.data.domain.Example;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class NewsReaderServiceTest {
 
     @Spy
@@ -149,11 +146,6 @@ class NewsReaderServiceTest {
         Publisher publisher1 = new Publisher();
         Publisher publisher2 = new Publisher();
 
-        CacheManager cacheManager = mock(CacheManager.class);
-
-        when(publisherRepository.findAll(any(BooleanBuilder.class))).thenReturn(List.of(publisher1, publisher2));
-        when(cacheManager.getCache(any())).thenReturn(null);
-
         // Act
         List<PublisherForRead> result = newsReaderService.getPublishersReadLoader().getPublisherStructureTreeOfReader(readerId);
 
@@ -165,8 +157,6 @@ class NewsReaderServiceTest {
     void shouldThrowNewsExceptionWhenNoPublishersFound() {
         // Arrange
         Long readerId = 1L;
-        when(publisherRepository.findAll(any(BooleanBuilder.class), any(), any())).thenReturn(List.of()); // Aucun publisher
-
         // Act & Assert
         List<PublisherForRead> publisherForReadList = newsReaderService.getPublishersReadLoader().getPublisherStructureTreeOfReader(readerId);
 
@@ -301,7 +291,7 @@ class NewsReaderServiceTest {
         when(SecurityUtils.getCurrentUserDetails()).thenReturn(customUserDetails);
 
         AbstractItem item = mock(News.class); // Item factice
-        when(itemRepository.findOne((Example<AbstractItem>) any())).thenReturn(Optional.of(item));
+        when(itemRepository.findOne((Predicate) any())).thenReturn(Optional.of(item));
         when(readingIndicatorRepository.exists(ReadingIndicatorPredicates.readingIndicationOfItemAndUser(itemId, customUserDetails.getUser()))).thenReturn(true);
 
         // Act
@@ -345,8 +335,6 @@ class NewsReaderServiceTest {
             Arrays.asList());
         when(SecurityUtils.getCurrentUserDetails()).thenReturn(customUserDetails);
 
-        when(readingIndicatorRepository.exists(ReadingIndicatorPredicates.readingIndicationOfItemAndUser(itemId, customUserDetails.getUser()))).thenReturn(false);
-
         // Act & Assert
         ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> {
             newsReaderService.readingManagement(itemId, isRead);
@@ -366,7 +354,7 @@ class NewsReaderServiceTest {
         CustomUserDetails customUserDetails = new CustomUserDetails(new UserDTO("FR1", "user", true, false), user,
             Arrays.asList());
         when(SecurityUtils.getCurrentUserDetails()).thenReturn(customUserDetails);
-        when(itemRepository.findOne((Example<AbstractItem>) any())).thenReturn(Optional.empty());
+        when(itemRepository.findOne((Predicate) any())).thenReturn(Optional.empty());
 
         // Act & Assert
         ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> {

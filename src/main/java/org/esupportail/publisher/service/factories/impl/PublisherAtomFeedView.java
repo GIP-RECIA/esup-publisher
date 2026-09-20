@@ -22,10 +22,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.activation.MimetypesFileTypeMap;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.domain.AbstractClassification;
 import org.esupportail.publisher.domain.AbstractItem;

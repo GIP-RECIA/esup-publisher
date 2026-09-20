@@ -16,12 +16,12 @@
 package org.esupportail.publisher.web.rest.util;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Created by jgribonvald on 09/06/16.
@@ -36,7 +36,7 @@ public class RFC822LocalDateTimeXmlAdapter extends XmlAdapter<String, Instant> {
 
     @Override
     public Instant unmarshal(String v) {
-        return LocalDateTime.parse(v, formatter).atZone(ZoneId.systemDefault()).toInstant();
+        return ZonedDateTime.parse(v, formatter).toInstant();
     }
 
     @Override

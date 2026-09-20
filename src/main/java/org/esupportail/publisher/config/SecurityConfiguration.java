@@ -19,11 +19,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.apereo.portal.soffit.security.SoffitApiPreAuthenticatedProcessingFilter;
 import org.esupportail.publisher.security.AjaxAuthenticationFailureHandler;
 import org.esupportail.publisher.security.AjaxAuthenticationSuccessHandler;
 import org.esupportail.publisher.security.AjaxLogoutSuccessHandler;
@@ -34,13 +33,13 @@ import org.esupportail.publisher.security.HasIpRangeExpressionCreator;
 import org.esupportail.publisher.security.RememberCasAuthenticationEntryPoint;
 import org.esupportail.publisher.security.RememberCasAuthenticationProvider;
 import org.esupportail.publisher.security.RememberWebAuthenticationDetailsSource;
-import org.esupportail.publisher.security.SoffitApiAuthenticationManager;
 import org.esupportail.publisher.security.UserDetailsServiceFromCAS;
-import org.esupportail.publisher.security.UserDetailsServiceFromSoffit;
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;
 import org.esupportail.publisher.web.FeedController;
 import org.esupportail.publisher.web.filter.CsrfCookieGeneratorFilter;
-import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
+import org.apereo.cas.client.validation.Cas20ServiceTicketValidator;
+import fr.recia.notifications.soffit_java_client.SoffitJwtAuthenticationFilter;
+import fr.recia.notifications.soffit_java_client.SoffitJwtValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -54,6 +53,7 @@ import org.springframework.security.cas.authentication.CasAssertionAuthenticatio
 import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -63,6 +63,8 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -162,11 +164,6 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationUserDetailsService<UsernamePasswordAuthenticationToken> userDetailsServiceSoffit() {
-        return new UserDetailsServiceFromSoffit();
-    }
-
-    @Bean
     public RememberCasAuthenticationProvider casAuthenticationProvider() {
         RememberCasAuthenticationProvider casAuthenticationProvider = new RememberCasAuthenticationProvider();
         casAuthenticationProvider.setAuthenticationUserDetailsService(userDetailsServiceCAS());
@@ -257,28 +254,20 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager soffitAuthenticationManager() {
-        return new SoffitApiAuthenticationManager(userDetailsServiceSoffit());
-    }
-
-    @Bean
     @Order(1) // Priorité élevée pour les URLs liées à JWT
     public SecurityFilterChain configureSoffit(HttpSecurity http) throws Exception {
 
-        final AbstractPreAuthenticatedProcessingFilter soffitFilter =
-            new SoffitApiPreAuthenticatedProcessingFilter(esupPublisherProperties.getSecurity().getSoffitJwtSigningKey());
+        final SoffitJwtAuthenticationFilter soffitFilter =
+            new SoffitJwtAuthenticationFilter(new SoffitJwtValidator(esupPublisherProperties.getSecurity().getSoffitJwtSigningKey()));
 
-        soffitFilter.setAuthenticationManager(soffitAuthenticationManager());
-
-        http.antMatcher("/news/**")
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .cors().and().csrf().disable()
+        http.securityMatcher("/news/**")
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .cors(Customizer.withDefaults())
+            .csrf(csrf -> csrf.disable())
             .addFilterBefore(soffitFilter, BasicAuthenticationFilter.class)
-            .authorizeRequests()
-            .antMatchers("/news/home").permitAll() // URLs publiques
-            .antMatchers("/news/**").authenticated() // URLs nécessitant une authentification JWT
-            .and().authenticationManager(soffitAuthenticationManager());
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/news/home").permitAll() // URLs publiques
+            .requestMatchers("/news/**").authenticated()); // URLs nécessitant une authentification JWT
 
         return http.build();
     }
@@ -286,8 +275,9 @@ public class SecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http.cors().and().addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class).exceptionHandling()
-            .authenticationEntryPoint(casAuthenticationEntryPoint()).and()
+        http.cors(Customizer.withDefaults())
+            .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
+            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(casAuthenticationEntryPoint()))
             .addFilterBefore(casAuthenticationFilter(), BasicAuthenticationFilter.class)
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
 
@@ -305,61 +295,56 @@ public class SecurityConfiguration {
         // .passwordParameter("j_password")
         // .permitAll()
 
-        http
-            .headers()
-            .frameOptions()
-            .disable()
-            .and()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .antMatchers("/app/**/*.{js,html}").permitAll()
-            .antMatchers("/i18n/**").permitAll()
-            .antMatchers("/content/**").permitAll()
-            .antMatchers("/h2-console/**").permitAll()
-            .antMatchers("/swagger-ui/**").permitAll()
-            .antMatchers("/test/**").permitAll()
-            .antMatchers("/app/**").authenticated()
-            .antMatchers("/api/register").denyAll()
-            .antMatchers("/api/activate").denyAll()
-            .antMatchers("/api/authenticate").denyAll()
-            .antMatchers("/api/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api/enums/**").permitAll()
-            .antMatchers("/api/conf/**").permitAll()
-            .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api/**").hasAuthority(AuthoritiesConstants.USER)
-            .antMatchers("/management/health").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/health/**").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/info").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/prometheus").access("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/published/**").access("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers(FeedController.PRIVATE_RSS_FEED_URL_PATH + "**").access("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
-                        + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))")
-            .antMatchers(FeedController.FEED_CONTROLLER_PATH + "/**").permitAll()
-            .antMatchers(PROTECTED_PATH + "**").authenticated()
-            .antMatchers("/view/**").permitAll()
-            .antMatchers("/css/**").permitAll()
-            .antMatchers("/images/**").permitAll()
-            .antMatchers("/files/**").permitAll()
-            .antMatchers("/fonts/**").permitAll()
-            .antMatchers("/public/**").permitAll()
-            .antMatchers("/static/**").permitAll()
-            .antMatchers("/ui/**").permitAll()
-            .anyRequest().denyAll()
-            .and().authenticationManager(authenticationManager());
-        http
-            .logout()
-            .logoutUrl("/api/logout")
-            .logoutSuccessHandler(ajaxLogoutSuccessHandler)
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
-            .permitAll();
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(RegexRequestMatcher.regexMatcher("^/app/.+\\.(?:js|html)$")).permitAll()
+                .requestMatchers("/i18n/**").permitAll()
+                .requestMatchers("/content/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/test/**").permitAll()
+                .requestMatchers("/app/**").authenticated()
+                .requestMatchers("/api/register").denyAll()
+                .requestMatchers("/api/activate").denyAll()
+                .requestMatchers("/api/authenticate").denyAll()
+                .requestMatchers("/api/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/api/enums/**").permitAll()
+                .requestMatchers("/api/conf/**").permitAll()
+                .requestMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/api/**").hasAuthority(AuthoritiesConstants.USER)
+                .requestMatchers("/management/health").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/health/**").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/info").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/prometheus").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ADMIN + "') or (" + prometeusIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
+                .requestMatchers("/published/**").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers(FeedController.PRIVATE_RSS_FEED_URL_PATH + "**").access(new WebExpressionAuthorizationManager("hasRole('" + AuthoritiesConstants.ANONYMOUS + "') and (" + servicesPublishedIpAdressFilter(esupPublisherProperties).getExpression()
+                            + " or hasIpAddress('127.0.0.1/32') or hasIpAddress('::1'))"))
+                .requestMatchers(FeedController.FEED_CONTROLLER_PATH + "/**").permitAll()
+                .requestMatchers(PROTECTED_PATH + "**").authenticated()
+                .requestMatchers("/view/**").permitAll()
+                .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/files/**").permitAll()
+                .requestMatchers("/fonts/**").permitAll()
+                .requestMatchers("/public/**").permitAll()
+                .requestMatchers("/static/**").permitAll()
+                .requestMatchers("/ui/**").permitAll()
+                .anyRequest().denyAll())
+            .authenticationManager(authenticationManager())
+            .logout(logout -> logout
+                .logoutUrl("/api/logout")
+                .logoutSuccessHandler(ajaxLogoutSuccessHandler)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll());
 
         return http.build();
     }

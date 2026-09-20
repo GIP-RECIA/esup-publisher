@@ -20,7 +20,7 @@ package org.esupportail.publisher.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;

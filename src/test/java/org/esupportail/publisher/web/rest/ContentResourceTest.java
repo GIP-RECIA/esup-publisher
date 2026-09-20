@@ -31,9 +31,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.AbstractClassification;

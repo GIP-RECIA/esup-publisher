@@ -23,12 +23,15 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.AbstractItem;
@@ -65,6 +68,8 @@ public class ItemRepositoryTest {
 
 	@Inject
 	private ItemRepository<AbstractItem> repository;
+    @Inject
+    private EntityManager entityManager;
     @Inject
     private ItemDTOSelectorFactory factoryDTO;
 	@Inject
@@ -169,12 +174,33 @@ public class ItemRepositoryTest {
 	}
 
     @Test
+    public void testValidatedDateIsStoredWithoutTimezoneShift() {
+        Instant authorDate = OffsetDateTime.parse("2020-02-09T12:10:12+02:00").toInstant();
+        News item = new News("Titre timezone", "enclosure timezone", "body timezone",
+            LocalDate.now(), LocalDate.now().plusDays(1), authorDate, user1, DEFAULT_STATUS,
+            "summary timezone", true, true, org1, redactor1);
+
+        item.setValidatedDate(authorDate);
+        repository.saveAndFlush(item);
+        entityManager.clear();
+
+        AbstractItem persistedItem = repository.findById(item.getId()).orElse(null);
+        String databaseDate = (String) entityManager.createNativeQuery(
+            "select date_format(validated_date, '%Y-%m-%dT%H:%i:%s') from T_ITEM where id = :id")
+            .setParameter("id", item.getId())
+            .getSingleResult();
+
+        assertThat(persistedItem.getValidatedDate(), equalTo(authorDate));
+        assertThat(databaseDate, equalTo("2020-02-09T10:10:12"));
+    }
+
+    @Test
     public void testOptionalDateOK() {
         Media m1 = new Media("Titre " + INDICE_1, "enclosure" + INDICE_1,
             null, null, ObjTest.d3,
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactorOptionalEndDate);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
 
@@ -201,7 +227,7 @@ public class ItemRepositoryTest {
             null, ObjTest.instantToLocalDate(ObjTest.d2), ObjTest.d3,
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactorOptionalEndDate);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
     }
@@ -212,7 +238,7 @@ public class ItemRepositoryTest {
             null, null, ObjTest.d3,
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactor1);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
     }
@@ -222,7 +248,7 @@ public class ItemRepositoryTest {
             null, ObjTest.instantToLocalDate(ObjTest.d2), ObjTest.d3,
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactor1);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
     }
@@ -232,7 +258,7 @@ public class ItemRepositoryTest {
             ObjTest.instantToLocalDate(ObjTest.d1), null, ObjTest.d3,
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactor1);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
     }
@@ -242,7 +268,7 @@ public class ItemRepositoryTest {
             null, ObjTest.instantToLocalDate(ObjTest.d2), ObjTest.d2.plus(nbDaysMaxDuration+1, ChronoUnit.DAYS),
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactor1);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
     }
@@ -255,7 +281,7 @@ public class ItemRepositoryTest {
 				org1, redactor1);
 		repository.saveAndFlush(m1);
 		m1.setEndDate(ObjTest.instantToLocalDate(ObjTest.d1));
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
 	}
@@ -268,7 +294,7 @@ public class ItemRepositoryTest {
             org1, redactorOptionalEndDate);
         repository.saveAndFlush(m1);
         m1.setEndDate(ObjTest.instantToLocalDate(ObjTest.d1));
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
     }
@@ -289,7 +315,7 @@ public class ItemRepositoryTest {
 				ObjTest.instantToLocalDate(ObjTest.d3), ObjTest.instantToLocalDate(ObjTest.d1), ObjTest.d1,
 				user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
 				org1, redactor1);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
 	}
@@ -299,7 +325,7 @@ public class ItemRepositoryTest {
             ObjTest.instantToLocalDate(ObjTest.d3), ObjTest.instantToLocalDate(ObjTest.d1), ObjTest.d1,
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactorOptionalEndDate);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
         	repository.saveAndFlush(m1);
 		});
     }
@@ -310,7 +336,7 @@ public class ItemRepositoryTest {
 				ObjTest.instantToLocalDate(ObjTest.d1), ObjTest.instantToLocalDate(ObjTest.d1), ObjTest.d1,
 				user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
 				org1, redactor1);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
 			repository.saveAndFlush(m1);
 		});
 	}
@@ -320,7 +346,7 @@ public class ItemRepositoryTest {
             ObjTest.instantToLocalDate(ObjTest.d1), ObjTest.instantToLocalDate(ObjTest.d1), ObjTest.d1,
             user1, DEFAULT_STATUS, "summary" + INDICE_1, true, true,
             org1, redactorOptionalEndDate);
-		Assertions.assertThrows(javax.validation.ValidationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ValidationException.class, () -> {
         	repository.saveAndFlush(m1);
 		});
     }

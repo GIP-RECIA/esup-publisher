@@ -27,10 +27,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

@@ -33,7 +33,7 @@ import java.sql.Date;
 import java.time.ZoneId;
 import java.util.Locale;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.esupportail.publisher.Application;

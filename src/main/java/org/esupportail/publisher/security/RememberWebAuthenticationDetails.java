@@ -15,13 +15,13 @@
  */
 package org.esupportail.publisher.security;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;
 import org.springframework.security.cas.ServiceProperties;
-import org.springframework.security.cas.web.authentication.ServiceAuthenticationDetails;
+import org.springframework.security.cas.authentication.ServiceAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 @Slf4j

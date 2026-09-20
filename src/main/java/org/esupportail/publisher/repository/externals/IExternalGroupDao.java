@@ -18,7 +18,7 @@ package org.esupportail.publisher.repository.externals;
 import org.esupportail.publisher.domain.externals.IExternalGroup;
 import org.esupportail.publisher.domain.externals.IExternalUser;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 

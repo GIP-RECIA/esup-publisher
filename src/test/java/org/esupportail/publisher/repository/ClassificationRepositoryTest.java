@@ -33,7 +33,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -147,7 +147,7 @@ public class ClassificationRepositoryTest {
 				+ INDICE_4, "fr_fr", 3600, 200, AccessType.AUTHENTICATED,
 				"A DESC" + INDICE_4, DisplayOrderType.START_DATE, "#F44336", false, pub2,
 				(Category) repository.getReferenceById(cat1.getId()), "RSS_URL");
-		Assertions.assertThrows(javax.validation.ConstraintViolationException.class, () -> {
+		Assertions.assertThrows(jakarta.validation.ConstraintViolationException.class, () -> {
 			repository.saveAndFlush(c3);
 		});
 	}

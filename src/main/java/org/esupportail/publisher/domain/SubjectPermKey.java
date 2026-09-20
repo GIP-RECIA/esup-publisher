@@ -18,7 +18,7 @@
  */
 package org.esupportail.publisher.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -27,8 +27,8 @@ import org.esupportail.publisher.domain.enums.SubjectType;
 import org.esupportail.publisher.domain.util.CstPropertiesLength;
 import org.esupportail.publisher.domain.util.CustomEnumSerializer;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Comparator;
 

@@ -18,9 +18,9 @@ package org.esupportail.publisher.web.rest.dto;
 import java.time.Instant;
 import java.time.LocalDate;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import org.esupportail.publisher.domain.enums.ContextType;
 import org.esupportail.publisher.domain.enums.ItemStatus;

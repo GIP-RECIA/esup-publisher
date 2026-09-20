@@ -33,9 +33,10 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
+import tools.jackson.databind.json.JsonMapper;
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.domain.News;
 import org.esupportail.publisher.domain.Organization;
@@ -52,11 +53,10 @@ import org.esupportail.publisher.service.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -93,8 +93,7 @@ public class NewsResourceTest {
     @Inject
     private NewsRepository newsRepository;
     @Autowired
-    @Qualifier("mappingJackson2HttpMessageConverter")
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+    private JsonMapper objectMapper;
     @Autowired
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
     @Autowired
@@ -116,6 +115,7 @@ public class NewsResourceTest {
 
     @PostConstruct
     public void setup() {
+        JacksonJsonHttpMessageConverter jacksonMessageConverter = new JacksonJsonHttpMessageConverter(objectMapper);
         //closeable = MockitoAnnotations.openMocks(this);
         NewsResource newsResource = new NewsResource();
         OrganizationResource organizationResource = new OrganizationResource();

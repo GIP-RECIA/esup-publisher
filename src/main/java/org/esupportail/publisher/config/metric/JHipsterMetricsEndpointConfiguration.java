@@ -17,7 +17,7 @@ package org.esupportail.publisher.config.metric;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsEndpointAutoConfiguration;
+import org.springframework.boot.micrometer.metrics.autoconfigure.MetricsEndpointAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;

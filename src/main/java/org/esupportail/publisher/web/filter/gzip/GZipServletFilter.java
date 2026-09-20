@@ -18,9 +18,9 @@ package org.esupportail.publisher.web.filter.gzip;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.GZIPOutputStream;
@@ -109,7 +109,7 @@ public class GZipServletFilter implements Filter {
      * Checks if the request uri is an include. These cannot be gzipped.
      */
     private boolean isIncluded(final HttpServletRequest request) {
-        String uri = (String) request.getAttribute("javax.servlet.include.request_uri");
+        String uri = (String) request.getAttribute("jakarta.servlet.include.request_uri");
         boolean includeRequest = !(uri == null);
         if (includeRequest && log.isDebugEnabled()) {
             log.debug("{} resulted in an include request. This is unusable, because"

@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.esupportail.publisher.web.rest.dto.ICompositeExtendedKey;
 

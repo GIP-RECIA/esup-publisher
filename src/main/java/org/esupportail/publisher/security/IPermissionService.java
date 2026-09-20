@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.security;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.esupportail.publisher.domain.ContextKey;
 import org.esupportail.publisher.domain.enums.ContextType;

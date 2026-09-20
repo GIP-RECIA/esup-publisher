@@ -27,9 +27,9 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

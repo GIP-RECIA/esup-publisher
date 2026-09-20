@@ -21,8 +21,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.domain.Filter;
 import org.esupportail.publisher.repository.FilterRepository;

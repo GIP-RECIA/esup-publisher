@@ -15,6 +15,15 @@
  */
 package org.esupportail.publisher.security;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Test class for the SecurityUtils utility class.
@@ -23,29 +32,37 @@ package org.esupportail.publisher.security;
  */
 public class SecurityUtilsTest {
 
-	/*
-	 * @Test public void testGetCurrentLogin() { SecurityContext securityContext
-	 * = SecurityContextHolder .createEmptyContext(); securityContext
-	 * .setAuthentication(new UsernamePasswordAuthenticationToken( "admin",
-	 * "admin")); SecurityContextHolder.setContext(securityContext); String
-	 * login = SecurityUtils.getCurrentLogin();
-	 * assertThat(login).isEqualTo("admin"); }
-	 * 
-	 * @Test public void testIsAuthenticated() { SecurityContext securityContext
-	 * = SecurityContextHolder .createEmptyContext(); securityContext
-	 * .setAuthentication(new UsernamePasswordAuthenticationToken( "admin",
-	 * "admin")); SecurityContextHolder.setContext(securityContext); boolean
-	 * isAuthenticated = SecurityUtils.isAuthenticated();
-	 * assertThat(isAuthenticated).isTrue(); }
-	 * 
-	 * @Test public void testAnonymousIsNotAuthenticated() { SecurityContext
-	 * securityContext = SecurityContextHolder .createEmptyContext();
-	 * Collection<GrantedAuthority> authorities = new ArrayList<>();
-	 * authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
-	 * securityContext .setAuthentication(new
-	 * UsernamePasswordAuthenticationToken( "anonymous", "anonymous",
-	 * authorities)); SecurityContextHolder.setContext(securityContext); boolean
-	 * isAuthenticated = SecurityUtils.isAuthenticated();
-	 * assertThat(isAuthenticated).isFalse(); }
-	 */
+    @AfterEach
+    public void clearSecurityContext() {
+        SecurityContextHolder.clearContext();
+    }
+
+    @Test
+    public void testGetCurrentLogin() {
+        setAuthentication(new UsernamePasswordAuthenticationToken("admin", "password"));
+
+        assertThat(SecurityUtils.getCurrentLogin(), equalTo("admin"));
+    }
+
+    @Test
+    public void testIsAuthenticated() {
+        setAuthentication(new UsernamePasswordAuthenticationToken("admin", "password",
+            AuthorityUtils.createAuthorityList(AuthoritiesConstants.USER)));
+
+        assertThat(SecurityUtils.isAuthenticated(), equalTo(true));
+    }
+
+    @Test
+    public void testAnonymousIsNotAuthenticated() {
+        setAuthentication(new UsernamePasswordAuthenticationToken("anonymous", "password",
+            AuthorityUtils.createAuthorityList(AuthoritiesConstants.ANONYMOUS)));
+
+        assertThat(SecurityUtils.isAuthenticated(), equalTo(false));
+    }
+
+    private void setAuthentication(UsernamePasswordAuthenticationToken authentication) {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
+    }
 }

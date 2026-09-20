@@ -17,7 +17,7 @@ package org.esupportail.publisher.security;
 
 import java.util.Collection;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.esupportail.publisher.domain.User;
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;

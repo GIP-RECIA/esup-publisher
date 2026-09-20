@@ -15,8 +15,8 @@
  */
 package org.esupportail.publisher.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;

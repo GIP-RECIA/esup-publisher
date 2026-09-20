@@ -18,8 +18,8 @@ package org.esupportail.publisher.web;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.esupportail.publisher.config.ESUPPublisherProperties;
 import org.esupportail.publisher.security.SecurityConstants;

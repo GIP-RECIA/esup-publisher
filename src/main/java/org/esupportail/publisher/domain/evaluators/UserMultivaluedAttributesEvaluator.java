@@ -22,8 +22,8 @@ import lombok.ToString;
 import org.esupportail.publisher.domain.enums.StringEvaluationMode;
 import org.esupportail.publisher.service.evaluators.IEvaluationVisitor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 /**
  * @author GIP RECIA - Julien Gribonvald 14 oct. 2013

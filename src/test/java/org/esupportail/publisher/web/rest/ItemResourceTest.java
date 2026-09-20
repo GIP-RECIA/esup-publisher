@@ -20,6 +20,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,15 +31,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
+
+import tools.jackson.databind.json.JsonMapper;
+import jakarta.persistence.EntityManager;
 
 import org.esupportail.publisher.Application;
 import org.esupportail.publisher.config.Constants;
@@ -57,23 +63,21 @@ import org.esupportail.publisher.security.AuthoritiesConstants;
 import org.esupportail.publisher.security.CustomUserDetails;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.service.ContentService;
-import org.esupportail.publisher.service.FileService;
 import org.esupportail.publisher.service.factories.UserDTOFactory;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
 
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -114,8 +118,7 @@ public class ItemResourceTest {
     private ItemRepository<AbstractItem> itemRepository;
 
     @Autowired
-    @Qualifier("mappingJackson2HttpMessageConverter")
-    private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+    private JsonMapper objectMapper;
     @Autowired
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
     @Autowired
@@ -136,23 +139,23 @@ public class ItemResourceTest {
     private IPermissionService permissionService;
 
     private MockMvc restNewsMockMvc;
-
     private Organization organization;
     private AbstractItem item;
     private Redactor redactor;
     private User user1;private User user2;private User user3;
+    private Authentication authentication;
 
 
     @PostConstruct
     public void setup() {
+        JacksonJsonHttpMessageConverter jacksonMessageConverter = new JacksonJsonHttpMessageConverter(objectMapper);
         //closeable = MockitoAnnotations.openMocks(this);
         ItemResource itemResource = new ItemResource();
         OrganizationResource organizationResource = new OrganizationResource();
-        FileService fileservice = new FileService();
+        contentService = mock(ContentService.class);
         RedactorResource redactorResource = new RedactorResource();
         ReflectionTestUtils.setField(itemResource, "itemRepository", itemRepository);
         ReflectionTestUtils.setField(itemResource, "permissionService", permissionService);
-        ReflectionTestUtils.setField(itemResource, "fileService", fileservice);
         ReflectionTestUtils.setField(organizationResource, "organizationRepository", organizationRepository);
         ReflectionTestUtils.setField(itemResource, "contentService", contentService);
         ReflectionTestUtils.setField(redactorResource, "redactorRepository", redactorRepository);
@@ -168,12 +171,14 @@ public class ItemResourceTest {
         User userPart = optionalUser.orElse(null);
         UserDTO userDTOPart = userDTOFactory.from(userPart);
         CustomUserDetails userDetails = new CustomUserDetails(userDTOPart, userPart, Lists.newArrayList(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN)));
-        Authentication authentication = new TestingAuthenticationToken(userDetails, "password", Lists.newArrayList(userDetails.getAuthorities()));
-        Mockito.when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(authentication);
+        authentication = new TestingAuthenticationToken(userDetails, "password", Lists.newArrayList(userDetails.getAuthorities()));
     }
 
     @BeforeEach
     public void initTest() {
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
         final String name = "NAME";
         organization = organizationRepository.saveAndFlush(ObjTest.newOrganization(name));
         redactor = redactorRepository.saveAndFlush(ObjTest.newRedactor(name));
@@ -228,6 +233,23 @@ public class ItemResourceTest {
         assertThat(testNews.getRedactor(), equalTo(redactor));
         assertThat(testNews.getOrganization(), equalTo(organization));
 
+    }
+
+    @Test
+    @Transactional
+    public void createItemWithTimezoneOffset() throws Exception {
+        Instant authorDate = OffsetDateTime.parse("2024-06-15T12:00:00+02:00").toInstant();
+        item.setValidatedDate(authorDate);
+        String itemJson = new String(TestUtil.convertObjectToJsonBytes(item), StandardCharsets.UTF_8)
+            .replace(authorDate.toString(), "2024-06-15T12:00:00+02:00");
+
+        restNewsMockMvc.perform(post("/api/items").contentType(TestUtil.APPLICATION_JSON_UTF8).content(itemJson))
+            .andExpect(status().isCreated());
+
+        AbstractItem persistedItem = itemRepository.findAll().get(0);
+        restNewsMockMvc.perform(get("/api/items/{id}", persistedItem.getId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.validatedDate").value(authorDate.toString()));
     }
 
     @Test
@@ -429,17 +451,10 @@ public class ItemResourceTest {
     @Test
     @Transactional
     public void deleteItem() throws Exception {
-        // Initialize the database
-        itemRepository.saveAndFlush(item);
-
-        int databaseSizeBeforeDelete = itemRepository.findAll().size();
-
-        // Get the news
-        restNewsMockMvc.perform(delete("/api/items/{id}", item.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
+        final long itemId = 42L;
+        restNewsMockMvc.perform(delete("/api/items/{id}", itemId).accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
-        // Validate the database is empty
-        List<AbstractItem> items = itemRepository.findAll();
-        assertThat(items, hasSize(databaseSizeBeforeDelete - 1));
+        verify(contentService).deleteContent(itemId);
     }
 }

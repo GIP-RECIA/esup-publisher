@@ -26,6 +26,9 @@ run_nvm () {
 
 cd "."
 
+# frontend-maven-plugin installs the project Node runtime in this directory.
+export PATH="$(pwd)/node:$PATH"
+
 # Check if pre-commit is defined, skip if not
 has_hook_script pre-commit || exit 0
 

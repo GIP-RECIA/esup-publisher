@@ -15,7 +15,7 @@
  */
 package org.esupportail.publisher.web.rest;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.esupportail.publisher.config.ESUPPublisherProperties;
 import org.esupportail.publisher.config.bean.InjectedWebComponentsProperties;
