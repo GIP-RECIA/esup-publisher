@@ -44,7 +44,6 @@ This project includes:
   Bouncy Castle Provider under Bouncy Castle Licence
   Byte Buddy (without dependencies) under Apache License, Version 2.0
   Byte Buddy agent under Apache License, Version 2.0
-  Checker Qual under The MIT License
   ClassGraph under The MIT License (MIT)
   ClassMate under Apache License, Version 2.0
   Eclipse Compiler for Java(TM) under Eclipse Public License - v 2.0
@@ -53,7 +52,7 @@ This project includes:
   esup-publisher-ui under Apache License, Version 2.0
   Faux Pas under MIT License
   FindBugs-jsr305 under The Apache Software License, Version 2.0
-  Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
+  Guava InternalFutureFailureAccess and InternalFutures under Apache License, Version 2.0
   Guava ListenableFuture only under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under Apache License, Version 2.0
   H2 Database Engine under MPL 2.0 or EPL 1.0
@@ -124,7 +123,7 @@ This project includes:
   Nimbus JOSE+JWT under The Apache Software License, Version 2.0
   Objenesis under Apache License, Version 2.0
   opencsv under Apache 2
-  OpenJDK Nashorn under GPL v2 with the Classpath exception
+  OpenJDK Nashorn under GNU General Public License v2.0 w/Classpath exception
   org.apiguardian:apiguardian-api under The Apache License, Version 2.0
   org.opentest4j:opentest4j under The Apache License, Version 2.0
   org.xmlunit:xmlunit-core under The Apache Software License, Version 2.0
