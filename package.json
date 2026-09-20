@@ -8,7 +8,9 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
-    "lint": "eslint src/main/webapp/src/ src/test/javascript/",
+    "notice:frontend": "node scripts/generate-frontend-notice.cjs",
+    "notice:frontend:check": "node scripts/generate-frontend-notice.cjs --check",
+    "lint": "eslint src/main/webapp/src/ src/test/javascript/ scripts/",
     "commit": "commitlint --edit"
   },
   "dependencies": {
@@ -58,6 +60,7 @@
     "eslint": "^9.39.2",
     "eslint-plugin-format": "^1.4.0",
     "jsdom": "^28.0.0",
+    "license-checker-rseidelsohn": "^4.4.2",
     "sass": "1.97.3",
     "vite": "^6.4.1",
     "vitest": "^3.2.4",

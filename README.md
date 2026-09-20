@@ -3,6 +3,13 @@ esup-publisher-ui
 
 Application to publish content into several/different apps (uPortal portlet apps as example but not only!)
 
+Licensing
+---------
+
+The project source code is licensed under Apache-2.0. Third-party backend notices are listed in [NOTICE](NOTICE).
+Third-party frontend notices, including license texts, are delivered with the application at
+`/publisher/ui/NOTICE-frontend.txt`; see [doc/licensing.md](doc/licensing.md) for generation and distribution details.
+
 [![Coverage](https://raw.githubusercontent.com/GIP-RECIA/esup-publisher/badges/jacoco.svg)](https://github.com/GIP-RECIA/esup-publisher/actions/workflows/maven.yml)
 [![Branches](https://raw.githubusercontent.com/GIP-RECIA/esup-publisher/badges/branches.svg)](https://github.com/GIP-RECIA/esup-publisher/actions/workflows/maven.yml)
 

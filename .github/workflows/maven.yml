@@ -65,6 +65,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check frontend notices
+        run: npm run notice:frontend:check
+
       - name: Lint frontend
         run: npm run lint
 
