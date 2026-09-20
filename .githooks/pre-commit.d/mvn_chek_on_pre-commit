@@ -4,14 +4,19 @@
 
 echo "Running mvn checks before commit"
 
-# test Java version
-java -version 2>&1 | grep -q -e "OpenJDK .*Temurin-11" && echo "Your java version is an OpenJDK Temurin version 11." || (echo "Your java version is not and OpenJDK Temuring version 11." && exit 1)
+SDKMAN_INIT="${SDKMAN_DIR:-$HOME/.sdkman}/bin/sdkman-init.sh"
+if [ ! -s "$SDKMAN_INIT" ]; then
+  echo "SDKMAN initialization script not found: $SDKMAN_INIT"
+  exit 1
+fi
+source "$SDKMAN_INIT"
+echo "Using Java configured by SDKMAN"
 
 # retrieving current working directory
-CWD=`pwd`
+CWD=$(pwd)
 MAIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # go to main project dir
-cd $MAIN_DIR/../../
+cd "$MAIN_DIR/../../"
 # running maven conform test
 #MVN_RESULT=$(JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/ ./mvnw notice:check sortpom:verify 2>&1)
 MVN_RESULT=$(./mvnw notice:check sortpom:verify 2>&1)
@@ -22,8 +27,8 @@ if [ $? -ne 0 ]; then
   echo
   echo "Error while testing the code"
   # go back to current working dir
-  cd $CWD
+  cd "$CWD"
   exit 1
 fi
 # go back to current working dir
-cd $CWD
+cd "$CWD"
