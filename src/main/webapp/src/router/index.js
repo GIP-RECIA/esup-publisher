@@ -347,6 +347,15 @@ const routes = [
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
+if (import.meta.env.VITE_E2E === 'true') {
+  routes.push({
+    path: '/__e2e/richtext',
+    name: 'RichTextE2e',
+    component: () => import('../views/e2e/RichTextHarness.vue'),
+    meta: { requireLogin: false },
+  })
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,

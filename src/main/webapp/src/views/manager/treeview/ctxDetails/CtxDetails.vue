@@ -623,7 +623,7 @@ export default {
       for (let i = 0; i < this.permissionTypeList.length; i++) {
         switch (this.ctxPermissionType) {
           case 'CONTEXT_WITH_SUBJECTS':
-          case 'CONTEXT':
+          case 'CONTEXT': {
             let found = false
             for (let l = 0; l < this.permissions.length; l++) {
               if (CommonUtils.equals(this.permissions[l].role, this.permissionTypeList[i].name)) {
@@ -637,6 +637,7 @@ export default {
               this.availableRoles.push(this.permissionTypeList[i])
             }
             break
+          }
           default:
             if (!CommonUtils.equals(this.permissionTypeList[i].name, 'ADMIN')) {
               this.availableRoles.push(this.permissionTypeList[i])
@@ -662,7 +663,7 @@ export default {
       }
     },
     clear() {
-      this.$ref.tabTargets.clearSubscriber()
+      this.$refs.tabTargets.clearSubscriber()
     },
     getSubjectTypeList(name) {
       return this.subjectTypeList.find(val => val.code === name).id

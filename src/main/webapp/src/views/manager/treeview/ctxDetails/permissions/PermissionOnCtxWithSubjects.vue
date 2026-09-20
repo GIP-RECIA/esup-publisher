@@ -395,7 +395,7 @@ export default {
       </table>
     </div>
   </div>
-  <div id="deletePermissionConfirmation" ref="deletePermissionConfirmation" class="modal fade">
+  <div id="deletePermissionConfirmation" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
         <form name="deleteForm">

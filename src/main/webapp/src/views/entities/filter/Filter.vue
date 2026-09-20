@@ -6,7 +6,7 @@ import OrganizationService from '@/services/entities/organization/OrganizationSe
 import { FormErrorType, FormValidationUtils } from '@/services/util/FormValidationUtils.js'
 
 export default {
-  name: 'Filter',
+  name: 'FilterView',
   data() {
     return {
       filters: [],

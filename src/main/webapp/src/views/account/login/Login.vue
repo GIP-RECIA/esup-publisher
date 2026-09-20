@@ -119,7 +119,7 @@ export default {
 
 <template>
   <div v-if="toggleModal && logout" id="login-modal">
-    <LoginModal ref="modalRef" :showModal="toggleModal" @relog="relog" />
+    <LoginModal :showModal="toggleModal" @relog="relog" />
   </div>
   <div v-else class="row mx-0">
     <div class="col-lg-4 offset-lg-4">

@@ -143,13 +143,13 @@ export default defineComponent({
         return false
       return this.parentTop.childElementCount > 0 || this.parentBottom.childElementCount > 0
     },
-    dismiss() {
+    dismiss(...args) {
       if (this.timer)
         this.timer.stop()
       clearTimeout(this.queueTimer)
       this.isActive = false
       setTimeout(() => {
-        this.onDismiss.apply(null, arguments)
+        this.onDismiss(...args)
         const wrapper = this.$refs.root
         render(null, wrapper)
         this.removeElement(wrapper)
@@ -168,10 +168,10 @@ export default defineComponent({
         this.timer = new Timer(this.dismiss, this.duration)
       }
     },
-    whenClicked() {
+    whenClicked(...args) {
       if (!this.dismissible)
         return
-      this.onClick.apply(null, arguments)
+      this.onClick(...args)
       this.dismiss()
     },
     toggleTimer(newVal) {

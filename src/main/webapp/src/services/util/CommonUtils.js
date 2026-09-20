@@ -77,7 +77,8 @@ class CommonUtils {
       if (this.isArray(o1)) {
         if (!this.isArray(o2))
           return false
-        if ((length = o1.length) === o2.length) {
+        length = o1.length
+        if (length === o2.length) {
           for (key = 0; key < length; key++) {
             if (!this.equals(o1[key], o2[key]))
               return false

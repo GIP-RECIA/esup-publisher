@@ -185,7 +185,7 @@ export default {
             // - "aria-*"" (accessibilité)
             // - "ta-*", "contenteditable", "allowfullscreen", "frameborder" (pour les anciens contenus textAngular)
             {
-              name: /^((?!(i|script|iframe)).)*$/,
+              name: /^((?!(i|script)).)*$/,
               classes: true,
               styles: true,
               attributes: [
@@ -274,7 +274,7 @@ export default {
       })
     },
     getUploadedFiles(editorData) {
-      const uploadedFiles = editorData.match(/files\/(.*?).[a-z]{2,4}|view\/file\/(.*?).[a-z]{2,4}/g)
+      const uploadedFiles = editorData.match(/(?:files|view\/file)\/.+?\.[a-z]{2,4}/g)
 
       return uploadedFiles || []
     },
