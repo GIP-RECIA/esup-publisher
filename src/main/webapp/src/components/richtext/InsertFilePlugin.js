@@ -1,4 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
+import { Plugin } from 'ckeditor5'
 import UploadUtils from '@/services/util/UploadUtils'
 
 // Plugin pour l'upload de fichier (qui ne sont pas des images) dans CKEditor

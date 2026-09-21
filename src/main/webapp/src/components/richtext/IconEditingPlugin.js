@@ -1,5 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin'
-import { toWidget } from '@ckeditor/ckeditor5-widget/src/utils'
+import { Plugin, toWidget } from 'ckeditor5'
 
 // Plugin pour gérer les icônes dans Ckeditor
 class IconEditingPlugin extends Plugin {

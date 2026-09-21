@@ -1,14 +1,10 @@
 /* eslint-disable node/prefer-global/process */
 import { readFileSync } from 'node:fs'
-import { createRequire } from 'node:module'
 import { fileURLToPath, URL } from 'node:url'
-import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, loadEnv } from 'vite'
 import { parseString } from 'xml2js'
-
-const require = createRequire(import.meta.url)
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
@@ -40,7 +36,6 @@ export default ({ mode }) => {
         },
       }),
       VueI18nPlugin(),
-      ckeditor5({ theme: require.resolve('@ckeditor/ckeditor5-theme-lark') }),
     ],
     resolve: {
       alias: {
