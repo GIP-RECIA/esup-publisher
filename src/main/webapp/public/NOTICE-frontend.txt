@@ -491,7 +491,7 @@ Components
   License text: d9c32f07344c
   Repository: https://github.com/wooorm/comma-separated-tokens
   Copyright: Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
-- compressorjs@1.2.1
+- compressorjs@1.3.0
   License: MIT
   License text: 1819791ca5c6
   Repository: https://github.com/fengyuanchen/compressorjs
