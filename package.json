@@ -41,7 +41,7 @@
     "@vue/test-utils": "2.5.1",
     "eslint": "^9.39.5",
     "eslint-plugin-format": "^1.5.0",
-    "jsdom": "^28.1.0",
+    "jsdom": "^29.1.1",
     "license-checker-rseidelsohn": "^4.4.2",
     "sass": "1.104.1",
     "vite": "^6.4.3",
