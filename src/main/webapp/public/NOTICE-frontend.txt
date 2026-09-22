@@ -324,7 +324,7 @@ Components
   License text: 885c72fb035d
   Repository: https://github.com/intlify/vue-i18n
   Copyright: Copyright (c) 2020 kazuya kawaguchi
-- @jridgewell/sourcemap-codec@1.5.5
+- @jridgewell/sourcemap-codec@1.6.0
   License: MIT
   License text: 928e59141142
   Repository: https://github.com/jridgewell/sourcemaps

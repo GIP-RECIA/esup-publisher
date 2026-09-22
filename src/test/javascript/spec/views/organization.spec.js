@@ -4,17 +4,17 @@ import OrganizationService from '@/services/entities/organization/OrganizationSe
 import Organization from '@/views/entities/organization/Organization.vue'
 
 vi.mock('@/services/entities/enum/EnumDatasService.js')
+vi.mock('bootstrap', () => ({
+  Modal: class {
+    show() {}
+    hide() {}
+  },
+}))
 
 // Tests unitaires sur la page Owned
 describe('organization.vue tests', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mock('bootstrap', () => ({
-      Modal: class {
-        show() {}
-        hide() {}
-      },
-    }))
   })
 
   it('test 1 Organization - Affichage d\'un élément dans la liste des organizations', async () => {

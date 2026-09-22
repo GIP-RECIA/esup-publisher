@@ -9,17 +9,17 @@ import ParseLinkUtils from '@/services/util/ParseLinkUtils.js'
 import Owned from '@/views/manager/contents/owned/Owned.vue'
 
 vi.mock('@/services/entities/enum/EnumDatasService.js')
+vi.mock('bootstrap', () => ({
+  Modal: class {
+    show() {}
+    hide() {}
+  },
+}))
 
 // Tests unitaires sur la page Owned
 describe('owned.vue tests', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mock('bootstrap', () => ({
-      Modal: class {
-        show() {}
-        hide() {}
-      },
-    }))
   })
 
   it('test 1 Owned - Affichage d\'un élément dans la liste des publications', async () => {
