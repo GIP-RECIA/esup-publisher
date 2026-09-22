@@ -7,22 +7,22 @@ Regenerate with: npm run notice:frontend
 Components
 ----------
 
-- @babel/helper-string-parser@7.27.1
+- @babel/helper-string-parser@7.29.7
   License: MIT
   License text: 8f08c824b2bb
   Repository: https://github.com/babel/babel
   Copyright: Copyright (c) 2014-present Sebastian McKenzie and other contributors
-- @babel/helper-validator-identifier@7.28.5
+- @babel/helper-validator-identifier@7.29.7
   License: MIT
   License text: 8f08c824b2bb
   Repository: https://github.com/babel/babel
   Copyright: Copyright (c) 2014-present Sebastian McKenzie and other contributors
-- @babel/parser@7.29.0
+- @babel/parser@7.29.9
   License: MIT
   License text: 5937a76954e9
   Repository: https://github.com/babel/babel
   Copyright: Copyright (C) 2012-2014 by various contributors (see AUTHORS)
-- @babel/types@7.29.0
+- @babel/types@7.29.8
   License: MIT
   License text: 8f08c824b2bb
   Repository: https://github.com/babel/babel
@@ -881,7 +881,7 @@ Components
   License text: e91069c31b4e
   Repository: https://github.com/vercel/ms
   Copyright: Copyright (c) 2020 Vercel, Inc.
-- nanoid@3.3.11
+- nanoid@3.3.19
   License: MIT
   License text: 33dc6a453e22
   Repository: https://github.com/ai/nanoid
@@ -891,11 +891,11 @@ Components
   License text: fa11af88c78d
   Repository: https://github.com/alexeyraspopov/picocolors
   Copyright: Copyright (c) 2021-2024 Oleksii Raspopov, Kostiantyn Denysov, Anton Verinov
-- postcss@8.5.6
+- postcss@8.5.28
   License: MIT
-  License text: b02d6103a91d
+  License text: a2764f26c504
   Repository: https://github.com/postcss/postcss
-  Copyright: Copyright 2013 Andrey Sitnik <andrey@sitnik.ru>
+  Copyright: Copyright 2013 Andrey Sitnik <andrey@sitnik.es>
 - property-information@7.2.0
   License: MIT
   License text: c74f9c5a522f
@@ -4112,6 +4112,29 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+## a2764f26c504 (MIT)
+
+The MIT License (MIT)
+
+Copyright 2013 Andrey Sitnik <andrey@sitnik.es>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 ## a329731c0557 (MIT)
 
 MIT License
@@ -4239,29 +4262,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-## b02d6103a91d (MIT)
-
-The MIT License (MIT)
-
-Copyright 2013 Andrey Sitnik <andrey@sitnik.ru>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## b079b743d39a (MIT)
 
