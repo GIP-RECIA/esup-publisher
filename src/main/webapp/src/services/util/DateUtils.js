@@ -46,7 +46,7 @@ class DateUtils {
 
   convertToIntString(date, format, lang) {
     if (date && format && lang) {
-      return Intl.DateTimeFormat(lang, format).format(CommonUtils.isString(date) ? new Date(date) : date)
+      return new Intl.DateTimeFormat(lang, format).format(CommonUtils.isString(date) ? new Date(date) : date)
     }
     else {
       return null

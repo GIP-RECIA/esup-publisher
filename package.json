@@ -32,15 +32,15 @@
     "vuex": "4.1.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^7.7.3",
+    "@antfu/eslint-config": "^9.5.1",
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
     "@intlify/unplugin-vue-i18n": "^11.2.5",
     "@playwright/test": "^1.63.0",
     "@vitejs/plugin-vue": "^6.0.9",
     "@vue/test-utils": "2.5.1",
-    "eslint": "^9.39.5",
-    "eslint-plugin-format": "^1.5.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-format": "^2.0.1",
     "jsdom": "^29.1.1",
     "license-checker-rseidelsohn": "^4.4.2",
     "sass": "1.104.1",
