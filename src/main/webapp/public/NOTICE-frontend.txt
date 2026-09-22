@@ -375,22 +375,22 @@ Components
   License text: 22fc2b0e60ba
   Repository: https://github.com/ungap/structured-clone
   Copyright: Copyright (c) 2021, Andrea Giammarchi, @WebReflection
-- @vue/compiler-core@3.5.28
+- @vue/compiler-core@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
   Copyright: Copyright (c) 2018-present, Yuxi (Evan) You
-- @vue/compiler-dom@3.5.28
+- @vue/compiler-dom@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
   Copyright: Copyright (c) 2018-present, Yuxi (Evan) You
-- @vue/compiler-sfc@3.5.28
+- @vue/compiler-sfc@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
   Copyright: Copyright (c) 2018-present, Yuxi (Evan) You
-- @vue/compiler-ssr@3.5.28
+- @vue/compiler-ssr@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
@@ -399,27 +399,27 @@ Components
   License: MIT
   License text: fa8cbab8a692
   Repository: https://github.com/vuejs/vue-devtools
-- @vue/reactivity@3.5.28
+- @vue/reactivity@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
   Copyright: Copyright (c) 2018-present, Yuxi (Evan) You
-- @vue/runtime-core@3.5.28
+- @vue/runtime-core@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
   Copyright: Copyright (c) 2018-present, Yuxi (Evan) You
-- @vue/runtime-dom@3.5.28
+- @vue/runtime-dom@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
   Copyright: Copyright (c) 2018-present, Yuxi (Evan) You
-- @vue/server-renderer@3.5.28
+- @vue/server-renderer@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
   Copyright: Copyright (c) 2018-present, Yuxi (Evan) You
-- @vue/shared@3.5.28
+- @vue/shared@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
@@ -1051,7 +1051,7 @@ Components
   License text: 921f3677fcdf
   Repository: https://github.com/vuejs/router
   Copyright: Copyright (c) 2019-present Eduardo San Martin Morote
-- vue@3.5.28
+- vue@3.5.43
   License: MIT
   License text: 10aeeaa8da38
   Repository: https://github.com/vuejs/core
