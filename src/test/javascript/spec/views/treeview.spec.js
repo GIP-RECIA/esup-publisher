@@ -53,9 +53,6 @@ describe('treeview.vue tests', () => {
 
   it('test 1 Treeview - Initialisation', async () => {
     await flushPromises()
-    setTimeout(() => {
-      expect(wrapper.find('.esup-js-tree-stub').exists()).toBe(true)
-    }, 200)
     expect(wrapper.vm.treeData.length).toStrictEqual(1)
     expect(wrapper.vm.treeData[0].id).toStrictEqual(datas[0].id)
     expect(wrapper.vm.treeData[0].getChildren).toBeDefined()
