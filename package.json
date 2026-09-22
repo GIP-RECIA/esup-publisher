@@ -38,7 +38,7 @@
     "@intlify/unplugin-vue-i18n": "^11.2.5",
     "@playwright/test": "^1.63.0",
     "@vitejs/plugin-vue": "^6.0.9",
-    "@vue/test-utils": "2.4.6",
+    "@vue/test-utils": "2.5.1",
     "eslint": "^9.39.5",
     "eslint-plugin-format": "^1.4.0",
     "jsdom": "^28.1.0",
