@@ -462,27 +462,12 @@ Components
   License: MIT
   License text: fa8cbab8a692
   Repository: https://github.com/vuejs/vue-devtools
-- @vue/devtools-api@7.7.10
-  License: MIT
-  License text: 1fc447763fdf
-  Repository: https://github.com/vuejs/devtools
-  Copyright: Copyright (c) 2023 webfansplz
 - @vue/devtools-api@8.2.1
   License: MIT
   License text: 1fc447763fdf
   Repository: https://github.com/vuejs/devtools
   Copyright: Copyright (c) 2023 webfansplz
-- @vue/devtools-kit@7.7.10
-  License: MIT
-  License text: 1fc447763fdf
-  Repository: https://github.com/vuejs/devtools
-  Copyright: Copyright (c) 2023 webfansplz
 - @vue/devtools-kit@8.2.1
-  License: MIT
-  License text: 1fc447763fdf
-  Repository: https://github.com/vuejs/devtools
-  Copyright: Copyright (c) 2023 webfansplz
-- @vue/devtools-shared@7.7.10
   License: MIT
   License text: 1fc447763fdf
   Repository: https://github.com/vuejs/devtools
@@ -629,11 +614,6 @@ Components
   License text: 1dac0eee3a06
   Repository: https://github.com/unjs/confbox
   Copyright: Copyright (c) Pooya Parsa <pooya@pi0.io>
-- copy-anything@4.1.1
-  License: MIT
-  License text: c1c7c66a0bae
-  Repository: https://github.com/mesqueeb/copy-anything
-  Copyright: Copyright (c) 2018 Luca Ban - Mesqueeb
 - cropperjs@1.5.12
   License: MIT
   License text: 2d268c85482d
@@ -1095,11 +1075,6 @@ Components
   License text: d99bf3271ffd
   Repository: https://github.com/micromatch/micromatch
   Copyright: Copyright (c) 2014-present, Jon Schlinkert.
-- mitt@3.0.1
-  License: MIT
-  License text: 4687b3b5b6eb
-  Repository: https://github.com/developit/mitt
-  Copyright: Copyright (c) 2021 Jason Miller
 - mlly@1.8.2
   License: MIT
   License text: f7673e959327
@@ -1135,11 +1110,6 @@ Components
   License text: d785edfd5a8f
   Repository: https://github.com/unjs/pathe
   Copyright: Copyright (c) Pooya Parsa <pooya@pi0.io> - Daniel Roe <daniel@roe.dev>*
-- perfect-debounce@1.0.0
-  License: MIT
-  License text: f7673e959327
-  Repository: https://github.com/unjs/perfect-debounce
-  Copyright: Copyright (c) Pooya Parsa <pooya@pi0.io>
 - perfect-debounce@2.1.0
   License: MIT
   License text: f7673e959327
@@ -1160,7 +1130,7 @@ Components
   License text: 9219a3ebed1d
   Repository: https://github.com/micromatch/picomatch
   Copyright: Copyright (c) 2017-present, Jon Schlinkert.
-- pinia@3.0.4
+- pinia@4.0.3
   License: MIT
   License text: 921f3677fcdf
   Repository: https://github.com/vuejs/pinia
@@ -1243,11 +1213,6 @@ Components
   License text: f78777570e32
   Repository: https://github.com/remarkjs/remark.git#main
   Copyright: Copyright (c) 2014 Titus Wormer <tituswormer@gmail.com>
-- rfdc@1.4.1
-  License: MIT
-  License text: 170fa804d834
-  Repository: https://github.com/davidmarkclements/rfdc
-  Copyright: Copyright 2019 "David Mark Clements <david.mark.clements@gmail.com>"
 - rolldown@1.2.9
   License: MIT
   License text: 93a675c915fd
@@ -1272,21 +1237,11 @@ Components
   License text: d9c32f07344c
   Repository: https://github.com/wooorm/space-separated-tokens
   Copyright: Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
-- speakingurl@14.0.1
-  License: BSD-3-Clause
-  License text: efa150f2947d
-  Repository: https://github.com/pid/speakingurl
-  Copyright: Copyright (c) 2013-2017 Sascha Droste <pid@posteo.net>. All rights reserved.
 - stringify-entities@4.0.4
   License: MIT
   License text: 4be46afa7981
   Repository: https://github.com/wooorm/stringify-entities
   Copyright: Copyright (c) 2015 Titus Wormer <mailto:tituswormer@gmail.com>
-- superjson@2.2.6
-  License: MIT
-  License text: a6369815f9f0
-  Repository: https://github.com/blitz-js/superjson
-  Copyright: Copyright (c) 2020 Simon Knott and superjson contributors
 - tinyglobby@0.2.17
   License: MIT
   License text: 4918b99deb04
@@ -1312,10 +1267,10 @@ Components
   License text: e1da326aaf68
   Repository: https://github.com/wooorm/trough
   Copyright: Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
-- typescript@5.2.2
+- typescript@5.9.3
   License: Apache-2.0
   License text: d446a8c73d7b
-  Repository: https://github.com/Microsoft/TypeScript
+  Repository: https://github.com/microsoft/TypeScript
 - ufo@1.6.4
   License: MIT
   License text: f7673e959327
@@ -1805,24 +1760,6 @@ Trademarks
 ----------
 
 **CKEditor** is a trademark of [CKSource Holding sp. z o.o.](https://cksource.com) All other brand and product names are trademarks, registered trademarks, or service marks of their respective holders.
-
-## 170fa804d834 (MIT)
-
-Copyright 2019 "David Mark Clements <david.mark.clements@gmail.com>"
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
-to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.
 
 ## 1819791ca5c6 (MIT)
 
@@ -4667,30 +4604,6 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## 4687b3b5b6eb (MIT)
-
-MIT License
-
-Copyright (c) 2021 Jason Miller
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
 ## 48ff7be08a96 (MIT)
 
 MIT License
@@ -7206,30 +7119,6 @@ Trademarks
 
 **CKEditor** is a trademark of [CKSource Holding sp. z o.o.](https://cksource.com) All other brand and product names are trademarks, registered trademarks, or service marks of their respective holders.
 
-## a6369815f9f0 (MIT)
-
-MIT License
-
-Copyright (c) 2020 Simon Knott and superjson contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
 ## aa2d6cdedc91 (Custom: LICENSE.md)
 
 Software License Agreement
@@ -7706,30 +7595,6 @@ Trademarks
 ----------
 
 **CKEditor** is a trademark of [CKSource Holding sp. z o.o.](https://cksource.com) All other brand and product names are trademarks, registered trademarks, or service marks of their respective holders.
-
-## c1c7c66a0bae (MIT)
-
-MIT License
-
-Copyright (c) 2018 Luca Ban - Mesqueeb
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 
 ## c37a32dd1cd4 (MIT)
 
@@ -8777,21 +8642,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## efa150f2947d (BSD-3-Clause)
-
-The BSD 3-Clause License (BSD3)
-
-Copyright (c) 2013-2017 Sascha Droste <pid@posteo.net>
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-* Neither the name of the author nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## f27460a98351 (MIT)
 
