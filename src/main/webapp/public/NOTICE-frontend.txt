@@ -1120,7 +1120,7 @@ Components
   License text: fa11af88c78d
   Repository: https://github.com/alexeyraspopov/picocolors
   Copyright: Copyright (c) 2021-2024 Oleksii Raspopov, Kostiantyn Denysov, Anton Verinov
-- picomatch@2.3.1
+- picomatch@2.3.2
   License: MIT
   License text: 9219a3ebed1d
   Repository: https://github.com/micromatch/picomatch
