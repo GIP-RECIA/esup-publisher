@@ -2,10 +2,9 @@
 
 echo "Run npm hook for Commit Message checking"
 
-export PATH="$(git rev-parse --show-toplevel)/node:$PATH"
-
-#npm run commit
-npx commitlint --edit
+export NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+nvm exec "$(cat .nvmrc)" npx --no-install commitlint --edit
 
 if [ $? -gt 0 ]
 then
