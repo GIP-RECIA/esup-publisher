@@ -27,139 +27,139 @@ Components
   License text: 8f08c824b2bb
   Repository: https://github.com/babel/babel
   Copyright: Copyright (c) 2014-present Sebastian McKenzie and other contributors
-- @ckeditor/ckeditor5-adapter-ckfinder@48.5.1
+- @ckeditor/ckeditor5-adapter-ckfinder@48.5.2
   License: Custom: LICENSE.md
   License text: 64da1a04b9aa
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-alignment@48.5.1
+- @ckeditor/ckeditor5-alignment@48.5.2
   License: Custom: LICENSE.md
   License text: 3ec5b737ee8d
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-autoformat@48.5.1
+- @ckeditor/ckeditor5-autoformat@48.5.2
   License: Custom: LICENSE.md
   License text: 243bd3e73db6
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-autosave@48.5.1
+- @ckeditor/ckeditor5-autosave@48.5.2
   License: Custom: LICENSE.md
   License text: 8bf5d3d022f7
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-basic-styles@48.5.1
+- @ckeditor/ckeditor5-basic-styles@48.5.2
   License: Custom: LICENSE.md
   License text: 1282264a923e
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-block-quote@48.5.1
+- @ckeditor/ckeditor5-block-quote@48.5.2
   License: Custom: LICENSE.md
   License text: 5e0890307a55
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-bookmark@48.5.1
+- @ckeditor/ckeditor5-bookmark@48.5.2
   License: Custom: LICENSE.md
   License text: e58153afc80c
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-ckbox@48.5.1
+- @ckeditor/ckeditor5-ckbox@48.5.2
   License: Custom: LICENSE.md
   License text: aa2d6cdedc91
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-ckfinder@48.5.1
+- @ckeditor/ckeditor5-ckfinder@48.5.2
   License: Custom: LICENSE.md
   License text: a3d3931bd065
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-clipboard@48.5.1
+- @ckeditor/ckeditor5-clipboard@48.5.2
   License: Custom: LICENSE.md
   License text: 054fb6b00884
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-cloud-services@48.5.1
+- @ckeditor/ckeditor5-cloud-services@48.5.2
   License: Custom: LICENSE.md
   License text: 80602755cdae
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-code-block@48.5.1
+- @ckeditor/ckeditor5-code-block@48.5.2
   License: Custom: LICENSE.md
   License text: 26c21fa06641
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-core@48.5.1
+- @ckeditor/ckeditor5-core@48.5.2
   License: Custom: LICENSE.md
   License text: 91376c2d63ee
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-easy-image@48.5.1
+- @ckeditor/ckeditor5-easy-image@48.5.2
   License: Custom: LICENSE.md
   License text: 3bba38cbc935
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-editor-balloon@48.5.1
+- @ckeditor/ckeditor5-editor-balloon@48.5.2
   License: Custom: LICENSE.md
   License text: fc464316fffa
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-editor-classic@48.5.1
+- @ckeditor/ckeditor5-editor-classic@48.5.2
   License: Custom: LICENSE.md
   License text: fc4bff8200c5
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-editor-decoupled@48.5.1
+- @ckeditor/ckeditor5-editor-decoupled@48.5.2
   License: Custom: LICENSE.md
   License text: 5f52c2108771
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-editor-inline@48.5.1
+- @ckeditor/ckeditor5-editor-inline@48.5.2
   License: Custom: LICENSE.md
   License text: 89bfd8e65654
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-editor-multi-root@48.5.1
+- @ckeditor/ckeditor5-editor-multi-root@48.5.2
   License: Custom: LICENSE.md
   License text: e1af704fce94
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-emoji@48.5.1
+- @ckeditor/ckeditor5-emoji@48.5.2
   License: Custom: LICENSE.md
   License text: fae80d0f6588
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-engine@48.5.1
+- @ckeditor/ckeditor5-engine@48.5.2
   License: Custom: LICENSE.md
   License text: f967e8b30097
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-enter@48.5.1
+- @ckeditor/ckeditor5-enter@48.5.2
   License: Custom: LICENSE.md
   License text: 8d3869e4eec8
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-essentials@48.5.1
+- @ckeditor/ckeditor5-essentials@48.5.2
   License: Custom: LICENSE.md
   License text: a5e0996a709d
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-find-and-replace@48.5.1
+- @ckeditor/ckeditor5-find-and-replace@48.5.2
   License: Custom: LICENSE.md
   License text: 258267f725b3
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-font@48.5.1
+- @ckeditor/ckeditor5-font@48.5.2
   License: Custom: LICENSE.md
   License text: d47f3d74d082
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-fullscreen@48.5.1
+- @ckeditor/ckeditor5-fullscreen@48.5.2
   License: Custom: LICENSE.md
   License text: b95632e8382e
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-heading@48.5.1
+- @ckeditor/ckeditor5-heading@48.5.2
   License: Custom: LICENSE.md
   License text: 0092547c735a
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-highlight@48.5.1
+- @ckeditor/ckeditor5-highlight@48.5.2
   License: Custom: LICENSE.md
   License text: bd89a9d8daaf
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-horizontal-line@48.5.1
+- @ckeditor/ckeditor5-horizontal-line@48.5.2
   License: Custom: LICENSE.md
   License text: 74053e695baf
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-html-embed@48.5.1
+- @ckeditor/ckeditor5-html-embed@48.5.2
   License: Custom: LICENSE.md
   License text: 31e69c7d47af
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-html-support@48.5.1
+- @ckeditor/ckeditor5-html-support@48.5.2
   License: Custom: LICENSE.md
   License text: 391cf908f9a4
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-icons@48.5.1
+- @ckeditor/ckeditor5-icons@48.5.2
   License: Custom: LICENSE.md
   License text: 3f4aefd74578
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-image@48.5.1
+- @ckeditor/ckeditor5-image@48.5.2
   License: Custom: LICENSE.md
   License text: 696904fccbcb
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-indent@48.5.1
+- @ckeditor/ckeditor5-indent@48.5.2
   License: Custom: LICENSE.md
   License text: 1e7286ac566e
   Repository: https://github.com/ckeditor/ckeditor5
@@ -167,95 +167,95 @@ Components
   License: Custom: LICENSE.md
   License text: 19752f13edd4
   Repository: https://github.com/ckeditor/ckeditor5-integrations-common
-- @ckeditor/ckeditor5-language@48.5.1
+- @ckeditor/ckeditor5-language@48.5.2
   License: Custom: LICENSE.md
   License text: 8720fed65665
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-link@48.5.1
+- @ckeditor/ckeditor5-link@48.5.2
   License: Custom: LICENSE.md
   License text: 00bc6a16a3d7
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-list@48.5.1
+- @ckeditor/ckeditor5-list@48.5.2
   License: Custom: LICENSE.md
   License text: 9910aa068ff6
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-markdown-gfm@48.5.1
+- @ckeditor/ckeditor5-markdown-gfm@48.5.2
   License: Custom: LICENSE.md
   License text: 3b32e440c3bb
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-media-embed@48.5.1
+- @ckeditor/ckeditor5-media-embed@48.5.2
   License: Custom: LICENSE.md
   License text: 35043f62d1de
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-mention@48.5.1
+- @ckeditor/ckeditor5-mention@48.5.2
   License: Custom: LICENSE.md
   License text: 7dd7d7e07dc4
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-minimap@48.5.1
+- @ckeditor/ckeditor5-minimap@48.5.2
   License: Custom: LICENSE.md
   License text: e58e4655407d
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-page-break@48.5.1
+- @ckeditor/ckeditor5-page-break@48.5.2
   License: Custom: LICENSE.md
   License text: 57f22252798b
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-paragraph@48.5.1
+- @ckeditor/ckeditor5-paragraph@48.5.2
   License: Custom: LICENSE.md
   License text: 6b5be5289753
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-paste-from-office@48.5.1
+- @ckeditor/ckeditor5-paste-from-office@48.5.2
   License: Custom: LICENSE.md
   License text: d9d2daa29d00
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-remove-format@48.5.1
+- @ckeditor/ckeditor5-remove-format@48.5.2
   License: Custom: LICENSE.md
   License text: 4be7b9cc01a0
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-restricted-editing@48.5.1
+- @ckeditor/ckeditor5-restricted-editing@48.5.2
   License: Custom: LICENSE.md
   License text: 227645ecbe1e
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-select-all@48.5.1
+- @ckeditor/ckeditor5-select-all@48.5.2
   License: Custom: LICENSE.md
   License text: 16c47dd96156
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-show-blocks@48.5.1
+- @ckeditor/ckeditor5-show-blocks@48.5.2
   License: Custom: LICENSE.md
   License text: 81a644649c93
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-source-editing@48.5.1
+- @ckeditor/ckeditor5-source-editing@48.5.2
   License: Custom: LICENSE.md
   License text: 513f917eb36a
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-special-characters@48.5.1
+- @ckeditor/ckeditor5-special-characters@48.5.2
   License: Custom: LICENSE.md
   License text: 284a7d62d0f2
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-style@48.5.1
+- @ckeditor/ckeditor5-style@48.5.2
   License: Custom: LICENSE.md
   License text: 70737731dffc
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-table@48.5.1
+- @ckeditor/ckeditor5-table@48.5.2
   License: Custom: LICENSE.md
   License text: d7b744208f37
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-typing@48.5.1
+- @ckeditor/ckeditor5-typing@48.5.2
   License: Custom: LICENSE.md
   License text: 4151a841f077
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-ui@48.5.1
+- @ckeditor/ckeditor5-ui@48.5.2
   License: Custom: LICENSE.md
   License text: 71ea6885bc3d
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-undo@48.5.1
+- @ckeditor/ckeditor5-undo@48.5.2
   License: Custom: LICENSE.md
   License text: 33d5efc2bb25
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-upload@48.5.1
+- @ckeditor/ckeditor5-upload@48.5.2
   License: Custom: LICENSE.md
   License text: e14d1825a76d
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-utils@48.5.1
+- @ckeditor/ckeditor5-utils@48.5.2
   License: Custom: LICENSE.md
   License text: 34973f6029e8
   Repository: https://github.com/ckeditor/ckeditor5
@@ -263,15 +263,15 @@ Components
   License: Custom: LICENSE.md
   License text: 34bb94c6f5b2
   Repository: https://github.com/ckeditor/ckeditor5-vue
-- @ckeditor/ckeditor5-watchdog@48.5.1
+- @ckeditor/ckeditor5-watchdog@48.5.2
   License: Custom: LICENSE.md
   License text: 11a2cf1b9314
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-widget@48.5.1
+- @ckeditor/ckeditor5-widget@48.5.2
   License: Custom: LICENSE.md
   License text: 2e9357f43642
   Repository: https://github.com/ckeditor/ckeditor5
-- @ckeditor/ckeditor5-word-count@48.5.1
+- @ckeditor/ckeditor5-word-count@48.5.2
   License: Custom: LICENSE.md
   License text: 9393789685ae
   Repository: https://github.com/ckeditor/ckeditor5
@@ -586,7 +586,7 @@ Components
   License text: bc77badaede6
   Repository: https://github.com/paulmillr/chokidar
   Copyright: Copyright (c) 2012 Paul Miller (https://paulmillr.com), Elan Shanker
-- ckeditor5@48.5.1
+- ckeditor5@48.5.2
   License: Custom: LICENSE.md
   License text: 9f17b47bc4a9
   Repository: https://github.com/ckeditor/ckeditor5
