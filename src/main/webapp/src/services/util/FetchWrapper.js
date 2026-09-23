@@ -59,14 +59,14 @@ function fetchWithRetry(resolve, reject, url, params) {
   fetch(url, params)
     .then((response) => {
       if (!response.ok) {
-        if (response.status !== 401 || url === `${import.meta.env.VITE_BACK_BASE_URL}api/account` || store.getters.getLoginModalOpened) {
+        if (response.status !== 401 || url === `${import.meta.env.VITE_BACK_BASE_URL}api/account` || store.getLoginModalOpened) {
           reject(response)
         }
         else {
           // Si erreur 401, redirection vers la page de login
           if (router.currentRoute.value.name !== 'Login') {
-            store.commit('setLoginModalOpened', true)
-            store.commit('setReturnRoute', {
+            store.setLoginModalOpened(true)
+            store.setReturnRoute({
               name: router.currentRoute.value.name,
               params: router.currentRoute.value.params,
               meta: router.currentRoute.value.meta,

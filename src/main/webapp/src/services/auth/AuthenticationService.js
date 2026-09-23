@@ -11,7 +11,7 @@ class AuthenticationService {
           PrincipalService.identify(true)
             .then((account) => {
               if (account !== undefined && account.user.langKey !== undefined && account.user.langKey !== null) {
-                store.commit('setLang', account.user.langKey)
+                store.setLang(account.user.langKey)
               }
               resolve(account)
             })
@@ -31,7 +31,7 @@ class AuthenticationService {
     return new Promise((resolve, reject) => {
       FetchWrapper.postJson('api/logout')
         .then((response) => {
-          store.commit('clearAll')
+          store.clearAll()
           resolve(response)
         })
         .catch((err) => {
@@ -44,9 +44,9 @@ class AuthenticationService {
     return PrincipalService.identify().then(() => {
       const isAuthenticated = PrincipalService.isAuthenticated()
       if (
-        store.getters.getNextRoute.meta.roles
-        && store.getters.getNextRoute.meta.roles.length > 0
-        && !PrincipalService.isInAnyRole(store.getters.getNextRoute.meta.roles)
+        store.getNextRoute.meta.roles
+        && store.getNextRoute.meta.roles.length > 0
+        && !PrincipalService.isInAnyRole(store.getNextRoute.meta.roles)
       ) {
         if (isAuthenticated) {
           // user is signed in but not authorized for desired state
@@ -55,7 +55,7 @@ class AuthenticationService {
         else {
           // user is not authenticated. stow the state they wanted before you
           // send them to the signin state, so you can return them when you're done
-          store.commit('setReturnRoute', store.getters.getNextRoute)
+          store.setReturnRoute(store.getNextRoute)
 
           // now, send them to the signin state so they can log in
           router.push({ name: 'Login' })

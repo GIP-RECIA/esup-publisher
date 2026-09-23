@@ -84,7 +84,7 @@ export default {
       })
     },
     formatDate(date) {
-      return DateUtils.formatDateTimeToShortIntString(DateUtils.convertDateTimeFromServer(date), store.getters.getLanguage)
+      return DateUtils.formatDateTimeToShortIntString(DateUtils.convertDateTimeFromServer(date), store.getLanguage)
     },
   },
 }

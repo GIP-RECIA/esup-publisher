@@ -5,7 +5,7 @@ import store from '@/store/index.js'
 const NavbarDirective = {
   updateClass(el, value) {
     const language = value
-    if (language === store.getters.getLanguage) {
+    if (language === store.getLanguage) {
       el.classList.add('active')
     }
     else {

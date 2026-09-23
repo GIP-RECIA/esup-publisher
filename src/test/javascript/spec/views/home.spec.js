@@ -14,13 +14,6 @@ describe('home.vue tests', () => {
       }),
     )
     const $t = param => param
-    const $store = {
-      getters: {
-        getIdentity: {
-          roles: ['ROLE_ADMIN'],
-        },
-      },
-    }
 
     const wrapper = shallowMount(Home, {
       global: {
@@ -29,7 +22,6 @@ describe('home.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
         },
         directives: {
           'has-role': {},
@@ -56,13 +48,6 @@ describe('home.vue tests', () => {
       }),
     )
     const $t = param => param
-    const $store = {
-      getters: {
-        getIdentity: {
-          roles: ['ROLE_ADMIN'],
-        },
-      },
-    }
 
     const wrapper = shallowMount(Home, {
       global: {
@@ -71,7 +56,6 @@ describe('home.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
         },
         directives: {
           'has-role': {},

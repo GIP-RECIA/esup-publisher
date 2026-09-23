@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '@/App.vue'
 import EnumDatasService from '@/services/entities/enum/EnumDatasService.js'
 import ConfigurationService from '@/services/params/ConfigurationService.js'
+import store from '@/store/index.js'
 
 vi.mock('@/services/entities/enum/EnumDatasService.js')
 
@@ -30,12 +31,7 @@ describe('app.vue tests', () => {
         },
       },
     }
-    const $store = {
-      commit: vi.fn(),
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
+    const initializeStore = vi.spyOn(store, 'initializeStore')
     const $i18n = {
       locale: 'en',
     }
@@ -48,7 +44,6 @@ describe('app.vue tests', () => {
         mocks: {
           $router,
           $t,
-          $store,
           $i18n,
         },
       },
@@ -60,8 +55,7 @@ describe('app.vue tests', () => {
     expect(ConfigurationService.init).toHaveBeenCalledTimes(1)
     expect(ConfigurationService.getConfInjectedWebComponents).toHaveBeenCalledTimes(1)
     expect(EnumDatasService.init).toHaveBeenCalledTimes(1)
-    expect($store.commit).toHaveBeenCalledTimes(1)
-    expect($store.commit).toHaveBeenCalledWith('initializeStore')
+    expect(initializeStore).toHaveBeenCalledTimes(1)
     expect($i18n.locale).toBe('fr')
   })
 })

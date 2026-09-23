@@ -49,11 +49,6 @@ describe('organization.vue tests', () => {
 
     const $t = param => param
     const $route = { params: { itemState: '' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
 
     const wrapper = shallowMount(Organization, {
       global: {
@@ -62,7 +57,6 @@ describe('organization.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         directives: {
@@ -132,11 +126,6 @@ describe('organization.vue tests', () => {
 
     const $t = param => param
     const $route = { params: { itemState: '' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const wrapper = shallowMount(Organization, {
       global: {
         stubs: {
@@ -144,7 +133,6 @@ describe('organization.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         directives: {
@@ -202,11 +190,6 @@ describe('organization.vue tests', () => {
 
     const $t = param => param
     const $route = { params: { itemState: '' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const wrapper = shallowMount(Organization, {
       global: {
         stubs: {
@@ -214,7 +197,6 @@ describe('organization.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         directives: {
@@ -271,11 +253,6 @@ describe('organization.vue tests', () => {
     const $router = {
       push: vi.fn(),
     }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const wrapper = shallowMount(Organization, {
       global: {
         stubs: {
@@ -283,7 +260,6 @@ describe('organization.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
           $router,
         },
@@ -339,11 +315,6 @@ describe('organization.vue tests', () => {
 
     const $t = param => param
     const $route = { params: { itemState: '' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const wrapper = shallowMount(Organization, {
       global: {
         stubs: {
@@ -351,7 +322,6 @@ describe('organization.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         directives: {
@@ -403,11 +373,6 @@ describe('organization.vue tests', () => {
 
     const $t = param => param
     const $route = { params: { itemState: '' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const wrapper = shallowMount(Organization, {
       global: {
         stubs: {
@@ -415,7 +380,6 @@ describe('organization.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         directives: {

@@ -195,11 +195,11 @@ export default {
     },
     // Fonction de formatage de date avec heure
     formatDate(date) {
-      return DateUtils.formatDateTimeToShortIntString(date, store.getters.getLanguage)
+      return DateUtils.formatDateTimeToShortIntString(date, store.getLanguage)
     },
     // Fonction de formatage de date
     formatDateSimple(date) {
-      return DateUtils.formatDateToShortIntString(date, store.getters.getLanguage)
+      return DateUtils.formatDateToShortIntString(date, store.getLanguage)
     },
     // Récupération de fichier (local ou distant)
     getUrlEnclosure(enclosure) {

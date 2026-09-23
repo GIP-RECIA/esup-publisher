@@ -7,6 +7,7 @@ import SubjectService from '@/services/params/SubjectService.js'
 import UserService from '@/services/user/UserService.js'
 import Base64Utils from '@/services/util/Base64Utils.js'
 import CommonUtils from '@/services/util/CommonUtils.js'
+import store from '@/store/index.js'
 import SubjectDetail from '@/views/entities/subject/SubjectDetail.vue'
 
 const { t } = i18n.global
@@ -36,7 +37,7 @@ export default {
         extendedAttrs: [],
         searchUsers: null,
         getGroupMembers: null,
-        lang: this.$store.getters.getLanguage,
+        lang: store.getLanguage,
       },
       deleteTargetConfirmation: null,
       canEditTargetCtx: false,

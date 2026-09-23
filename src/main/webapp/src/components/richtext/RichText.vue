@@ -217,7 +217,7 @@ export default {
             },
           ],
         },
-        language: store.getters.getLanguage,
+        language: store.getLanguage,
         translations: [FrenchTranslations],
       },
       uploadedFiles: [],

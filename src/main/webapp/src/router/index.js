@@ -362,25 +362,25 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  store.commit('setPreviousRoute', {
+  store.setPreviousRoute({
     name: from.name,
     params: from.params,
     meta: from.meta,
   })
-  store.commit('setNextRoute', {
+  store.setNextRoute({
     name: to.name,
     params: to.params,
     meta: to.meta,
   })
   if (to.matched.some(record => record.meta.requireLogin)) {
-    if (!PrincipalService.isAuthenticated() && !store.getters.getLoginModalOpened) {
+    if (!PrincipalService.isAuthenticated() && !store.getLoginModalOpened) {
       AuthenticationService.login()
         .then(() => {
           next()
         })
         .catch(() => {
-          store.commit('setLoginModalOpened', true)
-          store.commit('setReturnRoute', store.getters.getNextRoute)
+          store.setLoginModalOpened(true)
+          store.setReturnRoute(store.getNextRoute)
           next({
             path: '/login',
           })

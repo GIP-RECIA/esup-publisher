@@ -2,6 +2,7 @@
 import GroupService from '@/services/entities/group/GroupService.js'
 import SubjectService from '@/services/params/SubjectService.js'
 import UserService from '@/services/user/UserService.js'
+import store from '@/store/index.js'
 import SubjectDetail from '@/views/entities/subject/SubjectDetail.vue'
 
 export default {
@@ -50,7 +51,7 @@ export default {
       editEvaluatorConfig: {
         getSubjectInfos: null,
         userDisplayedAttrs: [],
-        lang: this.$store.getters.getLanguage,
+        lang: store.getLanguage,
         operators: [],
         stringEvaluators: [],
         userAttributes: [],
@@ -61,7 +62,7 @@ export default {
       evaluatorConfig: {
         getSubjectInfos: null,
         userDisplayedAttrs: [],
-        lang: this.$store.getters.getLanguage,
+        lang: store.getLanguage,
       },
       subjectSearchButtonConfig: {
         treeGroupDatas: [],
@@ -69,7 +70,7 @@ export default {
         extendedAttrs: [],
         searchUsers: null,
         getGroupMembers: null,
-        lang: this.$store.getters.getLanguage,
+        lang: store.getLanguage,
       },
     }
   },

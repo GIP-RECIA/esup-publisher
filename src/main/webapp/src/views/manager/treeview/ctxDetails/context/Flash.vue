@@ -7,10 +7,10 @@ export default {
   inject: ['context', 'getEnumlabel', 'detailSubject', 'getUrlEnclosure'],
   methods: {
     formatDate(date) {
-      return DateUtils.formatDateToLongIntString(date, store.getters.getLanguage)
+      return DateUtils.formatDateToLongIntString(date, store.getLanguage)
     },
     formatDateAction(date) {
-      return DateUtils.formatDateTimeToLongIntString(date, store.getters.getLanguage)
+      return DateUtils.formatDateTimeToLongIntString(date, store.getLanguage)
     },
     getItemStatusLabel(name) {
       return this.getEnumlabel('itemStatus', name) || ''

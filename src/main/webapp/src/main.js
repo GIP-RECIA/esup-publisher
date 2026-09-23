@@ -14,7 +14,7 @@ import NavbarDirective from './directives/NavbarDirective.js'
 import TooltipDirective from './directives/TooltipDirective.js'
 import i18n from './i18n'
 import router from './router'
-import store from './store'
+import { pinia } from './store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import './assets/styles/main.scss'
@@ -42,7 +42,7 @@ app
   .directive('has-role', HasRoleDirective)
   .directive('disable-click', DisableClickDirective)
   .directive('tooltip', TooltipDirective)
-  .use(store)
+  .use(pinia)
   .use(router)
   .use(i18n)
   .use(ToastPlugin)

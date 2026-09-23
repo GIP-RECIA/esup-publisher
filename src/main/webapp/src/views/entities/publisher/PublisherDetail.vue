@@ -50,7 +50,7 @@ export default {
     },
     // Fonction de formatage de date
     formatDate(date) {
-      return DateUtils.formatDateTimeToLongIntString(date, store.getters.getLanguage)
+      return DateUtils.formatDateTimeToLongIntString(date, store.getLanguage)
     },
     // Méthode de redirection sur la page listant les contextes de publications
     publisherPage() {

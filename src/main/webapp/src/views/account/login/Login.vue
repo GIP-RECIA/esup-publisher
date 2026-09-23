@@ -1,6 +1,7 @@
 <script>
 import AuthenticationService from '@/services/auth/AuthenticationService.js'
 import PrincipalService from '@/services/auth/PrincipalService.js'
+import store from '@/store/index.js'
 import LoginModal from './LoginModal.vue'
 
 // Objet en charge de la redirection vers le serveur CAS
@@ -22,7 +23,7 @@ export default {
   computed: {
     // Variable en charge de l'ouverture de la modal LoginModal
     toggleModal() {
-      return this.$store.getters.getLoginModalOpened
+      return store.getLoginModalOpened
     },
   },
   created() {
@@ -42,13 +43,13 @@ export default {
       AuthenticationService.login()
         .then(() => {
           this.authenticationError = false
-          if (!this.$store.getters.getReturnRoute) {
+          if (!store.getReturnRoute) {
             this.$router.push({ name: 'Home' })
           }
           else {
             this.$router.push({
-              name: this.$store.getters.getReturnRoute.name,
-              params: this.$store.getters.getReturnRoute.params,
+              name: store.getReturnRoute.name,
+              params: store.getReturnRoute.params,
             })
           }
         })
@@ -80,8 +81,8 @@ export default {
         if (state.window) {
           state.window.close()
         }
-        if (closeLoginModal && this.$store.getters.getLoginModalOpened) {
-          this.$store.commit('setLoginModalOpened', false)
+        if (closeLoginModal && store.getLoginModalOpened) {
+          store.setLoginModalOpened(false)
         }
       }
       catch (e) {
@@ -102,13 +103,13 @@ export default {
 
       this.windowOpenCleanup(relogState, true)
       PrincipalService.identify(true).then(() => {
-        if (!this.$store.getters.getReturnRoute) {
+        if (!store.getReturnRoute) {
           this.$router.push({ name: 'Home' })
         }
         else {
           this.$router.push({
-            name: this.$store.getters.getReturnRoute.name,
-            params: this.$store.getters.getReturnRoute.params,
+            name: store.getReturnRoute.name,
+            params: store.getReturnRoute.params,
           })
         }
       })

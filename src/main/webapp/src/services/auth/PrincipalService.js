@@ -4,9 +4,9 @@ import AccountService from './AccountService.js'
 class PrincipalService {
   identify(force) {
     return new Promise((resolve, reject) => {
-      let identity = store.getters.getIdentity
+      let identity = store.getIdentity
       if (force === true) {
-        store.commit('setIdentity', undefined)
+        store.setIdentity(undefined)
         identity = undefined
       }
 
@@ -19,13 +19,13 @@ class PrincipalService {
         // retrieve the identity data from the server, update the identity object, and then resolve.
         AccountService.account()
           .then((response) => {
-            store.commit('setIdentity', response.data)
-            store.commit('setAuthenticated', true)
+            store.setIdentity(response.data)
+            store.setAuthenticated(true)
             resolve(identity)
           })
           .catch(() => {
-            store.commit('setIdentity', null)
-            store.commit('setAuthenticated', false)
+            store.setIdentity(null)
+            store.setAuthenticated(false)
             reject(identity)
           })
       }
@@ -33,13 +33,13 @@ class PrincipalService {
   }
 
   authenticate(identity) {
-    store.commit('setIdentity', identity)
-    store.commit('setAuthenticated', identity !== null && identity !== undefined)
+    store.setIdentity(identity)
+    store.setAuthenticated(identity !== null && identity !== undefined)
   }
 
   isInAnyRole(roles) {
-    const identity = store.getters.getIdentity
-    const authenticated = store.getters.getAuthenticated
+    const identity = store.getIdentity
+    const authenticated = store.getAuthenticated
     if (!authenticated || identity === undefined || identity === null || !identity.roles) {
       return false
     }
@@ -48,8 +48,8 @@ class PrincipalService {
   }
 
   isInRole(role) {
-    const identity = store.getters.getIdentity
-    const authenticated = store.getters.getAuthenticated
+    const identity = store.getIdentity
+    const authenticated = store.getAuthenticated
     if (!authenticated || identity === undefined || identity === null || !identity.roles) {
       return false
     }
@@ -57,11 +57,11 @@ class PrincipalService {
   }
 
   isAuthenticated() {
-    return store.getters.getAuthenticated
+    return store.getAuthenticated
   }
 
   isIdentityResolved() {
-    return typeof store.getters.getIdentity !== 'undefined'
+    return typeof store.getIdentity !== 'undefined'
   }
 }
 

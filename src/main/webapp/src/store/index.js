@@ -1,31 +1,60 @@
-import { createStore } from 'vuex'
+import { createPinia, defineStore } from 'pinia'
 import CookieUtils from '@/services/util/CookieUtils.js'
-import language from './modules/language.js'
-import principal from './modules/principal.js'
 
 const STORE_KEY = 'store'
 
-const store = createStore({
-  state: {
+export const pinia = createPinia()
+
+export const usePublisherStore = defineStore('publisher', {
+  state: () => ({
     loginModalOpened: null,
     previousRoute: null,
     nextRoute: null,
     returnRoute: null,
+    language: {
+      lang: 'fr',
+    },
+    principal: {
+      _identity: null,
+      _authenticated: false,
+    },
+  }),
+  getters: {
+    getLoginModalOpened: state => state.loginModalOpened,
+    getPreviousRoute: state => state.previousRoute,
+    getNextRoute: state => state.nextRoute,
+    getReturnRoute: state => state.returnRoute,
+    getLanguage: state => state.language.lang,
+    getIdentity: state => state.principal._identity,
+    getAuthenticated: state => state.principal._authenticated,
   },
-  mutations: {
-    setLoginModalOpened(state, loginModalOpened) {
-      state.loginModalOpened = loginModalOpened
+  actions: {
+    setLoginModalOpened(loginModalOpened) {
+      this.loginModalOpened = loginModalOpened
     },
-    setPreviousRoute(state, previousRoute) {
-      state.previousRoute = previousRoute
+    setPreviousRoute(previousRoute) {
+      this.previousRoute = previousRoute
     },
-    setNextRoute(state, nextRoute) {
-      state.nextRoute = nextRoute
+    setNextRoute(nextRoute) {
+      this.nextRoute = nextRoute
     },
-    setReturnRoute(state, returnRoute) {
-      state.returnRoute = returnRoute
+    setReturnRoute(returnRoute) {
+      this.returnRoute = returnRoute
     },
-    initializeStore(state) {
+    setLang(lang) {
+      this.language.lang = lang
+    },
+    setIdentity(identity) {
+      this.principal._identity = identity
+    },
+    setAuthenticated(authenticated) {
+      this.principal._authenticated = authenticated
+    },
+    clearAll() {
+      this.principal._identity = null
+      this.principal._authenticated = false
+    },
+    initializeStore() {
       const data = window.localStorage.getItem(STORE_KEY)
       if (data) {
         const json = JSON.parse(data)
@@ -39,31 +68,15 @@ const store = createStore({
           json.language = {}
         }
         json.language.lang = lang || 'fr'
-        this.replaceState(Object.assign(state, json))
+        this.$patch(json)
       }
     },
   },
-  getters: {
-    getLoginModalOpened: (state) => {
-      return state.loginModalOpened
-    },
-    getPreviousRoute: (state) => {
-      return state.previousRoute
-    },
-    getNextRoute: (state) => {
-      return state.nextRoute
-    },
-    getReturnRoute: (state) => {
-      return state.returnRoute
-    },
-  },
-  modules: {
-    language,
-    principal,
-  },
 })
 
-store.subscribe((mutation, state) => {
+const store = usePublisherStore(pinia)
+
+store.$subscribe((_mutation, state) => {
   // Mise à jour de la langue dans les cookies
   let lang = null
   if (state.language !== null && state.language !== undefined) {

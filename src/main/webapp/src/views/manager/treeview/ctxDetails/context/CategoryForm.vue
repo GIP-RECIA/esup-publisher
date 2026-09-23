@@ -20,7 +20,7 @@ export default {
     return {
       colorPickerConfig: {
         colors: [],
-        lang: store.getters.getLanguage,
+        lang: store.getLanguage,
       },
       updateModal: null,
       formValidator: new FormValidationUtils(),

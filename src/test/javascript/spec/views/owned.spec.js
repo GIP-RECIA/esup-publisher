@@ -65,11 +65,6 @@ describe('owned.vue tests', () => {
 
     const $t = param => param
     const $route = { params: { itemState: '' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const organizations = [{ name: 'College' }, { name: 'Lycée' }]
 
     const wrapper = shallowMount(Owned, {
@@ -79,7 +74,6 @@ describe('owned.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         provide: {
@@ -162,11 +156,6 @@ describe('owned.vue tests', () => {
 
     const $t = param => param
     const $route = { params: { itemState: '' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const organizations = [{ name: 'College' }, { name: 'Lycée' }]
 
     const wrapper = shallowMount(Owned, {
@@ -176,7 +165,6 @@ describe('owned.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         provide: {
@@ -242,11 +230,6 @@ describe('owned.vue tests', () => {
     const $router = {
       push: vi.fn(),
     }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const organizations = [{ name: 'College' }, { name: 'Lycée' }]
 
     const wrapper = shallowMount(Owned, {
@@ -256,7 +239,6 @@ describe('owned.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
           $router,
         },
@@ -329,11 +311,6 @@ describe('owned.vue tests', () => {
     const $router = {
       push: vi.fn(),
     }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const organizations = [{ name: 'College' }, { name: 'Lycée' }]
 
     const wrapper = shallowMount(Owned, {
@@ -343,7 +320,6 @@ describe('owned.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
           $router,
         },
@@ -415,11 +391,6 @@ describe('owned.vue tests', () => {
     ContentService.delete = vi.fn().mockReturnValue(Promise.resolve({}))
     const $t = param => param
     const $route = { params: { itemState: '', fullPath: 'fullPath' } }
-    const $store = {
-      getters: {
-        getLanguage: 'fr',
-      },
-    }
     const organizations = [{ name: 'College' }, { name: 'Lycée' }]
 
     const wrapper = shallowMount(Owned, {
@@ -429,7 +400,6 @@ describe('owned.vue tests', () => {
         },
         mocks: {
           $t,
-          $store,
           $route,
         },
         provide: {

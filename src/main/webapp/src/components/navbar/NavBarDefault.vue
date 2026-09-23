@@ -1,4 +1,6 @@
 <script>
+import store from '@/store/index.js'
+
 export default {
   name: 'NavBarDefault',
   components: {},
@@ -23,7 +25,7 @@ export default {
     switchLanguage(language) {
       if (this.$i18n.locale !== language) {
         this.$i18n.locale = language
-        this.$store.commit('setLang', language)
+        store.setLang(language)
       }
     },
   },

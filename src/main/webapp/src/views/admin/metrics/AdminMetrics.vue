@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     formatNumber(val, nbDigits = 0) {
-      return val.toLocaleString(store.getters.getLanguage, {
+      return val.toLocaleString(store.getLanguage, {
         minimumFractionDigits: nbDigits,
         maximumFractionDigits: nbDigits,
       })

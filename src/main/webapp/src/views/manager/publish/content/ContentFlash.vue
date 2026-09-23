@@ -261,7 +261,7 @@ export default {
       return DateUtils.convertLocalDateToServer(date)
     },
     formatDateToIntString(date) {
-      return DateUtils.formatDateToShortIntString(date, store.getters.getLanguage)
+      return DateUtils.formatDateToShortIntString(date, store.getLanguage)
     },
     formatStringToDate(date) {
       return DateUtils.convertLocalDateFromServer(date)

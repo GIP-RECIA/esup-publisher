@@ -173,11 +173,11 @@ export default {
     },
     // Formatage d'une date au format 'DD MMMM YYYY, HH:mm:ss'
     formatDateTime(date) {
-      return DateUtils.formatDateTimeToLongIntString(DateUtils.convertDateTimeFromServer(date), store.getters.getLanguage)
+      return DateUtils.formatDateTimeToLongIntString(DateUtils.convertDateTimeFromServer(date), store.getLanguage)
     },
     // Formatage d'une date au format 'DD MMMM YYYY'
     formatDateDayMonthYear(date) {
-      return DateUtils.formatDateToLongIntString(DateUtils.convertDateTimeFromServer(date), store.getters.getLanguage)
+      return DateUtils.formatDateToLongIntString(DateUtils.convertDateTimeFromServer(date), store.getLanguage)
     },
     // Filtre sur les fichiers
     filterLinkedFiles(linkedFiles) {
@@ -199,7 +199,7 @@ export default {
     },
     // Retour à la page précédente
     back() {
-      const previousRoute = store.getters.getPreviousRoute
+      const previousRoute = store.getPreviousRoute
       if (previousRoute && previousRoute.name) {
         this.$router.push({
           name: previousRoute.name,

@@ -1,6 +1,7 @@
 <script>
 import EnumDatasService from '@/services/entities/enum/EnumDatasService.js'
 import ConfigurationService from '@/services/params/ConfigurationService.js'
+import store from '@/store/index.js'
 import NavBar from './components/navbar/NavBar.vue'
 import Spinner from './components/spinner/Spinner.vue'
 
@@ -45,9 +46,9 @@ export default {
   },
   beforeMount() {
     // Initialisation du store et de la langue
-    this.$store.commit('initializeStore')
-    if (this.$i18n.locale !== this.$store.getters.getLanguage) {
-      this.$i18n.locale = this.$store.getters.getLanguage
+    store.initializeStore()
+    if (this.$i18n.locale !== store.getLanguage) {
+      this.$i18n.locale = store.getLanguage
     }
   },
   methods: {
