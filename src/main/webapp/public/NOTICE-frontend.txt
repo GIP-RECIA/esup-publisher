@@ -1253,7 +1253,7 @@ Components
   License text: 93a675c915fd
   Repository: https://github.com/rolldown/rolldown
   Copyright: Copyright (c) 2024-present VoidZero Inc. & Contributors
-- sass@1.104.1
+- sass@1.105.0
   License: MIT
   License text: 358547306f12
   Repository: https://github.com/sass/dart-sass
