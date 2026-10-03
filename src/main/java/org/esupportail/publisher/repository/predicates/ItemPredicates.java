@@ -19,6 +19,7 @@
 package org.esupportail.publisher.repository.predicates;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.EnumSet;
 
 import org.esupportail.publisher.domain.AbstractClassification;
@@ -144,6 +145,10 @@ public final class ItemPredicates {
         if (organizationId != null)
             onStatus = qItem.organization.id.eq(organizationId).and(onStatus);
         return qItem.id.eq(itemId).and(onStatus);
+    }
+
+    public static Predicate itemsOfIds(final Collection<Long> itemIds) {
+        return qItem.id.in(itemIds);
     }
 
     public static Predicate OwnedItemsOfStatus(final Boolean owned, final Integer status, final Long organizationId) {

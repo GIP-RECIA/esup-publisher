@@ -20,6 +20,7 @@ vi.mock('bootstrap', () => ({
 describe('owned.vue tests', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    ItemService.getReadingStatistics = vi.fn().mockResolvedValue({ data: {} })
   })
 
   it('test 1 Owned - Affichage d\'un élément dans la liste des publications', async () => {

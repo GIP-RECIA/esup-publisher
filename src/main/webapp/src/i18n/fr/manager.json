@@ -8,6 +8,7 @@
         "classifications": "Rubriques",
         "targets": "Cibles",
         "publishers": "Contextes de publication",
+        "readings": "Lectures",
         "publisher": {
           "reader": "Canal de lecture :",
           "redactor": "Format de publication :"
@@ -30,6 +31,10 @@
       },
       "filter": {
         "title": "Filtrer"
+      },
+      "statistics": {
+        "readers": "Lecteurs",
+        "readings": "Lectures"
       }
     },
     "publish": {

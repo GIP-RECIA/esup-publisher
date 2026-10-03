@@ -17,7 +17,11 @@ package org.esupportail.publisher.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,7 +37,9 @@ import org.esupportail.publisher.repository.predicates.ItemPredicates;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.security.SecurityConstants;
 import org.esupportail.publisher.service.ContentService;
+import org.esupportail.publisher.service.ReadingStatisticsService;
 import org.esupportail.publisher.web.rest.dto.ActionDTO;
+import org.esupportail.publisher.web.rest.dto.ReadingStatisticsDTO;
 import org.esupportail.publisher.web.rest.util.PaginationUtil;
 
 import com.querydsl.core.types.Predicate;
@@ -72,6 +78,9 @@ public class ItemResource {
 
     @Inject
     private ContentService contentService;
+
+    @Inject
+    private ReadingStatisticsService readingStatisticsService;
 
     /**
      * POST  /items -> Create a new item.
@@ -166,6 +175,23 @@ public class ItemResource {
         Page<AbstractItem> page = itemRepository.findAll(filter, PaginationUtil.generatePageRequest(offset, limit, sort));
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/items", offset, limit);
         return new ResponseEntity<ItemList>(new ItemList(page.getContent()), headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/items/reading-statistics",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(SecurityConstants.IS_ROLE_ADMIN + " || " + SecurityConstants.IS_ROLE_USER)
+    public ResponseEntity<Map<Long, ReadingStatisticsDTO>> getReadingStatistics(
+        @RequestParam(value = "item_ids") List<Long> itemIds) {
+        if (itemIds.isEmpty()) {
+            return ResponseEntity.ok(java.util.Collections.emptyMap());
+        }
+        Predicate filter = permissionService.filterAuthorizedAllOfContextType(SecurityContextHolder.getContext().getAuthentication(),
+            ContextType.ITEM, PermissionType.LOOKOVER, ItemPredicates.itemsOfIds(itemIds));
+        List<Long> authorizedItemIds = StreamSupport.stream(itemRepository.findAll(filter).spliterator(), false)
+            .filter(item -> permissionService.canEditCtx(SecurityContextHolder.getContext().getAuthentication(), item.getContextKey()))
+            .map(AbstractItem::getId).collect(Collectors.toList());
+        return ResponseEntity.ok(readingStatisticsService.getStatistics(authorizedItemIds));
     }
 
     /**

@@ -40,6 +40,7 @@ import org.esupportail.publisher.repository.SubscriberRepository;
 import org.esupportail.publisher.repository.predicates.ItemPredicates;
 import org.esupportail.publisher.repository.predicates.SubscriberPredicates;
 import org.esupportail.publisher.service.exceptions.ObjectNotFoundException;
+import org.esupportail.publisher.service.ReadingStatisticsService;
 import org.esupportail.publisher.service.factories.CompositeKeyExtendedDTOFactory;
 import org.esupportail.publisher.service.factories.ContentDTOFactory;
 import org.esupportail.publisher.service.factories.SubjectDTOSimpleFactory;
@@ -81,6 +82,9 @@ public class ContentDTOFactoryImpl implements ContentDTOFactory {
 	private SubjectDTOSimpleFactory subjectDTOSimpleFactory;
 
 	@Inject
+	private ReadingStatisticsService readingStatisticsService;
+
+	@Inject
 	private CompositeKeyExtendedDTOFactory<SubjectKeyExtendedDTO, SubjectKeyExtended, String, String, SubjectType> subjectKeyExtendedDTOFactory;
 
 	@Override
@@ -99,6 +103,7 @@ public class ContentDTOFactoryImpl implements ContentDTOFactory {
 
 		ContentDTO dto = new ContentDTO();
 		dto.setItem(model);
+		dto.setReadingStatistics(readingStatisticsService.getStatistics(model.getId()));
 		//Set<Publisher> publishers = new HashSet<>();
 		Set<ItemClassificationOrder> itemClassifs = Sets.newHashSet(itemClassificationOrderRepository
 				.findAll(ItemPredicates.itemsClassOfItem(model.getId())));

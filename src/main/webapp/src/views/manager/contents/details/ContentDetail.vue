@@ -57,6 +57,7 @@ export default {
       },
       pubContexts: [],
       linkedFiles: [],
+      readingStatistics: { readerCount: 0, readingCount: 0 },
       open: false,
       subjectDetail: null,
     }
@@ -114,6 +115,7 @@ export default {
     initDatas(response) {
       this.contentData = response
       this.item = this.contentData[1].data.item
+      this.readingStatistics = this.contentData[1].data.readingStatistics
       this.classifications = this.contentData[0]
       this.targets = this.contentData[1].data.targets
       this.linkedFiles = this.contentData[1].data.linkedFiles || []
@@ -239,6 +241,9 @@ export default {
       <li v-if="item.redactor.writingMode !== 'STATIC'" class="nav-item" :class="{ active: activeNav === 'targets' }">
         <a class="nav-link" :class="{ active: activeNav === 'targets' }" href="" @click.prevent="showNav('targets')"><span>{{ $t('manager.contents.details.targets') }}</span></a>
       </li>
+      <li class="nav-item" :class="{ active: activeNav === 'readings' }">
+        <a class="nav-link" :class="{ active: activeNav === 'readings' }" href="" @click.prevent="showNav('readings')"><span>{{ $t('manager.contents.details.readings') }}</span></a>
+      </li>
     </ul>
   </div>
   <SubjectDetail ref="subjectDetail" />
@@ -342,6 +347,25 @@ export default {
           </li>
         </ul>
       </div>
+    </div>
+    <div id="readings" class="tab-pane fade show" :class="{ active: activeNav === 'readings' }">
+      <h3>{{ $t('manager.contents.details.readings') }}</h3>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <th scope="row">
+              {{ $t('manager.contents.statistics.readers') }}
+            </th>
+            <td>{{ readingStatistics.readerCount }}</td>
+          </tr>
+          <tr>
+            <th scope="row">
+              {{ $t('manager.contents.statistics.readings') }}
+            </th>
+            <td>{{ readingStatistics.readingCount }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div class="card-footer">

@@ -82,6 +82,14 @@ export default {
           if (response) {
             this.links = ParseLinkUtils.parse(response.headers.get('link'))
             this.items = response.data
+            const itemIds = this.items.map(item => item.id)
+            if (itemIds.length > 0) {
+              ItemService.getReadingStatistics(itemIds).then((statisticsResponse) => {
+                this.items.forEach((item) => {
+                  item.readingStatistics = statisticsResponse.data[item.id] || { readerCount: 0, readingCount: 0 }
+                })
+              })
+            }
           }
         })
         .catch((error) => {
@@ -342,6 +350,12 @@ export default {
             <th class="fixed-date-width">
               {{ $t('item.endDate') }}
             </th>
+            <th class="text-center">
+              {{ $t('manager.contents.statistics.readers') }}
+            </th>
+            <th class="text-center">
+              {{ $t('manager.contents.statistics.readings') }}
+            </th>
             <th>{{ $t('item.lastModified') }}</th>
             <th class="d-xl-none d-lg-none">
               {{ $t('item.validated') }}
@@ -398,6 +412,12 @@ export default {
             </td>
             <td class="text-center fixed-date-width" :data-label="$t('item.endDate')">
               {{ formatDateSimple(item.endDate) }}
+            </td>
+            <td class="text-center" :data-label="$t('manager.contents.statistics.readers')">
+              {{ item.readingStatistics?.readerCount || 0 }}
+            </td>
+            <td class="text-center" :data-label="$t('manager.contents.statistics.readings')">
+              {{ item.readingStatistics?.readingCount || 0 }}
             </td>
             <td :data-label="$t('item.lastModified')">
               <span :data-label="$t('item.beforeDate')">{{ formatDate(item.lastModifiedDate) }}</span>

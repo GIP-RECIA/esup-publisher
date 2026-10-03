@@ -15,6 +15,8 @@
  */
 package org.esupportail.publisher.repository.predicates;
 
+import java.util.Collection;
+
 import com.querydsl.core.types.Predicate;
 import org.esupportail.publisher.domain.QReadingIndicator;
 import org.esupportail.publisher.web.rest.dto.UserDTO;
@@ -29,6 +31,11 @@ public class ReadingIndicatorPredicates {
     public static Predicate readingIndicationOfItem(final long id) {
         final QReadingIndicator qobj = QReadingIndicator.readingIndicator;
         return qobj.item.id.eq(id);
+    }
+
+    public static Predicate readingIndicationsOfItems(final Collection<Long> ids) {
+        final QReadingIndicator qobj = QReadingIndicator.readingIndicator;
+        return qobj.item.id.in(ids);
     }
 
     public static Predicate readingIndicationOfItemAndUser(final long id, final UserDTO userDto) {

@@ -24,6 +24,10 @@ class ItemService {
     })
   }
 
+  getReadingStatistics(itemIds) {
+    return FetchWrapper.getJson(`api/items/reading-statistics?${new URLSearchParams({ item_ids: itemIds.join(',') })}`)
+  }
+
   update(item) {
     const copy = Object.assign({}, item)
     copy.startDate = DateUtils.convertLocalDateToServer(copy.startDate)

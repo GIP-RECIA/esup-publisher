@@ -8,6 +8,7 @@
         "classifications": "Classifications",
         "targets": "Targets",
         "publishers": "Publishing contexts",
+        "readings": "Readings",
         "publisher": {
           "reader": "Channel reader :",
           "redactor": "Kind of content :"
@@ -30,6 +31,10 @@
       },
       "filter": {
         "title": "Filtering"
+      },
+      "statistics": {
+        "readers": "Readers",
+        "readings": "Readings"
       }
     },
     "publish": {

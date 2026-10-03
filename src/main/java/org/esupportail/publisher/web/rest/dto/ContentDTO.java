@@ -47,6 +47,8 @@ public class ContentDTO {
 
     private Set<LinkedFileItemDTO> linkedFiles = new HashSet<>();
 
+    private ReadingStatisticsDTO readingStatistics;
+
 
     public static boolean isValid(final AbstractItem item, final Set<LinkedFileItemDTO> linkedFiles) {
         return !(item instanceof Attachment && (linkedFiles == null || linkedFiles.isEmpty()));
