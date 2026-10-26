@@ -21,7 +21,7 @@
     "@ckeditor/ckeditor5-essentials": "36.0.1",
     "@ckeditor/ckeditor5-font": "36.0.1",
     "@ckeditor/ckeditor5-heading": "36.0.1",
-    "@ckeditor/ckeditor5-html-support": "36.0.1",
+    "@ckeditor/ckeditor5-html-support": "47.6.0",
     "@ckeditor/ckeditor5-image": "36.0.1",
     "@ckeditor/ckeditor5-link": "36.0.1",
     "@ckeditor/ckeditor5-list": "36.0.1",
