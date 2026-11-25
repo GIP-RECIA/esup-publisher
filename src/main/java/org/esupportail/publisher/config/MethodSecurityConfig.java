@@ -39,6 +39,7 @@ import org.springframework.security.access.expression.method.MethodSecurityExpre
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.util.Assert;
 
 @Configuration
@@ -54,6 +55,10 @@ public class MethodSecurityConfig {
 		this.applicationContext = applicationContext;
 		this.esupPublisherProperties = esupPublisherProperties;
 	}
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");
+    }
 
     @Bean
     public RoleHierarchy roleHierarchy() {
