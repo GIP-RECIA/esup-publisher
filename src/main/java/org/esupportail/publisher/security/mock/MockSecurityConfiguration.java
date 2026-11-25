@@ -1,5 +1,6 @@
 package org.esupportail.publisher.security.mock;
 
+import org.esupportail.publisher.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,10 +14,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class MockSecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain configureSoffit(HttpSecurity http) throws Exception {
+    public SecurityFilterChain mockFilterChain(HttpSecurity http, UserRepository userRepository) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .addFilterBefore(new MockAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new MockAuthenticationFilter(userRepository), UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         return http.build();
     }
