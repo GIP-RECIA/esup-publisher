@@ -1,3 +1,4 @@
+import { reactive } from 'vue'
 import ConfCKEditorService from './ConfCKEditorService.js'
 import ConfFileSizeService from './ConfFileSizeService.js'
 import ConfImageSizeService from './ConfImageSizeService.js'
@@ -73,4 +74,4 @@ class ConfigurationService {
   }
 }
 
-export default new ConfigurationService()
+export default reactive(new ConfigurationService())
