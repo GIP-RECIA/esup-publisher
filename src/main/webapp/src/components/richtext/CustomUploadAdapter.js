@@ -24,7 +24,7 @@ class CustomUploadAdapter {
           new Promise((resolve, reject) => {
             if (!fileSizeMax || file.size <= fileSizeMax) {
               this.xhr = UploadUtils.upload(
-                'app/upload/',
+                'app/upload',
                 {
                   file,
                   isPublic: isPublic(file),

@@ -363,7 +363,7 @@ export default {
       if (file.size <= maxSize) {
         this.progressStatus = 'success'
         UploadUtils.upload(
-          'app/upload/',
+          'app/upload',
           {
             file,
             isPublic,
