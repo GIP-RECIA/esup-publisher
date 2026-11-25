@@ -82,8 +82,8 @@ public class Flash extends AbstractItem implements Serializable {
     public Flash(final String title, final String enclosure, final String body,
                  final LocalDate startDate, final LocalDate endDate,
                  final Instant validatedDate, final User validatedBy,
-                 final ItemStatus status, final String summary, final boolean rssAllowed,
-                 final boolean highlight, final Organization organization, final Redactor redactor) {
+                 final ItemStatus status, final String summary, final Boolean rssAllowed,
+                 final Boolean highlight, final Organization organization, final Redactor redactor) {
         super(title, enclosure, startDate, endDate, validatedDate, validatedBy,
             status, summary, rssAllowed, highlight, organization, redactor);
         this.body = body;

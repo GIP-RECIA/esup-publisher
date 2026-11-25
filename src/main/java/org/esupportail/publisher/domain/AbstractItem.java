@@ -159,8 +159,8 @@ public abstract class AbstractItem extends AbstractAuditingEntity implements
     public AbstractItem(final String title, final String enclosure,
                         final LocalDate startDate, final LocalDate endDate,
                         final Instant validatedDate, final User validatedBy,
-                        final ItemStatus status, final String summary, final boolean rssAllowed,
-                        final boolean highlight, final Organization organization, final Redactor redactor) {
+                        final ItemStatus status, final String summary, final Boolean rssAllowed,
+                        final Boolean highlight, final Organization organization, final Redactor redactor) {
         super();
         this.title = title;
         this.enclosure = enclosure;
@@ -170,8 +170,8 @@ public abstract class AbstractItem extends AbstractAuditingEntity implements
         this.validatedBy = validatedBy;
         this.status = status;
         this.summary = summary;
-        this.rssAllowed = rssAllowed;
-        this.highlight = highlight;
+        if (rssAllowed != null) this.rssAllowed = rssAllowed;
+        if (highlight != null) this.highlight = highlight;
         this.organization = organization;
         this.redactor = redactor;
     }

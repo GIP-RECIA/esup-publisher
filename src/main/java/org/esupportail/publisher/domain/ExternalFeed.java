@@ -77,12 +77,12 @@ public class ExternalFeed extends AbstractFeed implements Serializable {
      * @param publisher
      * @param parent
      */
-    public ExternalFeed(final boolean rssAllowed, final String name,
-                        final String iconUrl, final String lang, final int ttl,
-                        final int displayOrder, final AccessType accessView,
+    public ExternalFeed(final Boolean rssAllowed, final String name,
+                        final String iconUrl, final String lang, final Integer ttl,
+                        final Integer displayOrder, final AccessType accessView,
                         final String description,
                         final DisplayOrderType defaultDisplayOrder, final String color,
-                        final boolean hiddenIfEmpty,
+                        final Boolean hiddenIfEmpty,
                         final Publisher publisher, final Category parent,
                         final String rssUrl) {
         super(rssAllowed, name, iconUrl, lang, ttl, displayOrder, accessView,

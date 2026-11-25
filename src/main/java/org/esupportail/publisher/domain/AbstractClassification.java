@@ -139,24 +139,24 @@ public abstract class AbstractClassification extends AbstractAuditingEntity
      * @param defaultDisplayOrder
      * @param publisher
      */
-    public AbstractClassification(final boolean rssAllowed, final String name,
-                                  final String iconUrl, final String lang, final int ttl,
-                                  final int displayOrder, final AccessType accessView,
+    public AbstractClassification(final Boolean rssAllowed, final String name,
+                                  final String iconUrl, final String lang, final Integer ttl,
+                                  final Integer displayOrder, final AccessType accessView,
                                   final String description,
                                   final DisplayOrderType defaultDisplayOrder,
-                                  final String color, final boolean hiddenIfEmpty, final Publisher publisher) {
+                                  final String color, final Boolean hiddenIfEmpty, final Publisher publisher) {
         super();
-        this.rssAllowed = rssAllowed;
+        if (rssAllowed != null) this.rssAllowed = rssAllowed;
         this.name = name;
         this.iconUrl = iconUrl;
         this.lang = lang;
-        this.ttl = ttl;
-        this.displayOrder = displayOrder;
+        if (ttl != null) this.ttl = ttl;
+        if (displayOrder != null) this.displayOrder = displayOrder;
         this.accessView = accessView;
         this.description = description;
         this.defaultDisplayOrder = defaultDisplayOrder;
         this.color = color;
-        this.hiddenIfEmpty = hiddenIfEmpty;
+        if (hiddenIfEmpty != null) this.hiddenIfEmpty = hiddenIfEmpty;
         this.publisher = publisher;
     }
 

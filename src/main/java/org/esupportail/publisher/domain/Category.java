@@ -62,12 +62,12 @@ public class Category extends AbstractClassification implements Serializable {
      * @param color
      * @param publisher
      */
-    public Category(final boolean rssAllowed, final String name,
-                    final String iconUrl, final String lang, final int ttl,
-                    final int displayOrder, final AccessType accessView,
+    public Category(final Boolean rssAllowed, final String name,
+                    final String iconUrl, final String lang, final Integer ttl,
+                    final Integer displayOrder, final AccessType accessView,
                     final String description,
                     final DisplayOrderType defaultDisplayOrder,
-                    final String color, final boolean hiddenIfEmpty, final Publisher publisher) {
+                    final String color, final Boolean hiddenIfEmpty, final Publisher publisher) {
         super(rssAllowed, name, iconUrl, lang, ttl, displayOrder, accessView,
             description, defaultDisplayOrder, color, hiddenIfEmpty, publisher);
     }

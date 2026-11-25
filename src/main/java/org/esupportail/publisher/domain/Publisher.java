@@ -70,7 +70,7 @@ public class Publisher extends AbstractAuditingEntity implements IContext,
 	 * context.
 	 */
 	@Column(length = 1, nullable = false)
-	private boolean used;
+	private boolean used = true;
 
 	/** This field corresponds to the database column display_order. */
 	@Max(9)
@@ -117,16 +117,16 @@ public class Publisher extends AbstractAuditingEntity implements IContext,
 	public Publisher(final Organization organization, final Reader reader,
 			final Redactor redactor, final String displayName,
 			final PermissionClass permissionType,
-			final boolean used, final boolean hasSubPermsManagement,
-                     final boolean doHighlight) {
+			final Boolean used, final Boolean hasSubPermsManagement,
+                     final Boolean doHighlight) {
 		super();
 		this.context = new OrganizationReaderRedactorKey(organization, reader,
 				redactor);
         this.displayName = displayName;
 		this.permissionType = permissionType;
-		this.used = used;
-        this.hasSubPermsManagement = hasSubPermsManagement;
-        this.doHighlight = doHighlight;
+		if (used != null) this.used = used;
+        if (hasSubPermsManagement != null) this.hasSubPermsManagement = hasSubPermsManagement;
+        if (doHighlight != null) this.doHighlight = doHighlight;
 	}
 
 	@Override
