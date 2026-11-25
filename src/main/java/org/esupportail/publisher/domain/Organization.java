@@ -112,7 +112,7 @@ public class Organization extends AbstractAuditingEntity implements IContext, Se
         if (displayName == null || displayName.isEmpty()) {
             this.displayName = name;
         }
-		this.displayOrder = displayOrder != null ? displayOrder : 0;
+		if (displayOrder != null) this.displayOrder = displayOrder;
 		this.description = description;
         this.identifiers = identifiers;
 	}
