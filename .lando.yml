@@ -1,0 +1,12 @@
+name: esup-publisher
+services:
+  database:
+    type: mariadb:10.11
+    creds:
+      password: M2PpMSQL
+      database: publisher
+    overrides:
+      ports:
+        - "3307:3306"
+    config:
+      database: mariadb-custom.cnf
