@@ -42,6 +42,7 @@ import fr.recia.notifications.soffit_java_client.SoffitJwtAuthenticationFilter;
 import fr.recia.notifications.soffit_java_client.SoffitJwtValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -73,6 +74,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @Slf4j
+@Profile("!mock-no-cas")
 public class SecurityConfiguration {
 
     private static final String APP_URI_LOGIN = "/app/login";
@@ -132,18 +134,6 @@ public class SecurityConfiguration {
         return sp;
     }
 
-    @Bean
-    public ServiceUrlHelper serviceUrlHelper() {
-        String ctxPath = env.getRequiredProperty(APP_CONTEXT_PATH);
-        if (!ctxPath.startsWith("/")) ctxPath = "/" + ctxPath;
-        final String protocol = esupPublisherProperties.getSecurity().getProtocol();
-        Assert.isTrue(Lists.newArrayList("http://", "https://").contains(protocol), "Protocol param doesn't match required value, see property 'app.security.protocol'");
-        final List<String> domainNames = Lists.newArrayList(esupPublisherProperties.getSecurity().getAuthorizedDomainNames());
-        Assert.notEmpty(domainNames, "The list of the application Domain Names set shouldn't be empty, see property 'app.security.authorizedDomainNames'");
-        ServiceUrlHelper serviceUrlHelper = new ServiceUrlHelper(ctxPath, domainNames, protocol, "/view/item/", "/news/item/");
-        log.info("ServiceUrlHelper is configured with properties : {}", serviceUrlHelper.toString());
-        return serviceUrlHelper;
-    }
 
     @Bean String getCasTargetUrlParameter() {
         Assert.hasText(esupPublisherProperties.getSecurity().getRedirectParamName(), "Redirect Param Name shouldn't be null, see property 'app.security.redirectParamName'");
@@ -175,9 +165,9 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SessionAuthenticationStrategy sessionStrategy() {
+    public SessionAuthenticationStrategy sessionStrategy(ServiceUrlHelper serviceUrlHelper) {
         SessionFixationProtectionStrategy sessionStrategy = new CustomSessionFixationProtectionStrategy(
-            serviceUrlHelper(), serviceProperties(), getCasTargetUrlParameter());
+            serviceUrlHelper, serviceProperties(), getCasTargetUrlParameter());
         sessionStrategy.setMigrateSessionAttributes(false);
         return sessionStrategy;
     }
@@ -188,14 +178,14 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
+    public CasAuthenticationFilter casAuthenticationFilter(ServiceUrlHelper serviceUrlHelper) throws Exception {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
         Assert.hasText(esupPublisherProperties.getSecurity().getAuthUriFilterPath(), "The CAS URI service should be set to be able to apply CAS Auth Filter, see property 'app.security.auth-uri-filter-path'");
         casAuthenticationFilter.setFilterProcessesUrl("/" + esupPublisherProperties.getSecurity().getAuthUriFilterPath());
         casAuthenticationFilter.setAuthenticationManager(authenticationManager());
         casAuthenticationFilter.setAuthenticationDetailsSource(new RememberWebAuthenticationDetailsSource(
-            serviceUrlHelper(), serviceProperties(), getCasTargetUrlParameter()));
-        casAuthenticationFilter.setSessionAuthenticationStrategy(sessionStrategy());
+            serviceUrlHelper, serviceProperties(), getCasTargetUrlParameter()));
+        casAuthenticationFilter.setSessionAuthenticationStrategy(sessionStrategy(serviceUrlHelper));
         casAuthenticationFilter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
         casAuthenticationFilter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
         // casAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new
@@ -204,11 +194,11 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public RememberCasAuthenticationEntryPoint casAuthenticationEntryPoint() {
+    public RememberCasAuthenticationEntryPoint casAuthenticationEntryPoint(ServiceUrlHelper serviceUrlHelper) {
         RememberCasAuthenticationEntryPoint casAuthenticationEntryPoint = new RememberCasAuthenticationEntryPoint();
         casAuthenticationEntryPoint.setLoginUrl(esupPublisherProperties.getCas().getUrlLogin());
         casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
-        casAuthenticationEntryPoint.setUrlHelper(serviceUrlHelper());
+        casAuthenticationEntryPoint.setUrlHelper(serviceUrlHelper);
         //move to /app/login due to cachebuster instead of api/authenticate
         casAuthenticationEntryPoint.setPathLogin(APP_URI_LOGIN);
         return casAuthenticationEntryPoint;
@@ -274,11 +264,11 @@ public class SecurityConfiguration {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    public SecurityFilterChain configure(HttpSecurity http, ServiceUrlHelper serviceUrlHelper) throws Exception {
         http.cors(Customizer.withDefaults())
             .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
-            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(casAuthenticationEntryPoint()))
-            .addFilterBefore(casAuthenticationFilter(), BasicAuthenticationFilter.class)
+            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(casAuthenticationEntryPoint(serviceUrlHelper)))
+            .addFilterBefore(casAuthenticationFilter(serviceUrlHelper), BasicAuthenticationFilter.class)
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
 
 
