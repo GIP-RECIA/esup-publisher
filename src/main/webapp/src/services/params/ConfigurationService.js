@@ -10,27 +10,31 @@ class ConfigurationService {
   confMimeTypes
   confCKEditor
   confInjectedWebComponents
+  _initPromise
 
   init() {
-    return Promise.all([
-      ConfImageSizeService.query(),
-      ConfFileSizeService.query(),
-      ConfMimeTypesService.query(),
-      ConfCKEditorService.query(),
-      ConfInjectedWebComponentsService.query(),
-    ])
-      .then((results) => {
-        if (results && results.length === 5) {
-          this.confImageSize = results[0].data.value
-          this.confFileSize = results[1].data.value
-          this.confMimeTypes = results[2].data.value
-          this.confCKEditor = results[3].data.value
-          this.confInjectedWebComponents = results[4].data
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    if (!this._initPromise) {
+      this._initPromise = Promise.all([
+        ConfImageSizeService.query(),
+        ConfFileSizeService.query(),
+        ConfMimeTypesService.query(),
+        ConfCKEditorService.query(),
+        ConfInjectedWebComponentsService.query(),
+      ])
+        .then((results) => {
+          if (results && results.length === 5) {
+            this.confImageSize = results[0].data.value
+            this.confFileSize = results[1].data.value
+            this.confMimeTypes = results[2].data.value
+            this.confCKEditor = results[3].data.value
+            this.confInjectedWebComponents = results[4].data
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+    return this._initPromise
   }
 
   getConfUploadImageSize() {
