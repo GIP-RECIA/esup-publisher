@@ -17,6 +17,7 @@ package org.esupportail.publisher.config;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import jakarta.inject.Inject;
@@ -24,15 +25,12 @@ import jakarta.inject.Inject;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.esupportail.publisher.security.AjaxAuthenticationFailureHandler;
-import org.esupportail.publisher.security.AjaxAuthenticationSuccessHandler;
 import org.esupportail.publisher.security.AjaxLogoutSuccessHandler;
 import org.esupportail.publisher.security.AuthoritiesConstants;
-import org.esupportail.publisher.security.CustomSessionFixationProtectionStrategy;
+import org.esupportail.publisher.security.CustomCasAuthenticationEntryPoint;
+import org.esupportail.publisher.security.CustomCasAuthenticationProvider;
 import org.esupportail.publisher.security.CustomSingleSignOutFilter;
 import org.esupportail.publisher.security.HasIpRangeExpressionCreator;
-import org.esupportail.publisher.security.RememberCasAuthenticationEntryPoint;
-import org.esupportail.publisher.security.RememberCasAuthenticationProvider;
-import org.esupportail.publisher.security.RememberWebAuthenticationDetailsSource;
 import org.esupportail.publisher.security.UserDetailsServiceFromCAS;
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;
 import org.esupportail.publisher.web.FeedController;
@@ -46,9 +44,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
@@ -57,15 +55,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.Assert;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -87,8 +87,6 @@ public class SecurityConfiguration {
     private final ESUPPublisherProperties esupPublisherProperties;
 
     private Environment env;
-    @Inject
-    private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
 
     @Inject
     private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
@@ -96,31 +94,11 @@ public class SecurityConfiguration {
     @Inject
     private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
 
-    //    @Inject
-    //    private Http401UnauthorizedEntryPoint authenticationEntryPoint;
-
-    // @Inject
-    // private RememberMeServices rememberMeServices;
 
     public SecurityConfiguration(Environment environment, ESUPPublisherProperties esupPublisherProperties) {
         this.env = environment;
         this.esupPublisherProperties = esupPublisherProperties;
     }
-
-    // @Bean
-    // public PasswordEncoder passwordEncoder() {
-    // return new BCryptPasswordEncoder();
-    // }
-
-    /*@Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.enable(S)
-            jsonConverter.setObjectMapper(objectMapper);
-        return jsonConverter;
-        }*/
 
     @Bean
     public ServiceProperties serviceProperties() {
@@ -133,17 +111,9 @@ public class SecurityConfiguration {
     }
 
 
-    @Bean String getCasTargetUrlParameter() {
-        Assert.hasText(esupPublisherProperties.getSecurity().getRedirectParamName(), "Redirect Param Name shouldn't be null, see property 'app.security.redirectParamName'");
-        return esupPublisherProperties.getSecurity().getRedirectParamName();
-    }
-
     @Bean
-    public SimpleUrlAuthenticationSuccessHandler authenticationSuccessHandler() {
-        SimpleUrlAuthenticationSuccessHandler authenticationSuccessHandler = new SimpleUrlAuthenticationSuccessHandler();
-        authenticationSuccessHandler.setDefaultTargetUrl("/");
-        authenticationSuccessHandler.setTargetUrlParameter(getCasTargetUrlParameter());
-        return authenticationSuccessHandler;
+    public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() {
+        return new SavedRequestAwareAuthenticationSuccessHandler();
     }
 
     @Bean
@@ -152,22 +122,15 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public RememberCasAuthenticationProvider casAuthenticationProvider() {
-        RememberCasAuthenticationProvider casAuthenticationProvider = new RememberCasAuthenticationProvider();
+    public CustomCasAuthenticationProvider casAuthenticationProvider(ServiceUrlHelper serviceUrlHelper) {
+        CustomCasAuthenticationProvider casAuthenticationProvider = new CustomCasAuthenticationProvider();
         casAuthenticationProvider.setAuthenticationUserDetailsService(userDetailsServiceCAS());
         casAuthenticationProvider.setServiceProperties(serviceProperties());
+        casAuthenticationProvider.setUrlHelper(serviceUrlHelper);
         casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
         Assert.hasText(esupPublisherProperties.getSecurity().getIdKeyProvider(), "The CAS security Key should be set, see property 'app.security.idKeyProvider'");
         casAuthenticationProvider.setKey(esupPublisherProperties.getSecurity().getIdKeyProvider());
         return casAuthenticationProvider;
-    }
-
-    @Bean
-    public SessionAuthenticationStrategy sessionStrategy(ServiceUrlHelper serviceUrlHelper) {
-        SessionFixationProtectionStrategy sessionStrategy = new CustomSessionFixationProtectionStrategy(
-            serviceUrlHelper, serviceProperties(), getCasTargetUrlParameter());
-        sessionStrategy.setMigrateSessionAttributes(false);
-        return sessionStrategy;
     }
 
     @Bean
@@ -180,25 +143,27 @@ public class SecurityConfiguration {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
         Assert.hasText(esupPublisherProperties.getSecurity().getAuthUriFilterPath(), "The CAS URI service should be set to be able to apply CAS Auth Filter, see property 'app.security.auth-uri-filter-path'");
         casAuthenticationFilter.setFilterProcessesUrl("/" + esupPublisherProperties.getSecurity().getAuthUriFilterPath());
-        casAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        casAuthenticationFilter.setAuthenticationDetailsSource(new RememberWebAuthenticationDetailsSource(
-            serviceUrlHelper, serviceProperties(), getCasTargetUrlParameter()));
-        casAuthenticationFilter.setSessionAuthenticationStrategy(sessionStrategy(serviceUrlHelper));
+        casAuthenticationFilter.setAuthenticationManager(authenticationManager(serviceUrlHelper));
         casAuthenticationFilter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
-        casAuthenticationFilter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
-        // casAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new
-        // AntPathRequestMatcher("/login", "GET"));
+        casAuthenticationFilter.setAuthenticationSuccessHandler(savedRequestAwareAuthenticationSuccessHandler());
         return casAuthenticationFilter;
     }
 
+
     @Bean
-    public RememberCasAuthenticationEntryPoint casAuthenticationEntryPoint(ServiceUrlHelper serviceUrlHelper) {
-        RememberCasAuthenticationEntryPoint casAuthenticationEntryPoint = new RememberCasAuthenticationEntryPoint();
+    public AuthenticationEntryPoint authenticationEntryPoint(ServiceUrlHelper serviceUrlHelper) {
+        CustomCasAuthenticationEntryPoint casAuthenticationEntryPoint = new CustomCasAuthenticationEntryPoint(serviceUrlHelper);
         casAuthenticationEntryPoint.setLoginUrl(esupPublisherProperties.getCas().getUrlLogin());
         casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
-        casAuthenticationEntryPoint.setUrlHelper(serviceUrlHelper);
-        //move to /app/login due to cachebuster instead of api/authenticate
-        return casAuthenticationEntryPoint;
+
+        LinkedHashMap<RequestMatcher, AuthenticationEntryPoint> entryPoints = new LinkedHashMap<>();
+        entryPoints.put(PathPatternRequestMatcher.pathPattern("/app/**"), casAuthenticationEntryPoint);
+        entryPoints.put(PathPatternRequestMatcher.pathPattern(PROTECTED_PATH + "**"), casAuthenticationEntryPoint);
+
+        DelegatingAuthenticationEntryPoint delegatingEntryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
+        delegatingEntryPoint.setDefaultEntryPoint((request, response, authException) ->
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Access Denied"));
+        return delegatingEntryPoint;
     }
 
     @Bean
@@ -209,8 +174,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return new ProviderManager(Collections.singletonList(casAuthenticationProvider()));
+    protected AuthenticationManager authenticationManager(ServiceUrlHelper serviceUrlHelper) throws Exception {
+        return new ProviderManager(Collections.singletonList(casAuthenticationProvider(serviceUrlHelper)));
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -264,23 +229,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain configure(HttpSecurity http, ServiceUrlHelper serviceUrlHelper) throws Exception {
         http.cors(Customizer.withDefaults())
             .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
-            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(casAuthenticationEntryPoint(serviceUrlHelper)))
+            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(authenticationEntryPoint(serviceUrlHelper)))
             .addFilterBefore(casAuthenticationFilter(serviceUrlHelper), BasicAuthenticationFilter.class)
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
 
 
-        // .and()
-        // .rememberMe()
-        // .rememberMeServices(rememberMeServices)
-        // .key(env.getProperty("jhipster.security.rememberme.key"))
-        // .and()
-        // .formLogin()
-        // .loginProcessingUrl("/api/authentication")
-        // .successHandler(ajaxAuthenticationSuccessHandler)
-        // .failureHandler(ajaxAuthenticationFailureHandler)
-        // .usernameParameter("j_username")
-        // .passwordParameter("j_password")
-        // .permitAll()
 
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
             .authorizeHttpRequests(authorize -> authorize
@@ -325,7 +278,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/static/**").permitAll()
                 .requestMatchers("/ui/**").permitAll()
                 .anyRequest().denyAll())
-            .authenticationManager(authenticationManager())
+            .authenticationManager(authenticationManager(serviceUrlHelper))
             .logout(logout -> logout
                 .logoutUrl("/api/logout")
                 .logoutSuccessHandler(ajaxLogoutSuccessHandler)
@@ -339,26 +292,4 @@ public class SecurityConfiguration {
     // Specific path where pages are served (outter of REST API with ANGULAR)
     public static final String PROTECTED_PATH = "/protected/";
 
-    /*
-     * This allows SpEL support in Spring Data JPA @Query definitions.
-     *
-     * Watch https://spring.io/blog/2014/07/15/spel-support-in-spring-data-jpa-query-definitions
-     */
-	/*@Bean
-	EvaluationContextExtension securityExtension() {
-	    return new EvaluationContextExtensionSupport() {
-	        @Override
-	        public String getExtensionId() {
-	            return "security";
-	        }
-
-	        @Override
-	        public SecurityExpressionRoot getRootObject() {
-	            SecurityExpressionRoot ser = new SecurityExpressionRoot(SecurityContextHolder.getContext().getAuthentication()) {};
-	            ser.setPermissionEvaluator(permissionEvaluator());
-	            ser.setRoleHierarchy(roleHierarchy());
-	            return ser;
-	        }
-	    };
-	}*/
 }
