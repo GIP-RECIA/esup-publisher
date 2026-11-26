@@ -45,8 +45,6 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
 
     private final Logger log = LoggerFactory.getLogger(RememberCasAuthenticationEntryPoint.class);
 
-    // ~ Instance fields
-    // ================================================================================================
     private ServiceProperties serviceProperties;
 
     private String casLoginUrl;
@@ -84,9 +82,6 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
             .replaceAll("\\s", "");
     }
 
-    // ~ Methods
-    // ========================================================================================================
-
     public void afterPropertiesSet() throws Exception {
         Assert.hasLength(this.casLoginUrl, "loginUrl must be specified");
         Assert.hasLength(this.pathLogin, "pathLogin must be specified");
@@ -99,43 +94,14 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
     public final void commence(final HttpServletRequest request, final HttpServletResponse response,
                                final AuthenticationException authenticationException) throws IOException, ServletException {
 
-        //HttpServletRequest httpRequest = (HttpServletRequest) request;
-
-		/*SecurityContext securityContext = SecurityContextHolder.getContext();
-		Authentication authentication = securityContext.getAuthentication();
-		UserDetails springSecurityUser = null;
-
-		if (authentication != null) {
-			if (authentication.getPrincipal() instanceof UserDetails) {
-				springSecurityUser = (UserDetails) authentication.getPrincipal();
-			}
-		}
-*/
         String resourcePath = new UrlPathHelper().getPathWithinApplication(request);
-        log.debug("=====================================================================> RESOURCEPATH {}",
-            resourcePath);
-        boolean isPostMessage = false;
-        if (request.getQueryString() != null) {
-            isPostMessage = request.getQueryString().contains("postMessage");
-        };
-        log.debug("=====================================================================> postMessage {}", isPostMessage);
-        // String doCASAuth = servletRequest.getHeader("X-request-AuthCAS");
-
         boolean isViewServingPage = resourcePath.startsWith(SecurityConfiguration.PROTECTED_PATH);
-        log.debug("=====================================================================> isViewServingPage {}", isViewServingPage);
 
-        if (this.pathLogin.equals(resourcePath) || isViewServingPage /*&& isPostMessage && springSecurityUser == null*/) {
-
-            // if (doCASAuth != null) {
-            //if (pathLogin.equals(resourcePath)) {
-
+        if (resourcePath.startsWith("/app/") || isViewServingPage) {
             final String urlEncodedService = createServiceUrl(request, response);
             final String redirectUrl = createRedirectUrl(urlEncodedService);
 
-            log.debug("Pre-authenticated entry point called. Calling CAS Authentication with redirectURL {}",
-                redirectUrl);
             preCommence(request, response);
-
             response.sendRedirect(redirectUrl);
         } else {
             log.debug("Pre-authenticated entry point called. Rejecting access");
