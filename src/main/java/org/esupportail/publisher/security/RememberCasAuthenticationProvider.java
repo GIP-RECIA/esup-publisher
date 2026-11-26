@@ -31,6 +31,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
+import org.springframework.security.cas.authentication.CasServiceTicketAuthenticationToken;
 import org.springframework.security.cas.authentication.NullStatelessTicketCache;
 import org.springframework.security.cas.authentication.StatelessTicketCache;
 import org.springframework.security.cas.authentication.ServiceAuthenticationDetails;
@@ -91,10 +92,13 @@ public class RememberCasAuthenticationProvider implements AuthenticationProvider
             return null;
         }
 
-        if (authentication instanceof UsernamePasswordAuthenticationToken
+        boolean isCasServiceTicketToken = authentication instanceof UsernamePasswordAuthenticationToken
+            || authentication instanceof CasServiceTicketAuthenticationToken;
+
+        if (isCasServiceTicketToken
             && (!CAS_STATEFUL_IDENTIFIER.equals(authentication.getPrincipal().toString()) && !CAS_STATELESS_IDENTIFIER
             .equals(authentication.getPrincipal().toString()))) {
-            // UsernamePasswordAuthenticationToken not CAS related
+            // not CAS related
             return null;
         }
 
@@ -114,7 +118,7 @@ public class RememberCasAuthenticationProvider implements AuthenticationProvider
                 "Failed to provide a CAS service ticket to validate"));
         }
 
-        boolean stateless = authentication instanceof UsernamePasswordAuthenticationToken
+        boolean stateless = isCasServiceTicketToken
                 && CAS_STATELESS_IDENTIFIER.equals(authentication.getPrincipal());
 
         CasAuthenticationToken result = null;
@@ -235,6 +239,7 @@ public class RememberCasAuthenticationProvider implements AuthenticationProvider
 
     public boolean supports(final Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication))
+            || (CasServiceTicketAuthenticationToken.class.isAssignableFrom(authentication))
             || (CasAuthenticationToken.class.isAssignableFrom(authentication))
             || (CasAssertionAuthenticationToken.class.isAssignableFrom(authentication));
     }
