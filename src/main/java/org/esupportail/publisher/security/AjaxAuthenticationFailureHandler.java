@@ -15,6 +15,7 @@
  */
 package org.esupportail.publisher.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,7 @@ import java.io.IOException;
 /**
  * Returns a 401 error code (Unauthorized) to the client, when Ajax authentication fails.
  */
+@Slf4j
 @Component
 public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -34,6 +36,7 @@ public class AjaxAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
 
+        log.error("CAS authentication failed", exception);
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed");
     }
 }
