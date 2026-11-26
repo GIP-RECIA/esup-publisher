@@ -23,7 +23,6 @@ export const usePublisherStore = defineStore('publisher', {
     getLoginModalOpened: state => state.loginModalOpened,
     getPreviousRoute: state => state.previousRoute,
     getNextRoute: state => state.nextRoute,
-    getReturnRoute: state => state.returnRoute,
     getLanguage: state => state.language.lang,
     getIdentity: state => state.principal._identity,
     getAuthenticated: state => state.principal._authenticated,
@@ -37,9 +36,6 @@ export const usePublisherStore = defineStore('publisher', {
     },
     setNextRoute(nextRoute) {
       this.nextRoute = nextRoute
-    },
-    setReturnRoute(returnRoute) {
-      this.returnRoute = returnRoute
     },
     setLang(lang) {
       this.language.lang = lang

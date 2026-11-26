@@ -11,8 +11,10 @@ export default {
       active: this.showModal,
     }
   },
-  mounted() {
-    this.$emit('relog', false)
+  methods: {
+    reload() {
+      window.location.href = `${import.meta.env.VITE_BACK_BASE_URL}app/login?redirectTo=${encodeURIComponent(window.location.href)}`
+    },
   },
 }
 </script>
@@ -30,7 +32,7 @@ export default {
           <p>{{ $t('login.modal.relog.body') }}</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="$emit('relog')">
+          <button type="button" class="btn btn-primary" @click="reload">
             {{ $t('login.modal.relog.action') }}
           </button>
         </div>

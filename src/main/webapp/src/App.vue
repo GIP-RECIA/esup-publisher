@@ -4,12 +4,14 @@ import ConfigurationService from '@/services/params/ConfigurationService.js'
 import store from '@/store/index.js'
 import NavBar from './components/navbar/NavBar.vue'
 import Spinner from './components/spinner/Spinner.vue'
+import LoginModal from './views/account/login/LoginModal.vue'
 
 export default {
   name: 'App',
   components: {
     NavBar,
     Spinner,
+    LoginModal,
   },
   data() {
     return {
@@ -28,6 +30,9 @@ export default {
     },
     cssClass() {
       return this.$router.currentRoute.value.meta.cssClass
+    },
+    loginModalOpened() {
+      return store.getLoginModalOpened
     },
   },
   created() {
@@ -138,6 +143,7 @@ export default {
     </div>
     <div class="container-fluid">
       <Spinner />
+      <LoginModal :showModal="loginModalOpened" />
       <div v-if="initData" class="card" :class="cssClass">
         <router-view />
       </div>

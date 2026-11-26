@@ -2,7 +2,6 @@ import { nextTick } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store/index.js'
 import i18n from '../i18n'
-import AuthenticationService from '../services/auth/AuthenticationService.js'
 import PrincipalService from '../services/auth/PrincipalService.js'
 
 const { t } = i18n.global
@@ -18,15 +17,6 @@ const routes = [
       requireLogin: true,
       roles: ['ROLE_USER'],
       cssClass: 'site',
-    },
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/account/login/Login.vue'),
-    meta: {
-      titleKey: 'login.title',
-      requireLogin: false,
     },
   },
   {
@@ -373,24 +363,16 @@ router.beforeEach((to, from, next) => {
     meta: to.meta,
   })
   if (to.matched.some(record => record.meta.requireLogin)) {
-    if (!PrincipalService.isAuthenticated() && !store.getLoginModalOpened) {
-      AuthenticationService.login()
-        .then(() => {
-          next()
-        })
-        .catch(() => {
-          store.setLoginModalOpened(true)
-          store.setReturnRoute(store.getNextRoute)
-          next({
-            path: '/login',
-          })
-        })
-    }
-    else {
-      AuthenticationService.authorize().then(() => {
+    PrincipalService.identify().then(() => {
+      if (to.meta.roles && to.meta.roles.length > 0 && !PrincipalService.isInAnyRole(to.meta.roles)) {
+        next({ name: 'AccessDenied' })
+      }
+      else {
         next()
-      })
-    }
+      }
+    }).catch(() => {
+      window.location.href = `${import.meta.env.VITE_BACK_BASE_URL}app/login?redirectTo=${encodeURIComponent(window.location.href)}`
+    })
   }
   else {
     next()

@@ -66,12 +66,6 @@ function fetchWithRetry(resolve, reject, url, params) {
           // Si erreur 401, redirection vers la page de login
           if (router.currentRoute.value.name !== 'Login') {
             store.setLoginModalOpened(true)
-            store.setReturnRoute({
-              name: router.currentRoute.value.name,
-              params: router.currentRoute.value.params,
-              meta: router.currentRoute.value.meta,
-            })
-            router.push({ name: 'Login' })
           }
         }
       }
