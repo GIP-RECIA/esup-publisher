@@ -22,7 +22,7 @@ import java.util.Set;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import lombok.Setter;
 import org.esupportail.publisher.config.SecurityConfiguration;
 import org.esupportail.publisher.service.bean.ServiceUrlHelper;
 import org.apereo.cas.client.Protocol;
@@ -49,10 +49,9 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
 
     private String casLoginUrl;
 
-    private String pathLogin;
-
     private String targetUrlParameter = "spring-security-redirect";
 
+    @Setter
     private ServiceUrlHelper urlHelper;
 
     /**
@@ -84,7 +83,6 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
 
     public void afterPropertiesSet() throws Exception {
         Assert.hasLength(this.casLoginUrl, "loginUrl must be specified");
-        Assert.hasLength(this.pathLogin, "pathLogin must be specified");
         Assert.hasLength(this.targetUrlParameter, "targetUrlParameter must be specified");
         Assert.notNull(this.serviceProperties, "serviceProperties must be specified");
         Assert.notNull(this.serviceProperties.getService(), "serviceProperties.getService() cannot be null.");
@@ -160,20 +158,6 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
 
     }
 
-    /**
-     * The enterprise-wide CAS login URL. Usually something like
-     * <code>https://www.mycompany.com/cas/login</code>.
-     *
-     * @return the enterprise-wide CAS login URL
-     */
-    public final String getLoginUrl() {
-        return this.casLoginUrl;
-    }
-
-    public final ServiceProperties getServiceProperties() {
-        return this.serviceProperties;
-    }
-
     public final void setLoginUrl(final String loginUrl) {
         this.casLoginUrl = loginUrl;
     }
@@ -182,11 +166,4 @@ public class RememberCasAuthenticationEntryPoint implements AuthenticationEntryP
         this.serviceProperties = serviceProperties;
     }
 
-    public void setPathLogin(String pathLogin) {
-        this.pathLogin = pathLogin;
-    }
-
-    public void setUrlHelper(ServiceUrlHelper urlHelper) {
-        this.urlHelper = urlHelper;
-    }
 }

@@ -77,8 +77,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Profile("!mock-no-cas")
 public class SecurityConfiguration {
 
-    private static final String APP_URI_LOGIN = "/app/login";
-
     private static final String APP_CONTEXT_PATH = "server.servlet.context-path";
 
     // preflight cache duration in the browser
@@ -200,7 +198,6 @@ public class SecurityConfiguration {
         casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
         casAuthenticationEntryPoint.setUrlHelper(serviceUrlHelper);
         //move to /app/login due to cachebuster instead of api/authenticate
-        casAuthenticationEntryPoint.setPathLogin(APP_URI_LOGIN);
         return casAuthenticationEntryPoint;
     }
 
