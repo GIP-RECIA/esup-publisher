@@ -176,10 +176,10 @@ app:
     allowed-origins: "*"
 
   upload:
-    path: "/home/jgribonvald/tmp/"
+    path: "${java.io.tmpdir}/esup-publisher-test/"
     # 128Kb max
     image-max-size: 131072
-    protected-path: "/home/jgribonvald/tmp/"
+    protected-path: "${java.io.tmpdir}/esup-publisher-test/"
     # not needed anymore: file-path-of-authorized-mime-types: "MimeTypes.txt"
     # 10MB max should be equals or lower than spring.servlet.multipart.maxFileSize
     max-file-size: 10485760
