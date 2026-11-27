@@ -22,7 +22,7 @@ import java.util.Optional;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
-
+import org.esupportail.publisher.domain.Organization;
 import org.esupportail.publisher.domain.Publisher;
 import org.esupportail.publisher.domain.enums.PermissionType;
 import org.esupportail.publisher.repository.PublisherRepository;
@@ -37,6 +37,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -101,31 +102,44 @@ public class PublisherResource {
             log.warn("@PreAuthorize didn't work correctly, check Security !");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (publisher.getId() == null && PermissionType.ADMIN.getMask() <= permType.getMask()) {
-            return create(publisher);
-        } else if (publisher.getId() == null) {
+        if (publisher.getId() == null) {
+            if (permType == PermissionType.ADMIN) {
+                return create(publisher);
+            }
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        // a manager role can only update DisplayName and if Notifications are allowed
-        if (PermissionType.MANAGER.getMask() <= permType.getMask()) {
-            Optional<Publisher> optionalPublisher =  publisherRepository.findById(publisher.getId());
-            Publisher model = optionalPublisher.orElse(null);
-            if (model == null) {
-                log.warn("Publisher with id '{}' not found", publisher.getId());
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            model.setPermissionType(publisher.getPermissionType());
-            model.setDefaultDisplayOrder(publisher.getDefaultDisplayOrder());
-            model.setUsed(publisher.isUsed());
-            publisherRepository.save(publisher);
-            return ResponseEntity.ok().build();
+        Optional<Publisher> optionalPublisher =  publisherRepository.findById(publisher.getId());
+        Publisher model = optionalPublisher.orElse(null);
+        if (model == null) {
+            log.warn("Publisher with id '{}' not found", publisher.getId());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        publisherService.doMove(publisher, publisher.getDisplayOrder());
-        publisherRepository.save(publisher);
+
+        if (PermissionType.MANAGER.getMask() <= permType.getMask() && permType != PermissionType.ADMIN) {
+            return updateAsManager(publisher, model);
+        }
+        if (permType == PermissionType.ADMIN) {
+            return updateAsAdmin(publisher, model);
+        }
+        log.warn("Unexpected PermissionType '{}' reaching Publisher update for id '{}' - neither MANAGER nor ADMIN, check permission evaluator", permType, publisher.getId());
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    private ResponseEntity<Void> updateAsManager(Publisher publisher, Publisher model) {
+        model.setDisplayName(publisher.getDisplayName());
+        publisherRepository.save(model);
         return ResponseEntity.ok().build();
     }
+
+    private ResponseEntity<Void> updateAsAdmin(Publisher publisher, Publisher model) {
+        publisherService.doMove(publisher, publisher.getDisplayOrder());
+        BeanUtils.copyProperties(publisher, model, "id", "displayOrder", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        publisherRepository.save(model);
+        return ResponseEntity.ok().build();
+    }
+
 
     /**
      * PUT  /publishers -> Do update action on an existing publisher.

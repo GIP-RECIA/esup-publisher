@@ -33,6 +33,7 @@ import org.esupportail.publisher.service.OrganizationService;
 import org.esupportail.publisher.service.bean.UserContextTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -84,42 +85,59 @@ public class OrganizationResource {
 		return ResponseEntity.created(new URI("/api/organizations/" + organization.getId())).build();
 	}
 
-	/**
-	 * PUT  /organizations -> Updates an existing organization.
-	 */
-	@RequestMapping(value = "/organizations", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize(SecurityConstants.IS_ROLE_ADMIN + " || " + SecurityConstants.IS_ROLE_USER
+    /**
+     * PUT  /organizations -> Updates an existing organization.
+     */
+    @RequestMapping(value = "/organizations", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(SecurityConstants.IS_ROLE_ADMIN + " || " + SecurityConstants.IS_ROLE_USER
         + " && hasPermission(#organization, '" + SecurityConstants.PERM_MANAGER + "')")
-	public ResponseEntity<Void> update(@RequestBody Organization organization) throws URISyntaxException {
-		log.debug("REST request to update Organization : {}", organization);
+    public ResponseEntity<Void> update(@RequestBody Organization organization) throws URISyntaxException {
+
+        log.debug("REST request to update Organization : {}", organization);
         PermissionType permType = permissionService.getRoleOfUserInContext(SecurityContextHolder.getContext().getAuthentication(), organization.getContextKey());
         if (permType == null) {
             log.warn("@PreAuthorize didn't work correctly, check Security !");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (organization.getId() == null && PermissionType.ADMIN.getMask() <= permType.getMask()) {
-            return create(organization);
-        } else if (organization.getId() == null) {
+        if (organization.getId() == null) {
+            if (permType == PermissionType.ADMIN) {
+                return create(organization);
+            }
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        // a manager role can only update DisplayName and if Notifications are allowed
-		if (PermissionType.MANAGER.getMask() <= permType.getMask()) {
-			Optional<Organization> optionalOrganization =  organizationRepository.findById(organization.getId());
-			Organization model = optionalOrganization.orElse(null);
-			if (model == null) {
-				log.warn("Organization with id '{}' not found", organization.getId());
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-            model.setDisplayName(organization.getDisplayName());
-            model.setAllowNotifications(organization.isAllowNotifications());
-            organizationRepository.save(organization);
-            return ResponseEntity.ok().build();
+        Optional<Organization> optionalOrganization = organizationRepository.findById(organization.getId());
+        Organization model = optionalOrganization.orElse(null);
+        if (model == null) {
+            log.warn("Organization with id '{}' not found", organization.getId());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-		organizationService.doMove(organization.getId(), organization.getDisplayOrder());
-		organizationRepository.save(organization);
-		return ResponseEntity.ok().build();
-	}
+
+        if (PermissionType.MANAGER.getMask() <= permType.getMask() && permType != PermissionType.ADMIN) {
+            return updateAsManager(organization, model);
+        }
+        if (permType == PermissionType.ADMIN) {
+            return updateAsAdmin(organization, model);
+        }
+        log.warn("Unexpected PermissionType '{}' reaching Organization update for id '{}' - neither MANAGER nor ADMIN, check permission evaluator", permType, organization.getId());
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    // a manager role can only update DisplayName and if Notifications are allowed
+    private ResponseEntity<Void> updateAsManager(Organization organization, Organization model) {
+        model.setDisplayName(organization.getDisplayName());
+        model.setAllowNotifications(organization.isAllowNotifications());
+        organizationRepository.save(model);
+        return ResponseEntity.ok().build();
+    }
+
+    private ResponseEntity<Void> updateAsAdmin(Organization organization, Organization model) {
+        organizationService.doMove(organization.getId(), organization.getDisplayOrder());
+        BeanUtils.copyProperties(organization, model, "id", "displayOrder", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        organizationRepository.save(model);
+        return ResponseEntity.ok().build();
+    }
+
 
 	// @RequestMapping(value = "/organizations/{id}", method =
 	// RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
