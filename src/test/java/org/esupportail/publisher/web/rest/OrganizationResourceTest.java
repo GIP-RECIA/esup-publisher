@@ -304,6 +304,47 @@ public class OrganizationResourceTest {
 
     @Test
     @Transactional
+    public void updateOrganizationWithoutAuditFieldsInBodyKeepsThem() throws Exception {
+        // Initialize the database
+        organization = organizationRepository.saveAndFlush(organization);
+        org.esupportail.publisher.domain.SubjectKey createdById = organization.getCreatedBy().getId();
+
+        // A real REST client never sends createdBy/createdDate/lastModifiedBy/lastModifiedDate - only the
+        // business fields are in the body. This reproduces the ConstraintViolationException found via curl
+        // (OrganizationResource#update used to save the raw request body instead of the merged entity,
+        // so createdBy came back null and violated its @NotNull constraint).
+        String partialBody = "{"
+            + "\"id\": " + organization.getId() + ","
+            + "\"name\": \"" + UPDATED_NAME + "\","
+            + "\"displayName\": \"" + UPDATED_DISPLAY_NAME + "\","
+            + "\"description\": \"" + UPDATED_DESCRIPTION + "\","
+            + "\"allowNotifications\": " + UPDATED_ALLOW_NOTIFICATIONS + ","
+            + "\"identifiers\": [\"0450822x\", \"0377777Y\"]"
+            + "}";
+
+        restOrganizationMockMvc.perform(
+            put("/api/organizations").with(new RequestPostProcessor() {
+                @Override
+                public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                    request.setRemoteUser("admin");
+                    return request;
+                }
+            }).contentType(
+                TestUtil.APPLICATION_JSON_UTF8).content(partialBody))
+            .andDo(print()).andExpect(status().isOk());
+
+        // Validate the Organization in the database: business fields applied, audit fields preserved
+        Organization testOrganization = organizationRepository.findById(organization.getId()).orElseThrow();
+        assertThat(testOrganization.getName(), equalTo(UPDATED_NAME));
+        assertThat(testOrganization.getDisplayName(), equalTo(UPDATED_DISPLAY_NAME));
+        assertThat(testOrganization.getDescription(), equalTo(UPDATED_DESCRIPTION));
+        assertThat(testOrganization.isAllowNotifications(), equalTo(UPDATED_ALLOW_NOTIFICATIONS));
+        assertThat(testOrganization.getIdentifiers(), equalTo(UPDATED_IDS));
+        assertThat(testOrganization.getCreatedBy().getId(), equalTo(createdById));
+    }
+
+    @Test
+    @Transactional
     public void deleteOrganization() throws Exception {
         // Initialize the database
         organizationRepository.saveAndFlush(organization);
