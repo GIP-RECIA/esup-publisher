@@ -37,6 +37,7 @@ import org.esupportail.publisher.service.HighlightedClassificationService;
 import org.esupportail.publisher.service.bean.HighlightedClassification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -105,7 +106,13 @@ public class ClassificationResource {
         if (classification.getId() == null) {
             return create(classification);
         }
-        classificationRepository.save(classification);
+        Optional<AbstractClassification> optionalAbstractClassification = classificationRepository.findById(classification.getId());
+        AbstractClassification model = optionalAbstractClassification.orElse(null);
+        if (model == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(classification, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        classificationRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

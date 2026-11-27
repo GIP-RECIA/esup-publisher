@@ -15,27 +15,22 @@
  */
 package org.esupportail.publisher.web.rest;
 
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
+import org.esupportail.publisher.domain.evaluators.AbstractEvaluator;
+import org.esupportail.publisher.repository.EvaluatorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-
-import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.esupportail.publisher.domain.evaluators.AbstractEvaluator;
-import org.esupportail.publisher.repository.EvaluatorRepository;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -72,7 +67,13 @@ public class EvaluatorResource {
         if (evaluator.getId() == null) {
             return create(evaluator);
         }
-        evaluatorRepository.save(evaluator);
+        Optional<AbstractEvaluator> optionalEvaluator = evaluatorRepository.findById(evaluator.getId());
+        AbstractEvaluator model = optionalEvaluator.orElse(null);
+        if (model == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(evaluator, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        evaluatorRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

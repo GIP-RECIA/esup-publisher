@@ -30,6 +30,7 @@ import org.esupportail.publisher.security.SecurityConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +81,13 @@ public class RedactorResource {
         if (redactor.getId() == null) {
             return create(redactor);
         }
-        redactorRepository.save(redactor);
+        Optional<Redactor> optionalRedactor = redactorRepository.findById(redactor.getId());
+        Redactor model = optionalRedactor.orElse(null);
+        if(model == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(redactor,model,"id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        redactorRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

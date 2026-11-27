@@ -17,6 +17,7 @@ package org.esupportail.publisher.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Permission;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.esupportail.publisher.domain.AbstractPermission;
+import org.esupportail.publisher.domain.PermissionOnContext;
 import org.esupportail.publisher.domain.enums.ContextType;
 import org.esupportail.publisher.repository.PermissionRepository;
 import org.esupportail.publisher.repository.predicates.PermissionPredicates;
@@ -33,6 +35,7 @@ import org.esupportail.publisher.security.SecurityConstants;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +91,13 @@ public class PermissionResource {
         if (permission.getId() == null) {
             return create(permission);
         }
-        permissionRepository.save(permission);
+        Optional<AbstractPermission> optionalPermission = permissionRepository.findById(permission.getId());
+        AbstractPermission model = optionalPermission.orElse(null);
+        if(model == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(permission, model,"id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        permissionRepository.save(model);
         return ResponseEntity.ok().build();
 	}
 

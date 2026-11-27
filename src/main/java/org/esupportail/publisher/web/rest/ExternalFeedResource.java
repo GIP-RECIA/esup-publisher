@@ -29,6 +29,7 @@ import org.esupportail.publisher.security.SecurityConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +80,13 @@ public class ExternalFeedResource {
         if (externalFeed.getId() == null) {
             return create(externalFeed);
         }
-        externalFeedRepository.save(externalFeed);
+        Optional<ExternalFeed> optionalExternalFeed = externalFeedRepository.findById(externalFeed.getId());
+        ExternalFeed model = optionalExternalFeed.orElse(null);
+        if(model == null){
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(externalFeed, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        externalFeedRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

@@ -15,17 +15,9 @@
  */
 package org.esupportail.publisher.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
-
+import com.querydsl.core.types.Predicate;
 import org.esupportail.publisher.domain.AbstractItem;
 import org.esupportail.publisher.domain.enums.ContextType;
 import org.esupportail.publisher.domain.enums.DisplayOrderType;
@@ -41,10 +33,9 @@ import org.esupportail.publisher.service.ReadingStatisticsService;
 import org.esupportail.publisher.web.rest.dto.ActionDTO;
 import org.esupportail.publisher.web.rest.dto.ReadingStatisticsDTO;
 import org.esupportail.publisher.web.rest.util.PaginationUtil;
-
-import com.querydsl.core.types.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.querydsl.QSort;
@@ -54,12 +45,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing Evaluator.
@@ -122,7 +116,13 @@ public class ItemResource {
             item.setValidatedDate(null);
             item.setStatus(ItemStatus.PENDING);
         }
-        itemRepository.save(item);
+        Optional<AbstractItem> optionalAbstractItem = itemRepository.findById(item.getId());
+        AbstractItem model = optionalAbstractItem.orElse(null);
+        if (model == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(item, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        itemRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

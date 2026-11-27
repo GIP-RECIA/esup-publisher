@@ -32,6 +32,7 @@ import org.esupportail.publisher.web.rest.util.PaginationUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -88,7 +89,13 @@ public class NewsResource {
         if (news.getId() == null) {
             return create(news);
         }
-        newsRepository.save(news);
+        Optional<News> optionalNews = newsRepository.findById(news.getId());
+        News model = optionalNews.orElse(null);
+        if (model == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(news, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        newsRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

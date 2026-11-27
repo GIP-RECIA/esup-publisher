@@ -15,32 +15,27 @@
  */
 package org.esupportail.publisher.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.esupportail.publisher.domain.Category;
 import org.esupportail.publisher.repository.CategoryRepository;
 import org.esupportail.publisher.security.SecurityConstants;
 import org.esupportail.publisher.security.UserContextLoaderService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing Category.
@@ -89,7 +84,13 @@ public class CategoryResource {
         if (category.getId() == null) {
             return create(category);
         }
-        categoryRepository.save(category);
+        Optional<Category> optionalCategory = categoryRepository.findById(category.getId());
+        Category model = optionalCategory.orElse(null);
+        if (model == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(category, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        categoryRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

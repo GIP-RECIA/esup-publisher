@@ -30,6 +30,7 @@ import org.esupportail.publisher.security.SecurityConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.swing.text.html.Option;
 
 /**
  * REST controller for managing Reader.
@@ -80,7 +83,13 @@ public class ReaderResource {
         if (reader.getId() == null) {
             return create(reader);
         }
-        readerRepository.save(reader);
+        Optional<Reader> optionalReader = readerRepository.findById(reader.getId());
+        Reader model = optionalReader.orElse(null);
+        if( model == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(reader, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        readerRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

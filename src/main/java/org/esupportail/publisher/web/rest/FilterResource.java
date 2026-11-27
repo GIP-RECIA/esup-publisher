@@ -30,6 +30,7 @@ import org.esupportail.publisher.security.SecurityConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +81,13 @@ public class FilterResource {
         if (filter.getId() == null) {
             return create(filter);
         }
-        filterRepository.save(filter);
+        Optional<Filter> optionalFilter = filterRepository.findById(filter.getId());
+        Filter model = optionalFilter.orElse(null);
+        if(model == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(filter,model,"id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        filterRepository.save(model);
         return ResponseEntity.ok().build();
     }
 

@@ -34,6 +34,7 @@ import org.esupportail.publisher.security.SecurityConstants;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -96,7 +97,13 @@ public class PermissionOnContextResource {
         if (permission.getId() == null) {
             return create(permission);
         }
-        permissionOnContextRepository.save(permission);
+        Optional<PermissionOnContext> optionalPermissionOnContext = permissionOnContextRepository.findById(permission.getId());
+        PermissionOnContext model = optionalPermissionOnContext.orElse(null);
+        if(model == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(permission, model,"id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        permissionOnContextRepository.save(model);
         return ResponseEntity.ok().build();
 	}
 

@@ -15,14 +15,9 @@
  */
 package org.esupportail.publisher.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
-
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
-
+import com.google.common.collect.Lists;
 import org.esupportail.publisher.domain.PermissionOnClassificationWithSubjectList;
 import org.esupportail.publisher.domain.enums.ContextType;
 import org.esupportail.publisher.domain.enums.PermissionClass;
@@ -30,10 +25,9 @@ import org.esupportail.publisher.repository.PermOnClassifWithSubjectsRepository;
 import org.esupportail.publisher.repository.predicates.PermissionPredicates;
 import org.esupportail.publisher.security.IPermissionService;
 import org.esupportail.publisher.security.SecurityConstants;
-
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +35,12 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing PermissionOnContext.
@@ -96,7 +91,14 @@ public class PermissionOnClassificationWithSubjectListResource {
         if (permission.getId() == null) {
             return create(permission);
         }
-        permissionRepository.save(permission);
+
+        Optional<PermissionOnClassificationWithSubjectList> optionalPermissionOnClassificationWithSubjectList = permissionRepository.findById(permission.getId());
+        PermissionOnClassificationWithSubjectList model = optionalPermissionOnClassificationWithSubjectList.orElse(null);
+        if (model == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        BeanUtils.copyProperties(permission, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        permissionRepository.save(model);
         return ResponseEntity.ok().build();
 	}
 
