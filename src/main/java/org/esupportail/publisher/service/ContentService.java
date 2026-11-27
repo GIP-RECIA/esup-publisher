@@ -84,6 +84,7 @@ import org.esupportail.publisher.web.rest.dto.SubjectKeyDTO;
 import org.esupportail.publisher.web.rest.dto.SubjectKeyExtendedDTO;
 import org.esupportail.publisher.web.rest.dto.SubscriberFormDTO;
 import org.esupportail.publisher.web.rest.dto.ValueResource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -144,275 +145,46 @@ public class ContentService {
     @Inject
     private ReadingIndicatorRepository readingIndincatorRepository;
 
-	public ResponseEntity<?> saveContent(final ContentDTO content) throws URISyntaxException {
-		Optional<Redactor> optionalRedactor = redactorRepository.findById(content.getItem().getRedactor().getId());
-		Redactor redactor = optionalRedactor.orElse(null);
-		if (redactor == null) {
-			log.error("The redactor id wasn't passed !");
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		content.getItem().setRedactor(redactor);
-		final boolean isUpdate = content.getItem().getId() != null;
-		// status DRAFT if endDate is mandatory and is null or if endDate is before now
-		if ((!content.getItem().getRedactor().isOptionalPublishTime() && content.getItem().getEndDate() == null)
-				|| (content.getItem().getEndDate() != null && content.getItem().getEndDate().isBefore(LocalDate.now()))) {
-			content.getItem().setStatus(ItemStatus.DRAFT);
-		}
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Set<ItemClassificationOrder> oldLinkedClassifications = null;
-		if (isUpdate) {
-			oldLinkedClassifications = Sets.newHashSet(itemClassificationOrderRepository.findAll(ItemPredicates
-					.itemsClassOfItem(content.getItem().getId())));
-		}
-		if (content.getClassifications() == null || content.getClassifications().isEmpty()) {
-			if (oldLinkedClassifications != null && !oldLinkedClassifications.isEmpty())
-				itemClassificationOrderRepository.deleteAll(oldLinkedClassifications);
-			// we can save the item as DRAFT if there is at least a validated item
-			if (ItemStatus.DRAFT.equals(content.getItem().getStatus())) {
-				AbstractItem item = content.getItem();
-				item.setValidatedBy(null);
-				item.setValidatedDate(null);
-				item = itemRepository.save(item);
-				updateLinkedFilesToItem(item, content.getLinkedFiles());
-				if (isUpdate)
-					return ResponseEntity.ok(new ValueResource(item.getStatus()));
-				//else
-                userSessionTreeLoader.doExpireForReload();
-				userSessionTreeLoader.loadUserTree(authentication);
-				return ResponseEntity.created(new URI("/api/contents/" + item.getId())).body(
-						new ValueResource(item.getStatus()));
-			}
-			return ResponseEntity.badRequest()
-					.header("Failure", "When a content isn't complete it must be saved as a Draft").build();
-		}
-		//Set<Publisher> publishers = new HashSet<>();
-		PermissionClass contextPermClass = PermissionClass.CONTEXT;
-		Set<AbstractClassification> authorizedClassifications = new HashSet<>();
-		Pair<PermissionType, PermissionDTO> upperClassifPerm = null;
-		Pair<PermissionType, PermissionDTO> lowerClassifPerm = null;
-		// filter authorized classifs and check constraints
-		for (ContextKey classif : content.getClassifications()) {
-			Optional<AbstractClassification> optionalClassif = classificationRepository.findById(classif.getKeyId());
-			AbstractClassification classification = optionalClassif.orElse(null);
-			log.debug("entering filtering : {}", classification);
-			if (classification != null && permissionService.canCreateInCtx(authentication, classif)) {
-				log.debug("==> can create = true");
-				Pair<PermissionType, PermissionDTO> classifPerms = permissionService.getPermsOfUserInContext(
-						authentication, classif);
-				log.debug("==> classifPerms = {}", classifPerms);
-				if (upperClassifPerm == null || classifPerms != null
-						&& upperClassifPerm.getFirst().getMask() < classifPerms.getFirst().getMask()) {
-					log.debug("==> set upperClassifPerm");
-					upperClassifPerm = classifPerms;
-				}
-				if (lowerClassifPerm == null || classifPerms != null
-						&& lowerClassifPerm.getFirst().getMask() > classifPerms.getFirst().getMask()) {
-					log.debug("==> set lowerClassifPerm");
-					lowerClassifPerm = classifPerms;
-				}
-				//publishers.add(classification.getPublisher());
-				if (classification.getPublisher() != null && classification.getPublisher().getPermissionType() != null) {
-					contextPermClass = classification.getPublisher().getPermissionType();
-				}
-				if (isValidatedLevelLink(classification)) {
-					log.debug("==> isValidatedLevelLink = true");
-					authorizedClassifications.add(classification);
-				}
-			}
-		}
-		if (log.isDebugEnabled()) {
-			log.debug("filtered classifs are : {}", authorizedClassifications);
-			if (upperClassifPerm != null) {
-				log.debug("==> upperClassifPerm = [{}, {}]", upperClassifPerm.getFirst(), upperClassifPerm.getSecond());
-			} else {
-				log.debug("==> upperClassifPerm is null !");
-			}
-		}
+    public ResponseEntity<?> saveContent(final ContentDTO content) throws URISyntaxException {
+        Redactor redactor = loadRedactor(content.getItem().getRedactor().getId());
+        if (redactor == null) {
+            log.error("The redactor id wasn't passed !");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        content.getItem().setRedactor(redactor);
+        final boolean isUpdate = content.getItem().getId() != null;
+        forceDraftIfEndDateInvalid(content.getItem());
 
-		if (authorizedClassifications.isEmpty() || upperClassifPerm == null
-				|| upperClassifPerm.getFirst().getMask() <= PermissionType.LOOKOVER.getMask()) {
-			log.warn("Access forbidden from {} !", authentication.getPrincipal());
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Set<ItemClassificationOrder> oldLinkedClassifications = isUpdate
+            ? Sets.newHashSet(itemClassificationOrderRepository.findAll(ItemPredicates.itemsClassOfItem(content.getItem().getId())))
+            : null;
 
-		// Case of DRAFT state and not complete publishment to save data, or in static mode when subscribers are on classifications
-		Set<Subscriber> oldSubscribers = null;
-		if (isUpdate) {
-			oldSubscribers = Sets.newHashSet(subscriberRepository.findAll(SubscriberPredicates.onCtx(content.getItem()
-					.getContextKey())));
-		}
-		if (content.getTargets() == null || content.getTargets().isEmpty()) {
-			if (isUpdate)
-				subscriberRepository.deleteAll(oldSubscribers);
-			log.debug("no targets are provided, will save as draft or is a Static redactor !");
-			// we can save the item as DRAFT if there is at least a validated item or we can save
-			if (ItemStatus.DRAFT.equals(content.getItem().getStatus())
-					|| WritingMode.STATIC.equals(content.getItem().getRedactor().getWritingMode())) {
-				AbstractItem item = content.getItem();
-				item.setValidatedBy(null);
-				item.setValidatedDate(null);
+        if (content.getClassifications() == null || content.getClassifications().isEmpty()) {
+            return saveWithoutClassifications(content, isUpdate, authentication, oldLinkedClassifications);
+        }
 
-				// manage static mode without target, published or scheduled state is authorized
-				if (WritingMode.STATIC.equals(content.getItem().getRedactor().getWritingMode())
-						&& (ItemStatus.PUBLISHED.equals(item.getStatus()) || ItemStatus.SCHEDULED.equals(item
-								.getStatus()))) {
-					// lower rights in all classifications will applied for validation
-					if (lowerClassifPerm.getFirst().getMask() > PermissionType.CONTRIBUTOR.getMask()) {
-						if (item.getStartDate().isAfter(LocalDate.now())) {
-							item.setStatus(ItemStatus.SCHEDULED);
-						}
-						item.setValidatedBy(SecurityUtils.getCurrentUser());
-						item.setValidatedDate(Instant.now());
-					} else {
-						item.setStatus(ItemStatus.PENDING);
-					}
-				} else {
-					item.setStatus(ItemStatus.DRAFT);
-				}
+        ClassificationResolution resolution = resolveAuthorizedClassifications(authentication, content.getClassifications());
+        if (resolution == null) {
+            log.warn("Access forbidden from {} !", authentication.getPrincipal());
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
-				item = itemRepository.save(item);
-				updateLinkedFilesToItem(item, content.getLinkedFiles());
+        Set<Subscriber> oldSubscribers = isUpdate
+            ? Sets.newHashSet(subscriberRepository.findAll(SubscriberPredicates.onCtx(content.getItem().getContextKey())))
+            : null;
 
-				// now we save all linked classification and before clean olds not anymore linked
-				if (oldLinkedClassifications != null && !oldLinkedClassifications.isEmpty()) {
-					Set<ItemClassificationOrder> oldToRemoves = new HashSet<>();
-					for (ItemClassificationOrder ico : oldLinkedClassifications) {
-						if (authorizedClassifications.contains(ico.getId().getAbstractClassification())) {
-							authorizedClassifications.remove(ico.getId().getAbstractClassification());
-						} else {
-							oldToRemoves.add(ico);
-						}
-					}
-					itemClassificationOrderRepository.deleteAll(oldToRemoves);
-				}
-				Set<ItemClassificationOrder> classifs = new HashSet<>();
-				for (AbstractClassification classif : authorizedClassifications) {
-					ItemClassificationOrder ico = new ItemClassificationOrder(item, classif,
-							itemClassificationOrderRepository.getNextDisplayOrderInClassification(classif.getId()));
-					classifs.add(ico);
-				}
-				itemClassificationOrderRepository.saveAll(classifs);
+        if (content.getTargets() == null || content.getTargets().isEmpty()) {
+            return saveWithoutTargets(content, isUpdate, authentication, oldLinkedClassifications, resolution, oldSubscribers);
+        }
 
-				if (isUpdate)
-					return ResponseEntity.ok(new ValueResource(item.getStatus()));
-				//else
-                userSessionTreeLoader.doExpireForReload();
-				userSessionTreeLoader.loadUserTree(authentication);
-				return ResponseEntity.created(new URI("/api/contents/" + item.getId())).body(
-						new ValueResource(item.getStatus()));
-			}
-			return ResponseEntity.badRequest()
-					.header("Failure", "When a new content isn't complete it must be saved as a Draft").build();
-		}
+        Set<SubscriberFormDTO> authorizedSubscribers = resolveAuthorizedSubscribers(content, resolution);
+        if (authorizedSubscribers == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
-		// check if targeted subjects are authorized
-		// in case of publishing in other way than in a context with rights
-		// TODO filtering of authorized ctx and on filter entity group/ldap permission
-		// TODO also check if passed argument was in contained last userSearch
-		Set<SubscriberFormDTO> authorizedSubscribers = new HashSet<>();
-		log.debug("Type of Contexts of publishment {} and userPerms applied {}", contextPermClass,
-				lowerClassifPerm.getSecond());
-		if (PermissionClass.CONTEXT_WITH_SUBJECTS.equals(contextPermClass)) {
-			// case of defining targets on items (with on level of classification only)
-			PermOnCtxDTO permObj = (PermOnCtxDTO) lowerClassifPerm.getSecond();
-			// permObj could be null only when user is ADMIN
-			if (permObj == null) {
-				authorizedSubscribers.addAll(content.getTargets());
-			} else if (lowerClassifPerm.getSecond() instanceof PermOnClassifWSubjDTO
-					&& ((PermOnClassifWSubjDTO) permObj).getAuthorizedSubjects() != null
-					&& !((PermOnClassifWSubjDTO) permObj).getAuthorizedSubjects().isEmpty()) {
-				authorizedSubscribers.addAll(filterSubcribers(Sets.newHashSet(content.getTargets()),
-						((PermOnClassifWSubjDTO) permObj).getAuthorizedSubjects()));
-			} else if (ContextType.ORGANIZATION.equals(permObj.getContext().getKeyType())) {
-				// case of perms are herited from ORGANIZATIONS
-				authorizedSubscribers.addAll(filterSubcribersOnDefault(Sets.newHashSet(content.getTargets()),
-						permObj.getContext()));
-			}
-
-			log.debug("Authorized targets are {}", authorizedSubscribers);
-			if (authorizedSubscribers.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-			}
-
-		} else if (PermissionClass.CONTEXT.equals(contextPermClass)) {
-			authorizedSubscribers.addAll(content.getTargets());
-		} else {
-			throw new IllegalStateException(String.format("Permission Type %s is not managed",
-					lowerClassifPerm.getSecond()));
-		}
-
-		AbstractItem item = content.getItem();
-		// check about validation if can be done by the user
-		if (ItemStatus.PUBLISHED.equals(item.getStatus()) || ItemStatus.SCHEDULED.equals(item.getStatus())) {
-			// lower rights in all classifications will applied for validation
-			if (lowerClassifPerm.getFirst().getMask() > PermissionType.CONTRIBUTOR.getMask()) {
-				if (item.getStartDate().isAfter(LocalDate.now())) {
-					item.setStatus(ItemStatus.SCHEDULED);
-				}
-				item.setValidatedBy(SecurityUtils.getCurrentUser());
-				item.setValidatedDate(Instant.now());
-			} else {
-				item.setStatus(ItemStatus.PENDING);
-				item.setValidatedBy(null);
-				item.setValidatedDate(null);
-			}
-		} else {
-			item.setStatus(ItemStatus.DRAFT);
-			item.setValidatedBy(null);
-			item.setValidatedDate(null);
-		}
-		log.debug("Will save item {}", item);
-		item = itemRepository.save(item);
-		updateLinkedFilesToItem(item, content.getLinkedFiles());
-
-		// now we save all linked classification
-		if (oldLinkedClassifications != null && !oldLinkedClassifications.isEmpty()) {
-			Set<ItemClassificationOrder> oldToRemoves = new HashSet<>();
-			for (ItemClassificationOrder ico : oldLinkedClassifications) {
-				if (authorizedClassifications.contains(ico.getId().getAbstractClassification())) {
-					authorizedClassifications.remove(ico.getId().getAbstractClassification());
-				} else {
-					oldToRemoves.add(ico);
-				}
-			}
-			log.debug("remove old/unautorized classif classifications {}", oldToRemoves);
-			itemClassificationOrderRepository.deleteAll(oldToRemoves);
-		}
-		Set<ItemClassificationOrder> classifs = new HashSet<>();
-		for (AbstractClassification classif : authorizedClassifications) {
-			ItemClassificationOrder ico = new ItemClassificationOrder(item, classif,
-					itemClassificationOrderRepository.getNextDisplayOrderInClassification(classif.getId()));
-			classifs.add(ico);
-		}
-		log.debug("saving associated classifications {}", classifs);
-		itemClassificationOrderRepository.saveAll(classifs);
-
-		// now we save all subscribers if there is
-		if (!authorizedSubscribers.isEmpty()) {
-			Set<Subscriber> persistSubscribers = convert(authorizedSubscribers, item.getContextKey());
-			if (oldSubscribers != null && !oldSubscribers.isEmpty()) {
-				Set<Subscriber> oldSubsToRemoves = new HashSet<>();
-				for (Subscriber sub : oldSubscribers) {
-					if (persistSubscribers.contains(sub)) {
-						persistSubscribers.remove(sub);
-					} else {
-						oldSubsToRemoves.add(sub);
-					}
-				}
-				subscriberRepository.deleteAll(oldSubsToRemoves);
-			}
-			log.debug("Will save associated targets :{}", authorizedSubscribers);
-			subscriberRepository.saveAll(persistSubscribers);
-		}
-
-		if (isUpdate)
-			return ResponseEntity.ok(new ValueResource(item.getStatus()));
-		//else
-        userSessionTreeLoader.doExpireForReload();
-		userSessionTreeLoader.loadUserTree(authentication);
-		return ResponseEntity.created(new URI("/api/contents/" + item.getId())).body(
-				new ValueResource(item.getStatus()));
-	}
+        return saveWithTargets(content, isUpdate, authentication, oldLinkedClassifications, resolution, authorizedSubscribers, oldSubscribers);
+    }
 
 	public ResponseEntity<?> setValidationItem(final boolean validation, @NotNull final AbstractItem item) {
 		PermissionType permType = permissionService.getRoleOfUserInContext(SecurityContextHolder.getContext()
@@ -442,7 +214,296 @@ public class ContentService {
 		return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 	}
 
-	private boolean isValidatedLevelLink(final AbstractClassification classification) {
+    private Redactor loadRedactor(Long redactorId){
+        Optional<Redactor> optionalRedactor = redactorRepository.findById(redactorId);
+        return optionalRedactor.orElse(null);
+    }
+
+    private void forceDraftIfEndDateInvalid(AbstractItem item){
+        // status DRAFT if endDate is mandatory and is null or if endDate is before now
+        if ((!item.getRedactor().isOptionalPublishTime() && item.getEndDate() == null)
+            || (item.getEndDate() != null && item.getEndDate().isBefore(LocalDate.now()))) {
+            item.setStatus(ItemStatus.DRAFT);
+        }
+    }
+
+    private void clearValidation(AbstractItem item) {
+        item.setValidatedBy(null);
+        item.setValidatedDate(null);
+    }
+
+    private AbstractItem mergeIfUpdate(AbstractItem item, boolean isUpdate) {
+        if (!isUpdate) {
+            return item;
+        }
+        AbstractItem model = itemRepository.findById(item.getId()).orElse(null);
+        if (model == null) {
+            return null;
+        }
+        BeanUtils.copyProperties(item, model, "id", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate");
+        return model;
+    }
+
+    private ResponseEntity<?> buildSaveResponse(AbstractItem item, boolean isUpdate, Authentication authentication) throws URISyntaxException {
+        if (isUpdate) {
+            return ResponseEntity.ok(new ValueResource(item.getStatus()));
+        }
+        userSessionTreeLoader.doExpireForReload();
+        userSessionTreeLoader.loadUserTree(authentication);
+        return ResponseEntity.created(new URI("/api/contents/" + item.getId())).body(
+            new ValueResource(item.getStatus()));
+    }
+
+    private void updateLinkedClassifications(AbstractItem item, Set<ItemClassificationOrder> oldLinkedClassifications,
+        Set<AbstractClassification> authorizedClassifications) {
+        if (oldLinkedClassifications != null && !oldLinkedClassifications.isEmpty()) {
+            Set<ItemClassificationOrder> oldToRemoves = new HashSet<>();
+            for (ItemClassificationOrder ico : oldLinkedClassifications) {
+                if (authorizedClassifications.contains(ico.getId().getAbstractClassification())) {
+                    authorizedClassifications.remove(ico.getId().getAbstractClassification());
+                } else {
+                    oldToRemoves.add(ico);
+                }
+            }
+            log.debug("remove old/unautorized classif classifications {}", oldToRemoves);
+            itemClassificationOrderRepository.deleteAll(oldToRemoves);
+        }
+        Set<ItemClassificationOrder> classifs = new HashSet<>();
+        for (AbstractClassification classif : authorizedClassifications) {
+            ItemClassificationOrder ico = new ItemClassificationOrder(item, classif,
+                itemClassificationOrderRepository.getNextDisplayOrderInClassification(classif.getId()));
+            classifs.add(ico);
+        }
+        log.debug("saving associated classifications {}", classifs);
+        itemClassificationOrderRepository.saveAll(classifs);
+    }
+
+    private ResponseEntity<?> saveWithoutClassifications(
+        ContentDTO content,
+        boolean isUpdate,
+        Authentication authentication,
+        Set<ItemClassificationOrder> oldLinkedClassifications) throws URISyntaxException {
+        if (oldLinkedClassifications != null && !oldLinkedClassifications.isEmpty())
+            itemClassificationOrderRepository.deleteAll(oldLinkedClassifications);
+        // we can save the item as DRAFT if there is at least a validated item
+        if (ItemStatus.DRAFT.equals(content.getItem().getStatus())) {
+            AbstractItem item = content.getItem();
+            clearValidation(item);
+            item = mergeIfUpdate(item, isUpdate);
+            if (item == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            item = itemRepository.save(item);
+            updateLinkedFilesToItem(item, content.getLinkedFiles());
+            return buildSaveResponse(item, isUpdate, authentication);
+        }
+        return ResponseEntity.badRequest()
+            .header("Failure", "When a content isn't complete it must be saved as a Draft").build();
+    }
+
+    private record ClassificationResolution(
+        PermissionClass contextPermClass,
+        Set<AbstractClassification> authorizedClassifications,
+        Pair<PermissionType, PermissionDTO> upperClassifPerm,
+        Pair<PermissionType, PermissionDTO> lowerClassifPerm
+    ) {}
+
+    private ClassificationResolution resolveAuthorizedClassifications(Authentication authentication, Set<ContextKey> classifications){
+        PermissionClass contextPermClass = PermissionClass.CONTEXT;
+        Set<AbstractClassification> authorizedClassifications = new HashSet<>();
+        Pair<PermissionType, PermissionDTO> upperClassifPerm = null;
+        Pair<PermissionType, PermissionDTO> lowerClassifPerm = null;
+        // filter authorized classifs and check constraints
+        for (ContextKey classif : classifications) {
+            Optional<AbstractClassification> optionalClassif = classificationRepository.findById(classif.getKeyId());
+            AbstractClassification classification = optionalClassif.orElse(null);
+            log.debug("entering filtering : {}", classification);
+            if (classification != null && permissionService.canCreateInCtx(authentication, classif)) {
+                log.debug("==> can create = true");
+                Pair<PermissionType, PermissionDTO> classifPerms = permissionService.getPermsOfUserInContext(
+                    authentication, classif);
+                log.debug("==> classifPerms = {}", classifPerms);
+                if (upperClassifPerm == null || classifPerms != null
+                    && upperClassifPerm.getFirst().getMask() < classifPerms.getFirst().getMask()) {
+                    log.debug("==> set upperClassifPerm");
+                    upperClassifPerm = classifPerms;
+                }
+                if (lowerClassifPerm == null || classifPerms != null
+                    && lowerClassifPerm.getFirst().getMask() > classifPerms.getFirst().getMask()) {
+                    log.debug("==> set lowerClassifPerm");
+                    lowerClassifPerm = classifPerms;
+                }
+                //publishers.add(classification.getPublisher());
+                if (classification.getPublisher() != null && classification.getPublisher().getPermissionType() != null) {
+                    contextPermClass = classification.getPublisher().getPermissionType();
+                }
+                if (isValidatedLevelLink(classification)) {
+                    log.debug("==> isValidatedLevelLink = true");
+                    authorizedClassifications.add(classification);
+                }
+            }
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("filtered classifs are : {}", authorizedClassifications);
+            if (upperClassifPerm != null) {
+                log.debug("==> upperClassifPerm = [{}, {}]", upperClassifPerm.getFirst(), upperClassifPerm.getSecond());
+            } else {
+                log.debug("==> upperClassifPerm is null !");
+            }
+        }
+        if (authorizedClassifications.isEmpty() || upperClassifPerm == null
+            || upperClassifPerm.getFirst().getMask() <= PermissionType.LOOKOVER.getMask()) {
+            return null;
+        }
+        return new ClassificationResolution(contextPermClass, authorizedClassifications, upperClassifPerm, lowerClassifPerm);
+    }
+
+    private ResponseEntity<?> saveWithoutTargets(
+        ContentDTO content,
+        boolean isUpdate,
+        Authentication authentication,
+        Set<ItemClassificationOrder> oldLinkedClassifications,
+        ClassificationResolution resolution,
+        Set<Subscriber> oldSubscribers
+    ) throws URISyntaxException {
+        if (isUpdate)
+            subscriberRepository.deleteAll(oldSubscribers);
+        log.debug("no targets are provided, will save as draft or is a Static redactor !");
+        // we can save the item as DRAFT if there is at least a validated item or we can save
+        if (ItemStatus.DRAFT.equals(content.getItem().getStatus())
+            || WritingMode.STATIC.equals(content.getItem().getRedactor().getWritingMode())) {
+            AbstractItem item = content.getItem();
+            clearValidation(item);
+
+            // manage static mode without target, published or scheduled state is authorized
+            if (WritingMode.STATIC.equals(content.getItem().getRedactor().getWritingMode())
+                && (ItemStatus.PUBLISHED.equals(item.getStatus()) || ItemStatus.SCHEDULED.equals(item
+                .getStatus()))) {
+                // lower rights in all classifications will applied for validation
+                if (resolution.lowerClassifPerm().getFirst().getMask() > PermissionType.CONTRIBUTOR.getMask()) {
+                    if (item.getStartDate().isAfter(LocalDate.now())) {
+                        item.setStatus(ItemStatus.SCHEDULED);
+                    }
+                    item.setValidatedBy(SecurityUtils.getCurrentUser());
+                    item.setValidatedDate(Instant.now());
+                } else {
+                    item.setStatus(ItemStatus.PENDING);
+                }
+            } else {
+                item.setStatus(ItemStatus.DRAFT);
+            }
+
+            item = mergeIfUpdate(item, isUpdate);
+            if (item == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            item = itemRepository.save(item);
+            updateLinkedFilesToItem(item, content.getLinkedFiles());
+            updateLinkedClassifications(item, oldLinkedClassifications, resolution.authorizedClassifications());
+
+            return buildSaveResponse(item, isUpdate, authentication);
+        }
+        return ResponseEntity.badRequest()
+            .header("Failure", "When a new content isn't complete it must be saved as a Draft").build();
+    }
+
+    private Set<SubscriberFormDTO> resolveAuthorizedSubscribers(ContentDTO content, ClassificationResolution resolution){
+        // check if targeted subjects are authorized
+        // in case of publishing in other way than in a context with rights
+        // TODO filtering of authorized ctx and on filter entity group/ldap permission
+        // TODO also check if passed argument was in contained last userSearch
+        Set<SubscriberFormDTO> authorizedSubscribers = new HashSet<>();
+        log.debug("Type of Contexts of publishment {} and userPerms applied {}", resolution.contextPermClass(),
+            resolution.lowerClassifPerm().getSecond());
+        if (PermissionClass.CONTEXT_WITH_SUBJECTS.equals(resolution.contextPermClass())) {
+            // case of defining targets on items (with on level of classification only)
+            PermOnCtxDTO permObj = (PermOnCtxDTO) resolution.lowerClassifPerm().getSecond();
+            // permObj could be null only when user is ADMIN
+            if (permObj == null) {
+                authorizedSubscribers.addAll(content.getTargets());
+            } else if (resolution.lowerClassifPerm().getSecond() instanceof PermOnClassifWSubjDTO
+                && ((PermOnClassifWSubjDTO) permObj).getAuthorizedSubjects() != null
+                && !((PermOnClassifWSubjDTO) permObj).getAuthorizedSubjects().isEmpty()) {
+                authorizedSubscribers.addAll(filterSubcribers(Sets.newHashSet(content.getTargets()),
+                    ((PermOnClassifWSubjDTO) permObj).getAuthorizedSubjects()));
+            } else if (ContextType.ORGANIZATION.equals(permObj.getContext().getKeyType())) {
+                // case of perms are herited from ORGANIZATIONS
+                authorizedSubscribers.addAll(filterSubcribersOnDefault(Sets.newHashSet(content.getTargets()),
+                    permObj.getContext()));
+            }
+
+            log.debug("Authorized targets are {}", authorizedSubscribers);
+            if (authorizedSubscribers.isEmpty()) {
+                return null;
+            }
+
+        } else if (PermissionClass.CONTEXT.equals(resolution.contextPermClass())) {
+            authorizedSubscribers.addAll(content.getTargets());
+        } else {
+            throw new IllegalStateException(String.format("Permission Type %s is not managed",
+                resolution.lowerClassifPerm().getSecond()));
+        }
+
+        return authorizedSubscribers;
+    }
+
+    private ResponseEntity<?> saveWithTargets(
+        ContentDTO content,
+        boolean isUpdate,
+        Authentication authentication,
+        Set<ItemClassificationOrder> oldLinkedClassifications,
+        ClassificationResolution resolution,
+        Set<SubscriberFormDTO> authorizedSubscribers,
+        Set<Subscriber> oldSubscribers) throws URISyntaxException {
+        AbstractItem item = content.getItem();
+        // check about validation if can be done by the user
+        if (ItemStatus.PUBLISHED.equals(item.getStatus()) || ItemStatus.SCHEDULED.equals(item.getStatus())) {
+            // lower rights in all classifications will applied for validation
+            if (resolution.lowerClassifPerm().getFirst().getMask() > PermissionType.CONTRIBUTOR.getMask()) {
+                if (item.getStartDate().isAfter(LocalDate.now())) {
+                    item.setStatus(ItemStatus.SCHEDULED);
+                }
+                item.setValidatedBy(SecurityUtils.getCurrentUser());
+                item.setValidatedDate(Instant.now());
+            } else {
+                item.setStatus(ItemStatus.PENDING);
+                clearValidation(item);
+            }
+        } else {
+            item.setStatus(ItemStatus.DRAFT);
+            clearValidation(item);
+        }
+        item = mergeIfUpdate(item, isUpdate);
+        if (item == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        log.debug("Will save item {}", item);
+        item = itemRepository.save(item);
+        updateLinkedFilesToItem(item, content.getLinkedFiles());
+        updateLinkedClassifications(item, oldLinkedClassifications, resolution.authorizedClassifications());
+
+        // now we save all subscribers if there is
+        if (!authorizedSubscribers.isEmpty()) {
+            Set<Subscriber> persistSubscribers = convert(authorizedSubscribers, item.getContextKey());
+            if (oldSubscribers != null && !oldSubscribers.isEmpty()) {
+                Set<Subscriber> oldSubsToRemoves = new HashSet<>();
+                for (Subscriber sub : oldSubscribers) {
+                    if (persistSubscribers.contains(sub)) {
+                        persistSubscribers.remove(sub);
+                    } else {
+                        oldSubsToRemoves.add(sub);
+                    }
+                }
+                subscriberRepository.deleteAll(oldSubsToRemoves);
+            }
+            log.debug("Will save associated targets :{}", authorizedSubscribers);
+            subscriberRepository.saveAll(persistSubscribers);
+        }
+
+        return buildSaveResponse(item, isUpdate, authentication);
+    }
+
+    private boolean isValidatedLevelLink(final AbstractClassification classification) {
 		int nbLevel = classification.getPublisher().getContext().getRedactor().getNbLevelsOfClassification();
 		boolean validCategory = nbLevel == 1 && classification instanceof Category;
 		boolean validFeed = nbLevel == 2 && classification instanceof AbstractFeed;
