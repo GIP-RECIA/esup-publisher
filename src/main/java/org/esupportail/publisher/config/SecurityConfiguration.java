@@ -219,7 +219,7 @@ public class SecurityConfiguration {
             .addFilterBefore(soffitFilter, BasicAuthenticationFilter.class)
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/news/home").permitAll() // URLs publiques
-            .requestMatchers("/news/**").authenticated()); // URLs nécessitant une authentification JWT
+                .requestMatchers("/news/**").authenticated()); // URLs nécessitant une authentification JWT
 
         return http.build();
     }
