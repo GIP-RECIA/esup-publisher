@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      JAVA_VERSION: '11'
+      JAVA_VERSION: '25'
 
     name: Check license headers and notice
 
@@ -88,12 +88,12 @@ jobs:
 
     strategy:
       matrix:
-        java: ['11', '17']
+        java: ['25']
         mariadb: ['10.6', 'latest']
 
     env:
       MARIADB_IMG: 'wodby/mariadb'
-      JACOCO_JAVA: '11'
+      JACOCO_JAVA: '25'
       JACOCO_MARIADB: '10.6'
 
     name: Java ${{ matrix.java }} & MariaDB ${{ matrix.mariadb }}
